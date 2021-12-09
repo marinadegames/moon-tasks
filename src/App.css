@@ -25,3 +25,9 @@ h1,h2,h3,h4,h5,h6{
 .ToDoList{
     padding: 0 2rem 0 0;
 }
+
+/*TASK*/
+.btnTask{
+    margin: 0 0 0 0.5rem;
+    cursor: pointer;
+}

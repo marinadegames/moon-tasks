@@ -1,50 +1,70 @@
 //imports
 import React, {useState} from 'react';
 import './App.css';
-import {TaskType, ToDoList} from "./ToDoList";
-
+import {ToDoList} from "./ToDoList";
 
 //assets
 
-
+//types
+export type FilterType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 //components
-function App() {
+export function App() {
+    debugger
 
-    let tasks: Array<TaskType> = [
+
+    // use state принимает - инилизационный state
+    // возвращает массив
+    // первый желемнет массива - state
+    // function, с помощью которой мы будет это мменять
+
+    const [tasks, setTasks] = useState([
         {id: 1, title: 'HTML&CSS', isDone: true},
-        {id: 2, title: 'JS', isDone: true},
-        {id: 3, title: 'React', isDone: false},
+        {id: 2, title: 'JS', isDone: false},
+        {id: 3, title: 'React', isDone: true},
         {id: 4, title: 'Redux', isDone: false},
+        {id: 5, title: 'English', isDone: false},
+    ])
 
-    ]
+    const [filterValue, setFilterValue] = useState('ALL')
 
-     useState(tasks)
 
-    // let tasks2: Array<TaskType> = [
-    //     { id: 1, title: 'Terminator', isDone: true},
-    //     { id: 2, title: 'XXX', isDone: false},
-    //     { id: 3, title: 'Godnota ;) ', isDone: true},
-    // ]
+    const removeTask = (id: number) => {
+        setTasks(tasks.filter((t) => id !== t.id))
+    }
 
-    function removeTask(id: number) {
-        tasks = tasks.filter(value => value.id !== id);
+
+    let filterTasks = tasks
+
+    if (filterValue === "ACTIVE"){
+        filterTasks = tasks.filter(t => t.isDone)
+    }else if (filterValue === 'COMPLETED'){
+        filterTasks = tasks.filter(t => !t.isDone)
+    }
+
+    const filteredTasks = (value:FilterType) => {
+        debugger
+        setFilterValue(value)
     }
 
     return (
-        <div className="App">
-            <div className='Header'>
-                <h1>HELLO!</h1>
-                <h2>It's my ToDoList project!</h2>
-            </div>
+        <div>
+            <h1>Hello!</h1>
+            <h2>It's my toDo list project!</h2>
 
-            <div className='Main'>
-                <ToDoList title='What to learn'
-                          tasks={tasks}
-                          removeTask={removeTask}/>
-            </div>
+            <ToDoList tasks={filterTasks}
+                      removeTask={removeTask}
+                      filteredTasks={filteredTasks}
+            />
         </div>
-    );
+    )
+}
+
+export function App2(){
+    return(
+        <div>
+            tasks 2
+        </div>
+    )
 }
 
 
-export default App;

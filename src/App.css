@@ -1,6 +1,10 @@
 body{
-
+    background-color: slategray;
+    color: aliceblue;
     padding: 2rem;
+}
+hr{
+    color: white;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -8,26 +12,32 @@ h1,h2,h3,h4,h5,h6{
     margin: 0;
 }
 
-.Main{
-    display: flex;
+
+
+/* ============= TASK ============= */
+.task h4 {
+    margin: 1rem 0 0.5rem 0;
 }
-
-
-/*HEADER*/
-
-.Header{
-    margin: 0 0 2rem 0;
-}
-
-
-/*ToDoList*/
-
-.ToDoList{
-    padding: 0 2rem 0 0;
-}
-
-/*TASK*/
-.btnTask{
-    margin: 0 0 0 0.5rem;
+.task button{
     cursor: pointer;
+}
+.task li{
+    margin: 0 0 0 1rem;
+}
+.task input{
+    cursor: pointer;
+}
+
+.btnAll{
+    margin: 0.5rem 0.5rem 0 0;
+    background-color: skyblue;
+}
+.btnActive{
+    margin: 0.5rem 0.5rem 0 0;
+    background-color: #eda4a4;
+    color: black;
+}
+.btnCompleted{
+    margin: 0.5rem 0.5rem 0 0;
+    background-color: aquamarine;
 }

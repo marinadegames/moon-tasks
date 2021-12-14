@@ -1,61 +1,44 @@
 //imports
 import React from "react";
-
+import {FilterType} from "./App";
 
 //assets
 
 
 //types
-export type TaskType = {
-    id: number,
-    title: string,
-    isDone: boolean,
+type TypeTask = {
+    id: number
+    title: string
+    isDone: boolean
 }
-export type ToDoListType = {
-    title: string,
-    tasks: Array<TaskType>,
-    removeTask: Function,
+type PropsType = {
+    tasks: Array<TypeTask>
+    removeTask: (id:number) => void
+    filteredTasks: (value:FilterType) => void
 }
-
 
 //components
-export function ToDoList(props:ToDoListType) {
+export function ToDoList(props: PropsType) {
     return (
-        <div className='ToDoList'>
-            <h3>{props.title}</h3>
-            <div>
-                <input/>
-                <button>+</button>
-            </div>
-            <ul>
-                {/*<li><input type="checkbox" checked={props.tasks[0].isDone}/><span>{props.tasks[0].title}</span></li>*/}
-                {/*<li><input type="checkbox" checked={props.tasks[1].isDone}/><span>{props.tasks[1].title}</span></li>*/}
-                {/*<li><input type="checkbox" checked={props.tasks[2].isDone}/><span>{props.tasks[2].title}</span></li>*/}
+        <div className='task'>
+            <hr/>
+            <h4>What study:</h4>
 
-                {
-                    props.tasks.map(value => {
-                        return (
-                        <li>
-                            <input type="checkbox" checked={value.isDone}/>
-                            <span>{value.title}</span>
-                            <button className='btnTask'
-                                    onClick={ () => {props.removeTask(value.id)} }>
-                                x
-                            </button>
+            {props.tasks.map((t) => {
+                return (
+                    <div>
+                        <li key={t.id}>
+                            <button onClick={() => props.removeTask(t.id)} > X </button>
+                            <input type="checkbox" checked={t.isDone}/>
+                            <span>{t.title}</span>
                         </li>
+                    </div>
+                )
+            })}
+            <button onClick={ () => props.filteredTasks('ALL') } className='btnAll'>ALL</button>
+            <button onClick={ () => props.filteredTasks('ACTIVE') } className='btnActive'>ACTIVE</button>
+            <button onClick={ () => props.filteredTasks('COMPLETED')  } className='btnCompleted'>COMPLETED</button>
 
-                        )
-                    })
-                }
-
-
-
-            </ul>
-            <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
-            </div>
         </div>
     )
 }

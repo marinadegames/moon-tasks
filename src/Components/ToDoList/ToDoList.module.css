@@ -1,0 +1,117 @@
+/* ============= TASK ============= */
+.titleBoxTasks{
+    background-color: var(--purple);
+    color: white;
+    text-align: center;
+    padding: 0.7rem 0.5rem;
+    margin: 0 0 1rem 0;
+    border-radius: var(--borderRadiusCustom)
+}
+.tasksBox{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    border-radius: var(--borderRadiusCustom)
+}
+.formAddTask{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--borderRadiusCustom)
+}
+.addBtnTask{
+    border-radius: var(--borderRadiusCustom);
+    /*border-top: 5px solid white;*/
+    /*border-right: 5px solid white;*/
+    /*border-bottom: 5px solid white;*/
+    border: none;
+    border-left: 4px solid var(--background);
+    border-bottom: 4px solid var(--background);
+    width: 40px;
+    font-size: 20px;
+    background-color: white;
+    transition: ease-in 0.1s;
+}
+.addBtnTask:hover{
+    background-color: var(--purple);
+    border-bottom: 4px solid var(--background);
+    color: white;
+}
+.inputAddTask{
+    border-radius: var(--borderRadiusCustom);
+    border:none;
+    border-bottom: 4px solid var(--background);
+    background-color: white;
+    height: 2rem;
+    width: 100%;
+    outline: none;
+    transition: ease-in 0.1s;
+}
+.inputAddTask::placeholder{
+
+}
+.inputAddTask:focus{
+    border-bottom: 4px solid var(--background);
+}
+
+.task input{
+
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.task {
+    border-radius: var(--borderRadiusCustom);
+    padding: 1rem 2rem 1rem 0;
+    width: 15rem;
+}
+
+.task button{
+    cursor: pointer;
+}
+.task li{
+    margin: 0 0 0 1rem;
+}
+
+
+.btnAll{
+    border-radius: var(--borderRadiusCustom);
+    margin: 0 ;
+    background-color: var(--purple);
+    color: white;
+    padding: 0.2rem ;
+    width: 35%;
+    border: none;
+}
+.btnActive {
+    border-radius: var(--borderRadiusCustom);
+    margin: 0;
+    background-color: var(--red);
+    color: white;
+    border: none;
+    padding: 0;
+
+    width: 35%;
+}
+
+.btnCompleted{
+    border-radius: var(--borderRadiusCustom);
+    margin: 0 ;
+    background-color: var(--green);
+    color: white;
+    padding: 0;
+    width: 35%;
+    border: none;
+}
+.btnsFilters{
+    display: flex;
+    justify-content: center;
+    padding: 1rem 1rem 0rem 1rem;
+    margin: 0;
+}
+.tasks{
+    padding: 1rem;
+}

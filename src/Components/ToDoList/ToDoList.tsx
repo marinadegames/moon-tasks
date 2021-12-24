@@ -76,31 +76,45 @@ export function ToDoList(props: PropsType) {
     return (
         <div className={s.task}>
 
-            <hr/>
-            <h4>{props.title}</h4>
-            <input onChange={onChangeHandler}
-                   value={title}
-                   className={s.inputAddTask}
-                   onKeyPress={onKeyPressHandler}
-            />
-            <button onClick={onClickHandler}>
-                +
-            </button>
+            <div className={s.titleBoxTasks}>
+                <h4>{props.title}</h4>
+            </div>
 
-            {filterTasksIsDone.map((t) => {
-                return (
-                    <div>
-                        <li key={t.id}>
-                            <button onClick={() => onClickRemoveTask(t.id) }> X</button>
-                            <input type="checkbox" checked={t.isDone}/>
-                            <span>{t.title}</span>
-                        </li>
-                    </div>
-                )
-            })}
-            <button onClick={ () => changeFilterButtons ('ALL')} className={s.btnAll}>ALL</button>
-            <button onClick={ () => changeFilterButtons ('ACTIVE')} className={s.btnActive}>ACTIVE</button>
-            <button onClick={ () => changeFilterButtons ('COMPLETED')} className={s.btnCompleted}>COMPLETED</button>
+            <div className={s.tasksBox}>
+                <form className={s.formAddTask}>
+                    <input onChange={onChangeHandler}
+                           value={title}
+                           className={s.inputAddTask}
+                           onKeyPress={onKeyPressHandler}
+                    />
+                    <button className={s.addBtnTask} onClick={onClickHandler}>
+                        +
+                    </button>
+                </form>
+
+                <div className={s.btnsFilters}>
+                    <button onClick={() => changeFilterButtons('ALL')} className={s.btnAll}>ALL</button>
+                    <button onClick={() => changeFilterButtons('ACTIVE')} className={s.btnActive}>ACTIVE</button>
+                    <button onClick={() => changeFilterButtons('COMPLETED')} className={s.btnCompleted}>COMPL
+                    </button>
+                </div>
+
+                <div className={s.tasks}>
+                    {filterTasksIsDone.map((t) => {
+                        return (
+                            <div>
+                                <li key={t.id}>
+                                    <button onClick={() => onClickRemoveTask(t.id)}> X</button>
+                                    <input type="checkbox" checked={t.isDone}/>
+                                    <span>{t.title}</span>
+                                </li>
+                            </div>
+                        )
+                    })}
+                </div>
+
+
+            </div>
 
         </div>
     )

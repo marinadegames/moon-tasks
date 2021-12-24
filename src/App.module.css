@@ -1,0 +1,32 @@
+/* my custom colors */
+
+:root {
+    --background: #E3E9FF;
+    --purple: #AF7EEB;
+    --green: #84d69a;
+    --red: #ffbcc5;
+    --textColor: #9AA5C2;
+    --borderRadiusCustom: 0px;
+}
+
+body{
+    background-color: var(--background);
+    color: var(--textColor);
+    padding: 2rem;
+}
+hr{
+    color: white;
+}
+
+h1,h2,h3,h4,h5,h6{
+    padding: 0;
+    margin: 0;
+}
+.toDoLists{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+}
+
+

@@ -1,8 +1,9 @@
 //imports
-import React, {useState} from 'react';
-import './App.css';
-import {ToDoList} from "./ToDoList";
-
+import React from 'react';
+import './App.module.css';
+import {ToDoList} from "./Components/ToDoList/ToDoList";
+import {Header} from "./Components/Header/Header";
+import s from './App.module.css'
 //assets
 
 //types
@@ -18,11 +19,15 @@ export function App() {
 
     return (
         <div>
-            <h1>Hello!</h1>
-            <h2>It's my toDo list project!</h2>
+            <div>
+                <Header />
+            </div>
 
-            <ToDoList title={'What study:'}
-            />
+            <div className={s.toDoLists}>
+                <ToDoList title={'What study:'}/>
+                <ToDoList title={'What drink:'}/>
+            </div>
+
         </div>
     )
 }

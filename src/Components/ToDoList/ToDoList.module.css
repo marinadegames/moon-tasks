@@ -1,11 +1,16 @@
 /* ============= TASK ============= */
 .titleBoxTasks{
-    background-color: var(--purple);
+    background-color: var(--generalColor);
     color: white;
     text-align: center;
-    padding: 0.7rem 0.5rem;
+    padding: 0.7rem 1rem;
     margin: 0 0 1rem 0;
     border-radius: var(--borderRadiusCustom)
+}
+.titleBoxTasks svg{
+    float: left;
+    fill: white;
+    cursor: pointer;
 }
 .tasksBox{
     display: flex;
@@ -14,47 +19,7 @@
     background-color: white;
     border-radius: var(--borderRadiusCustom)
 }
-.formAddTask{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    overflow: hidden;
-    border-radius: var(--borderRadiusCustom)
-}
-.addBtnTask{
-    border-radius: var(--borderRadiusCustom);
-    /*border-top: 5px solid white;*/
-    /*border-right: 5px solid white;*/
-    /*border-bottom: 5px solid white;*/
-    border: none;
-    border-left: 4px solid var(--background);
-    border-bottom: 4px solid var(--background);
-    width: 40px;
-    font-size: 20px;
-    background-color: white;
-    transition: ease-in 0.1s;
-}
-.addBtnTask:hover{
-    background-color: var(--purple);
-    border-bottom: 4px solid var(--background);
-    color: white;
-}
-.inputAddTask{
-    border-radius: var(--borderRadiusCustom);
-    border:none;
-    border-bottom: 4px solid var(--background);
-    background-color: white;
-    height: 2rem;
-    width: 100%;
-    outline: none;
-    transition: ease-in 0.1s;
-}
-.inputAddTask::placeholder{
 
-}
-.inputAddTask:focus{
-    border-bottom: 4px solid var(--background);
-}
 
 .task input{
 
@@ -69,24 +34,29 @@
     width: 15rem;
 }
 
-.task button{
-    cursor: pointer;
-}
-.task li{
-    margin: 0 0 0 1rem;
-}
 
+.btnRemoveTask{
+    cursor: pointer;
+    color: var(--textColor);
+    float: right;
+    border: none;
+    background-color: white;
+}
 
 .btnAll{
+    cursor: pointer;
+    font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
-    margin: 0 ;
-    background-color: var(--purple);
+    margin: 0 10px 0 0;
+    background-color: var(--generalColor);
     color: white;
-    padding: 0.2rem ;
+    padding: 0.3rem ;
     width: 35%;
     border: none;
 }
 .btnActive {
+    cursor: pointer;
+    font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
     margin: 0;
     background-color: var(--red);
@@ -98,8 +68,10 @@
 }
 
 .btnCompleted{
+    cursor: pointer;
+    font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
-    margin: 0 ;
+    margin: 0 0 0 10px ;
     background-color: var(--green);
     color: white;
     padding: 0;
@@ -109,9 +81,95 @@
 .btnsFilters{
     display: flex;
     justify-content: center;
-    padding: 1rem 1rem 0rem 1rem;
+    padding: 1rem 1rem 0 1rem;
     margin: 0;
 }
 .tasks{
     padding: 1rem;
 }
+
+
+/*STYLES CHECKBOX*/
+
+/*Вид кастомного чекбокса в состояниях hover, active, focus и disabled*/
+
+.customCheckbox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+.customCheckbox+label {
+
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+}
+.customCheckbox+label::before {
+    cursor: pointer;
+    content: '';
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    flex-grow: 0;
+    border: 2px solid var(--textColor);
+    border-radius: 5em;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+    transition: ease-in 0.2s;
+}
+.customCheckbox:checked+label::before {
+    border: 2px solid var(--generalColor);
+    background-color: var(--generalColor);
+}
+/* стили при наведении курсора на checkbox */
+.customCheckbox:not(:disabled):not(:checked)+label:hover::before {
+    border-color: var(--generalColor);
+    background-color: var(--generalColor);
+}
+/* стили для активного состояния чекбокса (при нажатии на него) */
+.customCheckbox:not(:disabled):active+label::before {
+    background-color: #b3d7ff;
+    border-color: #b3d7ff;
+}
+/* стили для чекбокса, находящегося в фокусе */
+.customCheckbox:focus+label::before {
+    box-shadow: 0 0 0 0.2rem rgba(188, 145, 226, 0.71);
+}
+/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+.customCheckbox:focus:not(:checked)+label::before {
+    border-color: var(--generalColor);
+}
+    /* стили для чекбокса, находящегося в состоянии disabled */
+.customCheckbox:disabled+label::before {
+    background-color: #e9ecef;
+}
+
+
+/* change color icon delete task*/
+.mainBoxTasks{
+    margin: 0 0 0.2rem 0;
+    transition: ease-in 0.1s;
+}
+.mainBoxTasks label:hover{
+    cursor: pointer;
+}
+.mainBoxTasks:hover{
+    cursor: pointer;
+}
+.mainBoxTasks:hover .svgDelete{
+    fill: var(--textColor);
+}
+
+.svgDelete{
+    fill: white;
+    padding: 0;
+    margin: 0;
+    transition: ease-in 0.1s;
+}
+.svgDelete:hover{
+    fill: var(--red) !important;
+}
+
+

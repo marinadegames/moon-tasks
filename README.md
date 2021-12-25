@@ -12,3 +12,4 @@ Project video todolist
 7. add `input task`, button `add task`
 8. added possibility to `add tasks`
 9. code review | `typing`
+10. added `new layout!`

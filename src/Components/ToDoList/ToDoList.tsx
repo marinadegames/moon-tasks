@@ -2,8 +2,16 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import s from './ToDoList.module.css'
 import {v1} from "uuid";
-//assets
+import {AddTaskForm} from "./AddTaskForm/AddTaskForm";
 
+//assets
+const deleteIcon = <svg
+    className={s.svgDelete}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 48 48"
+    width="1.2rem"
+    height="1.2rem">
+    <path d="M 20.5 4 A 1.50015 1.50015 0 0 0 19.066406 6 L 14.640625 6 C 12.803372 6 11.082924 6.9194511 10.064453 8.4492188 L 7.6972656 12 L 7.5 12 A 1.50015 1.50015 0 1 0 7.5 15 L 8.2636719 15 A 1.50015 1.50015 0 0 0 8.6523438 15.007812 L 11.125 38.085938 C 11.423352 40.868277 13.795836 43 16.59375 43 L 31.404297 43 C 34.202211 43 36.574695 40.868277 36.873047 38.085938 L 39.347656 15.007812 A 1.50015 1.50015 0 0 0 39.728516 15 L 40.5 15 A 1.50015 1.50015 0 1 0 40.5 12 L 40.302734 12 L 37.935547 8.4492188 C 36.916254 6.9202798 35.196001 6 33.359375 6 L 28.933594 6 A 1.50015 1.50015 0 0 0 27.5 4 L 20.5 4 z M 14.640625 9 L 33.359375 9 C 34.196749 9 34.974746 9.4162203 35.439453 10.113281 L 36.697266 12 L 11.302734 12 L 12.560547 10.113281 A 1.50015 1.50015 0 0 0 12.5625 10.111328 C 13.025982 9.4151428 13.801878 9 14.640625 9 z M 11.669922 15 L 36.330078 15 L 33.890625 37.765625 C 33.752977 39.049286 32.694383 40 31.404297 40 L 16.59375 40 C 15.303664 40 14.247023 39.049286 14.109375 37.765625 L 11.669922 15 z"/></svg>
 
 //types
 type TypeTask = {
@@ -20,9 +28,8 @@ type FilterType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 //components
 export function ToDoList(props: PropsType) {
 
-    const [title, setTitle] = useState('')
-
     //hooks
+    const [title, setTitle] = useState('')
     const [tasks, setTasks] = useState([
         {id: v1(), title: 'HTML&CSS', isDone: true},
         {id: v1(), title: 'JS', isDone: false},
@@ -31,6 +38,7 @@ export function ToDoList(props: PropsType) {
         {id: v1(), title: 'English', isDone: false},
     ])
     const [filterValue, setFilterValue] = useState('ALL')
+    const [changeInputAddTask, setChangeInputAddTask] = useState('')
 
     //functions
     let filterTasksIsDone = tasks
@@ -73,24 +81,22 @@ export function ToDoList(props: PropsType) {
         removeTask(id)
     }
 
+
     return (
         <div className={s.task}>
 
             <div className={s.titleBoxTasks}>
+                <svg viewBox="0 0 100 80" width="20" height="20">
+                    <rect width="100" height="20"/>
+                    <rect y="30" width="100" height="20"/>
+                    <rect y="60" width="100" height="20"/>
+                </svg>
                 <h4>{props.title}</h4>
             </div>
 
             <div className={s.tasksBox}>
-                <form className={s.formAddTask}>
-                    <input onChange={onChangeHandler}
-                           value={title}
-                           className={s.inputAddTask}
-                           onKeyPress={onKeyPressHandler}
-                    />
-                    <button className={s.addBtnTask} onClick={onClickHandler}>
-                        +
-                    </button>
-                </form>
+
+
 
                 <div className={s.btnsFilters}>
                     <button onClick={() => changeFilterButtons('ALL')} className={s.btnAll}>ALL</button>
@@ -102,17 +108,29 @@ export function ToDoList(props: PropsType) {
                 <div className={s.tasks}>
                     {filterTasksIsDone.map((t) => {
                         return (
-                            <div>
-                                <li key={t.id}>
-                                    <button onClick={() => onClickRemoveTask(t.id)}> X</button>
-                                    <input type="checkbox" checked={t.isDone}/>
-                                    <span>{t.title}</span>
-                                </li>
+                            <div className={s.tasksBox}>
+                                <div key={t.id} className={s.mainBoxTasks}>
+
+                                    <input type="checkbox"
+                                           className={s.customCheckbox}
+                                           name="happy"
+                                           checked={t.isDone}
+                                           />
+                                    <label htmlFor="happy">{t.title}</label>
+                                    <button onClick={() => onClickRemoveTask(t.id)}
+                                            className={s.btnRemoveTask}>
+                                        {deleteIcon}
+                                    </button>
+                                </div>
                             </div>
                         )
                     })}
                 </div>
 
+                <AddTaskForm onChangeHandler={onChangeHandler}
+                             title={title}
+                             onClickHandler={onClickHandler}
+                             onKeyPressHandler={onKeyPressHandler} />
 
             </div>
 

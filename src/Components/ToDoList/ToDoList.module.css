@@ -63,6 +63,19 @@
     background-color: var(--generalColor);
     color: white;
 }
+.btnAllActive{
+    cursor: pointer;
+    font-size: 0.7rem;
+    border-radius: var(--borderRadiusCustom);
+    margin: 0 10px 0 0;
+    border: 2px solid var(--generalColor);
+    background-color: var(--generalColor);
+    font-weight: bold;
+    color: white;
+    padding: 0.3rem ;
+    width: 35%;
+    transition: ease-in 0.2s;
+}
 .btnActive {
     cursor: pointer;
     font-size: 0.7rem;
@@ -79,6 +92,19 @@
 .btnActive:hover {
     color: white;
     background-color: var(--red);
+}
+.btnActiveActive{
+    cursor: pointer;
+    font-size: 0.7rem;
+    border-radius: var(--borderRadiusCustom);
+    margin: 0;
+    background-color: var(--red);
+    color: white;
+    font-weight: bold;
+    border: 2px solid var(--red);
+    padding: 0;
+    width: 35%;
+    transition: ease-in 0.2s;
 }
 
 .btnCompleted{
@@ -97,6 +123,19 @@
 .btnCompleted:hover{
     color: white;
     background-color: var(--green);
+}
+.btnCompletedActive{
+    cursor: pointer;
+    font-size: 0.7rem;
+    border-radius: var(--borderRadiusCustom);
+    margin: 0 0 0 10px ;
+    background-color: var(--green);
+    color: white;
+    font-weight: bold;
+    padding: 0;
+    width: 35%;
+    border: 2px solid var(--green);
+    transition: ease-in 0.2s;
 }
 .btnsFilters{
     display: flex;

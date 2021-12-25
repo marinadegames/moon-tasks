@@ -44,14 +44,17 @@ export function ToDoList(props: PropsType) {
     const [error, setError] = useState<string | null>(null)
     //functions
     let filterTasksIsDone = tasks
-    const removeTask = (id: string) => {
-        setTasks(tasks.filter((t: TypeTask) => id !== t.id))
-    }
+
     if (filterValue === "ACTIVE") {
         filterTasksIsDone = tasks.filter(t => !t.isDone)
     } else if (filterValue === 'COMPLETED') {
         filterTasksIsDone = tasks.filter(t => t.isDone)
     }
+
+    const removeTask = (id: string) => {
+        setTasks(tasks.filter((t: TypeTask) => id !== t.id))
+    }
+
     const filteredTasks = (value: FilterType) => {
         setFilterValue(value)
     }
@@ -113,9 +116,12 @@ export function ToDoList(props: PropsType) {
 
 
                 <div className={s.btnsFilters}>
-                    <button onClick={() => changeFilterButtons('ALL')} className={s.btnAll}>ALL</button>
-                    <button onClick={() => changeFilterButtons('ACTIVE')} className={s.btnActive}>ACTIVE</button>
-                    <button onClick={() => changeFilterButtons('COMPLETED')} className={s.btnCompleted}>COMPL
+                    <button onClick={() => changeFilterButtons('ALL')}
+                            className={filterValue === 'ALL' ? s.btnAllActive : s.btnAll}>ALL</button>
+                    <button onClick={() => changeFilterButtons('ACTIVE')}
+                            className={filterValue === 'ACTIVE' ? s.btnActiveActive : s.btnActive }>ACTIVE</button>
+                    <button onClick={() => changeFilterButtons('COMPLETED')}
+                            className={filterValue === 'COMPLETED' ? s.btnCompletedActive : s.btnCompleted}>COMPL
                     </button>
                 </div>
 

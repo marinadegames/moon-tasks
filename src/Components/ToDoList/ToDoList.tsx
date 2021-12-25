@@ -41,6 +41,7 @@ export function ToDoList(props: PropsType) {
         {id: v1(), title: 'English', isDone: true},
     ])
     const [filterValue, setFilterValue] = useState('ALL')
+    const [error, setError] = useState<string | null>(null)
     //functions
     let filterTasksIsDone = tasks
     const removeTask = (id: string) => {
@@ -63,20 +64,21 @@ export function ToDoList(props: PropsType) {
 
     }
     const onClickHandler = () => {
-        if (title.trim() === ''){
-            return
-        }else {
+        if (title.trim() !== '') {
             addTask(title)
             setTitle('')
+        } else {
+            setError('Title is required!')
         }
     }
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        setError(null)
         if (event.key === 'Enter') {
-            if (title.trim() === ''){
-                return
-            }else {
+            if (title.trim() !== '') {
                 addTask(title)
                 setTitle('')
+            } else {
+                setError('Title is required!')
             }
         }
     }
@@ -120,6 +122,7 @@ export function ToDoList(props: PropsType) {
                 <AddTaskForm
                     onChangeHandler={onChangeHandler}
                     title={title}
+                    error={error}
                     onKeyPressHandler={onKeyPressHandler}
                     onClickHandler={onClickHandler}
                 />

@@ -5,7 +5,10 @@
     text-align: center;
     padding: 0.7rem 1rem;
     margin: 0 0 1rem 0;
-    border-radius: var(--borderRadiusCustom)
+    border-radius: var(--borderRadiusCustom);
+    -webkit-box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.5);
 }
 .titleBoxTasks svg{
     float: left;
@@ -17,21 +20,21 @@
     justify-content: center;
     flex-direction: column;
     background-color: white;
-    border-radius: var(--borderRadiusCustom)
+    border-radius: var(--borderRadiusCustom);
+    -webkit-box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.2);
+}
+.task {
+    border-radius: var(--borderRadiusCustom);
+    padding: 1rem;
+    width: 15rem;
 }
 
-
 .task input{
-
     padding: 0;
     margin: 0;
     cursor: pointer;
-}
-
-.task {
-    border-radius: var(--borderRadiusCustom);
-    padding: 1rem 2rem 1rem 0;
-    width: 15rem;
 }
 
 
@@ -48,23 +51,34 @@
     font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
     margin: 0 10px 0 0;
-    background-color: var(--generalColor);
-    color: white;
+    border: 2px solid var(--generalColor);
+    background-color: white;
+    font-weight: bold;
+    color: var(--generalColor);
     padding: 0.3rem ;
     width: 35%;
-    border: none;
+    transition: ease-in 0.2s;
+}
+.btnAll:hover {
+    background-color: var(--generalColor);
+    color: white;
 }
 .btnActive {
     cursor: pointer;
     font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
     margin: 0;
-    background-color: var(--red);
-    color: white;
-    border: none;
+    background-color: white;
+    color: var(--red);
+    font-weight: bold;
+    border: 2px solid var(--red);
     padding: 0;
-
     width: 35%;
+    transition: ease-in 0.2s;
+}
+.btnActive:hover {
+    color: white;
+    background-color: var(--red);
 }
 
 .btnCompleted{
@@ -72,11 +86,17 @@
     font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
     margin: 0 0 0 10px ;
-    background-color: var(--green);
-    color: white;
+    background-color: white;
+    color: var(--green);
+    font-weight: bold;
     padding: 0;
     width: 35%;
-    border: none;
+    border: 2px solid var(--green);
+    transition: ease-in 0.2s;
+}
+.btnCompleted:hover{
+    color: white;
+    background-color: var(--green);
 }
 .btnsFilters{
     display: flex;
@@ -105,7 +125,6 @@
     user-select: none;
 }
 .customCheckbox+label::before {
-    cursor: pointer;
     content: '';
     display: inline-block;
     width: 0.6em;
@@ -120,6 +139,7 @@
     transition: ease-in 0.2s;
 }
 .customCheckbox:checked+label::before {
+
     border: 2px solid var(--generalColor);
     background-color: var(--generalColor);
 }
@@ -172,4 +192,10 @@
     fill: var(--red) !important;
 }
 
+.textFalse{
+    text-decoration: line-through;
+}
+.textTrue {
+    text-decoration: none;
+}
 

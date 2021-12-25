@@ -3,10 +3,10 @@
 :root {
     --background: #E3E9FF;
     --generalColor: #AF7EEB;
-    --green: #84d69a;
+    --green: #2eac64;
     --red: #e37482;
     --textColor: #9AA5C2;
-    --borderRadiusCustom: 0px;
+    --borderRadiusCustom: 5px;
 }
 
 body{

@@ -25,7 +25,7 @@ export function App() {
 
             <div className={s.toDoLists}>
                 <ToDoList title={'What study:'}/>
-                <ToDoList title={'What drink:'}/>
+                <ToDoList title={'What study:'}/>
             </div>
 
         </div>

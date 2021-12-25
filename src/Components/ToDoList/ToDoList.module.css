@@ -27,7 +27,7 @@
 }
 .task {
     border-radius: var(--borderRadiusCustom);
-    padding: 1rem;
+    padding: 1rem 2rem 1rem 0;
     width: 15rem;
 }
 
@@ -110,16 +110,14 @@
 
 
 /*STYLES CHECKBOX*/
-
 /*Вид кастомного чекбокса в состояниях hover, active, focus и disabled*/
 
 .customCheckbox {
     position: absolute;
-    z-index: -1;
+    /*z-index: -1;*/
     opacity: 0;
 }
 .customCheckbox+label {
-
     display: inline-flex;
     align-items: center;
     user-select: none;
@@ -139,7 +137,6 @@
     transition: ease-in 0.2s;
 }
 .customCheckbox:checked+label::before {
-
     border: 2px solid var(--generalColor);
     background-color: var(--generalColor);
 }

@@ -13,3 +13,4 @@ Project video todolist
 8. added possibility to `add tasks`
 9. code review | `typing`
 10. added `new layout!`
+11. added `change task status`

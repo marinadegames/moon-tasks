@@ -34,15 +34,13 @@ export function ToDoList(props: PropsType) {
     //hooks
     const [title, setTitle] = useState('')
     const [tasks, setTasks] = useState([
-        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'HTML&CSS', isDone: false},
         {id: v1(), title: 'JS', isDone: false},
         {id: v1(), title: 'React', isDone: true},
         {id: v1(), title: 'Redux', isDone: false},
-        {id: v1(), title: 'English', isDone: false},
+        {id: v1(), title: 'English', isDone: true},
     ])
     const [filterValue, setFilterValue] = useState('ALL')
-    const [changeInputAddTask, setChangeInputAddTask] = useState('')
-
     //functions
     let filterTasksIsDone = tasks
     const removeTask = (id: string) => {
@@ -63,7 +61,6 @@ export function ToDoList(props: PropsType) {
         setTasks([newTitle, ...tasks])
     }
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log('yea')
         setTitle(event.currentTarget.value)
 
     }
@@ -83,6 +80,15 @@ export function ToDoList(props: PropsType) {
 
     const onClickRemoveTask = (id: string) => {
         removeTask(id)
+    }
+
+    const changeTaskStatus = (taskId: string, isDone: boolean) => {
+        let task = tasks.find((t) => t.id === taskId)
+        if (task) {
+            task.isDone = isDone
+        }
+        let copy = [...tasks]
+        setTasks(copy)
     }
 
     return (
@@ -107,20 +113,36 @@ export function ToDoList(props: PropsType) {
                     </button>
                 </div>
 
+                <AddTaskForm
+                    onChangeHandler={onChangeHandler}
+                    title={title}
+                    onKeyPressHandler={onKeyPressHandler}
+                    onClickHandler={onClickHandler}
+                />
+
                 <div className={s.tasks}>
                     {filterTasksIsDone.map((t) => {
-                        return (
-                            <div className={s.tasksBox}>
-                                <div key={t.id} className={s.mainBoxTasks}>
 
+                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                            changeTaskStatus(t.id, e.currentTarget.checked)
+                            console.log(t.id, e.currentTarget.checked)
+                        }
+
+                        return (
+                            <div className={s.tasksBox}
+                                 key={t.id}>
+                                <div className={s.mainBoxTasks}>
                                     <input type="checkbox"
                                            className={s.customCheckbox}
                                            name="happy"
                                            checked={t.isDone}
+                                           onChange={onChangeHandler}
                                     />
+
                                     <label htmlFor="happy"
-                                           className={ t.isDone ? s.textTrue : s.textFalse}
-                                    >{t.title}</label>
+                                           className={!t.isDone ? s.textTrue : s.textFalse}>
+                                        {t.title}
+                                    </label>
                                     <button onClick={() => onClickRemoveTask(t.id)}
                                             className={s.btnRemoveTask}>
                                         {deleteIcon}
@@ -131,8 +153,6 @@ export function ToDoList(props: PropsType) {
                     })}
                 </div>
 
-                <AddTaskForm
-                />
 
             </div>
 

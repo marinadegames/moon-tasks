@@ -15,3 +15,4 @@ Project video todolist
 10. added `new layout!`
 11. added `change task status`
 12. added check `empty line`
+13. added `empty line check`

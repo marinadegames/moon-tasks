@@ -46,13 +46,11 @@ export function ToDoList(props: PropsType) {
     const removeTask = (id: string) => {
         setTasks(tasks.filter((t: TypeTask) => id !== t.id))
     }
-
     if (filterValue === "ACTIVE") {
         filterTasksIsDone = tasks.filter(t => !t.isDone)
     } else if (filterValue === 'COMPLETED') {
         filterTasksIsDone = tasks.filter(t => t.isDone)
     }
-
     const filteredTasks = (value: FilterType) => {
         setFilterValue(value)
     }
@@ -65,23 +63,29 @@ export function ToDoList(props: PropsType) {
 
     }
     const onClickHandler = () => {
-        addTask(title)
-        setTitle('')
+        if (title.trim() === ''){
+            return
+        }else {
+            addTask(title)
+            setTitle('')
+        }
     }
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
-            addTask(title)
-            setTitle('')
+            if (title.trim() === ''){
+                return
+            }else {
+                addTask(title)
+                setTitle('')
+            }
         }
     }
     const changeFilterButtons = (valueFilter: any) => {
         filteredTasks(valueFilter)
     }
-
     const onClickRemoveTask = (id: string) => {
         removeTask(id)
     }
-
     const changeTaskStatus = (taskId: string, isDone: boolean) => {
         let task = tasks.find((t) => t.id === taskId)
         if (task) {

@@ -14,3 +14,4 @@ Project video todolist
 9. code review | `typing`
 10. added `new layout!`
 11. added `change task status`
+12. added check `empty line`

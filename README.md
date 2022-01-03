@@ -3,9 +3,7 @@
 ### ❓ What's this project? ###
 #### ☑️This repository for my `ToDoList` project! ####
 
----
-
-## `Updates:`
+## `Updates:` ##
 🎉 1. create new project!  
 📝 2. add `task`   
 🪝 3. add `hooks`  

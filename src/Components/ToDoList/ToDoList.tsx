@@ -42,6 +42,7 @@ export function ToDoList(props: PropsType) {
     ])
     const [filterValue, setFilterValue] = useState('ALL')
     const [error, setError] = useState<string | null>(null)
+
     //functions
     let filterTasksIsDone = tasks
 
@@ -99,6 +100,8 @@ export function ToDoList(props: PropsType) {
         let copy = [...tasks]
         setTasks(copy)
     }
+
+
 
     return (
         <div className={s.task}>

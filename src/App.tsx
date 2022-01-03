@@ -22,7 +22,6 @@ export function App() {
             <div>
                 <Header />
             </div>
-
             <div className={s.toDoLists}>
                 <ToDoList title={'What study:'}/>
                 <ToDoList title={'What study:'}/>

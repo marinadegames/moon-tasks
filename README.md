@@ -1,7 +1,7 @@
 # 📝 ToDoList project
 
 ---
-##📓 New layout `v1.0`!
+## 📓 New layout `v1.0`!
 ### ❓ What's this project?
 #### ☑️This repository for my `ToDoList` project!
 

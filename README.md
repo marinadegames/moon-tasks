@@ -1,9 +1,7 @@
 # 📝 ToDoList project
-
----
-## 📓 New layout `v1.0`!
-### ❓ What's this project?
-#### ☑️This repository for my `ToDoList` project!
+## 📓 New layout `v1.0`! ###
+### ❓ What's this project? ###
+#### ☑️This repository for my `ToDoList` project! ####
 
 ---
 
@@ -24,5 +22,5 @@
 🧑‍🎨 14. added `change color` in filter buttons    
 📌 15. added local state in `<App/>`
 
----
+## 
 

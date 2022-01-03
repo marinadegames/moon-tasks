@@ -31,7 +31,7 @@ type FilterType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 //components
 export function ToDoList(props: PropsType) {
 
-    //hooks
+    // hooks
     const [title, setTitle] = useState('')
     const [tasks, setTasks] = useState([
         {id: v1(), title: 'HTML&CSS', isDone: false},
@@ -43,9 +43,8 @@ export function ToDoList(props: PropsType) {
     const [filterValue, setFilterValue] = useState('ALL')
     const [error, setError] = useState<string | null>(null)
 
-    //functions
+    // functions
     let filterTasksIsDone = tasks
-
     if (filterValue === "ACTIVE") {
         filterTasksIsDone = tasks.filter(t => !t.isDone)
     } else if (filterValue === 'COMPLETED') {
@@ -55,7 +54,6 @@ export function ToDoList(props: PropsType) {
     const removeTask = (id: string) => {
         setTasks(tasks.filter((t: TypeTask) => id !== t.id))
     }
-
     const filteredTasks = (value: FilterType) => {
         setFilterValue(value)
     }
@@ -102,7 +100,6 @@ export function ToDoList(props: PropsType) {
     }
 
 
-
     return (
         <div className={s.task}>
 
@@ -120,9 +117,11 @@ export function ToDoList(props: PropsType) {
 
                 <div className={s.btnsFilters}>
                     <button onClick={() => changeFilterButtons('ALL')}
-                            className={filterValue === 'ALL' ? s.btnAllActive : s.btnAll}>ALL</button>
+                            className={filterValue === 'ALL' ? s.btnAllActive : s.btnAll}>ALL
+                    </button>
                     <button onClick={() => changeFilterButtons('ACTIVE')}
-                            className={filterValue === 'ACTIVE' ? s.btnActiveActive : s.btnActive }>ACTIVE</button>
+                            className={filterValue === 'ACTIVE' ? s.btnActiveActive : s.btnActive}>ACTIVE
+                    </button>
                     <button onClick={() => changeFilterButtons('COMPLETED')}
                             className={filterValue === 'COMPLETED' ? s.btnCompletedActive : s.btnCompleted}>COMPL
                     </button>

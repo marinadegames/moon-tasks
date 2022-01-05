@@ -22,7 +22,8 @@
 ⛔ 12. added check `empty line`  
 ⭐ 13. added `empty line check`  
 🧑‍🎨 14. added `change color` in filter buttons    
-📌 15. added local state in `<App/>`
+📌 15. added local state in `<App/>`  
+🔃 16. refactor code | refactor local state | added `delete task btn` 
 
 ---
 

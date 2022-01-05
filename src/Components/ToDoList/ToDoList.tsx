@@ -67,9 +67,9 @@ export function ToDoList(props: ToDoListsPropsType) {
             setError(null)
         }
     }
-
+    console.log(props.tasks,'TAsks')
 // MAP TASKS ======================
-    let tasksList = props.tasks.map((t: TypeTask) => {
+    let tasksList =  props.tasks.map((t: TypeTask) => {
         const removeTask = () => props.removeTask(t.id, props.toDoListId)
         const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
             props.changeTaskStatus(t.id, props.toDoListId, e.currentTarget.checked)

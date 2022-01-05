@@ -32,6 +32,7 @@ export function App() {
     // local state ToDoLists
     const toDoListId1 = v1()
     const toDoListId2 = v1()
+    const toDoListId3 = v1()
 
     const [toDoLists, setToDoLists] = useState<Array<ToDoListType>>([
         {id: toDoListId1, title: "What's study", filter: 'ALL'},
@@ -89,10 +90,16 @@ export function App() {
         setToDoLists(toDoLists.filter( tl => tl.id !== toDoListsId))
     }
 
+    const addToDoList = (title:string) => {
+        debugger
+        setToDoLists([...toDoLists, {id: toDoListId3, title, filter: 'ALL'}])
+        setTasks({...tasks, [toDoListId3]: []})
+    }
+
     return (
         <div>
             <div>
-                <Header/>
+                <Header addToDoList={addToDoList}/>
             </div>
             <div className={s.toDoLists}>
                 {toDoLists.map((tl) => {

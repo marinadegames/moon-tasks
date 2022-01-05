@@ -1,13 +1,9 @@
 # 📝 ToDoList project
-
----
 ##📓 New layout `v1.0`!
 ### ❓ What's this project?
-#### ☑️This repository for my `ToDoList` project!
+#### ☑️This repository for my `ToDoList` project! ####
 
----
-
-## `Updates:`
+## `Updates:` ##
 🎉 1. create `new project!`  
 📝 2. add `task`   
 🪝 3. add `hooks`  
@@ -25,5 +21,5 @@
 📌 15. added local state in `<App/>`  
 🔃 16. refactor code | refactor local state | added `delete task btn` 
 
----
+## 
 

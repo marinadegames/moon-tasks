@@ -1,6 +1,7 @@
 /* ============= TASK ============= */
 .titleBoxTasks{
     display: flex;
+    justify-content: space-between;
     align-items: center;
 
     background-color: var(--generalColor);
@@ -244,4 +245,21 @@
     text-decoration: none;
     overflow-wrap: break-word;
 }
-
+.deleteTaskBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid var(--generalColor);
+    background-color: var(--generalColor);
+    color: white;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 5rem;
+    transition: ease-in-out 0.2s;
+}
+.deleteTaskBtn:hover{
+    border: 2px solid white;
+    background-color: var(--red);
+}

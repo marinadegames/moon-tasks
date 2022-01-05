@@ -8,7 +8,7 @@
 ---
 
 ## `Updates:`
-🎉 1. create new project!  
+🎉 1. create `new project!`  
 📝 2. add `task`   
 🪝 3. add `hooks`  
 💻 4. add `local state` inside component `<ToDoList />`    

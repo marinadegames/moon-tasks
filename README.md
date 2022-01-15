@@ -20,7 +20,8 @@
 🧑‍🎨 14. added `change color` in filter buttons    
 📌 15. added local state in `<App/>`  
 🔃 16. refactor code | refactor local state | added `delete task btn`   
-➕ 17. added the ability `added new toDoList!`
+➕ 17. added the ability `added new toDoList!`  
+📌 18. added the ability `changed tasks title` double click  
 
 ## 
 

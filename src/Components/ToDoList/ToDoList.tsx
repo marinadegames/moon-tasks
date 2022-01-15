@@ -4,6 +4,7 @@ import s from './ToDoList.module.css'
 import {AddTaskForm} from "./AddTaskForm/AddTaskForm";
 import {FilterValuesType} from "../../App";
 import deleteTaskIcon from '../assets/delete.svg'
+import {EditableLabel} from "../EditableLabel/EditableLabel";
 
 //assets
 const deleteIcon = <svg
@@ -32,6 +33,7 @@ type ToDoListsPropsType = {
     changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
     changeToDoListFilter: (filter: FilterValuesType, toDoListId: string) => void
     removeToDoList: (toDoListsId: string) => void
+    editTaskHandler: (ToDoListId: string, tId: string, title: string) => void
 }
 
 //components
@@ -40,7 +42,6 @@ export function ToDoList(props: ToDoListsPropsType) {
     // hooks
     let [error, setError] = useState<string | null>(null)
     const [taskTitle, setTaskTitle] = useState<string>("")
-
 
 
     const onClickSetAllFilter = () => props.changeToDoListFilter("ALL", props.toDoListId)
@@ -63,13 +64,17 @@ export function ToDoList(props: ToDoListsPropsType) {
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTaskTitle(e.currentTarget.value)
-        if (error !== ''){
+        if (error !== '') {
             setError(null)
         }
     }
-    console.log(props.tasks,'TAsks')
+
+    const editTaskHandlerForEditableLabel = (taskId: string, newTitle: string) => {
+        props.editTaskHandler(props.toDoListId, taskId, newTitle)
+    }
+
 // MAP TASKS ======================
-    let tasksList =  props.tasks.map((t: TypeTask) => {
+    let tasksList = props.tasks.map((t: TypeTask) => {
         const removeTask = () => props.removeTask(t.id, props.toDoListId)
         const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
             props.changeTaskStatus(t.id, props.toDoListId, e.currentTarget.checked)
@@ -86,9 +91,14 @@ export function ToDoList(props: ToDoListsPropsType) {
                            onChange={onChangeCheckHandler}
                     />
 
-                    <label htmlFor="happy" className={!t.isDone ? s.textTrue : s.textFalse}>
-                        {t.title}
-                    </label>
+                    {/*<label htmlFor="happy" className={!t.isDone ? s.textTrue : s.textFalse}>*/}
+                    {/*    {t.title}*/}
+                    {/*</label>*/}
+
+                    <EditableLabel title={t.title}
+                                   editTaskHandlerForEditableLabel={ (title) => editTaskHandlerForEditableLabel(t.id, title) }
+                                   className={!t.isDone ? s.textTrue : s.textFalse}/>
+
                     <button onClick={removeTask}
                             className={s.btnRemoveTask}>
                         {deleteIcon}
@@ -108,7 +118,8 @@ export function ToDoList(props: ToDoListsPropsType) {
                     <rect y="60" width="100" height="20"/>
                 </svg>
                 <h4>{props.title}</h4>
-                <button className={s.deleteTaskBtn} onClick={() => props.removeToDoList(props.toDoListId)}>
+                <button className={s.deleteTaskBtn}
+                        onClick={() => props.removeToDoList(props.toDoListId)}>
                     X
                 </button>
             </div>

@@ -1,7 +1,8 @@
 .header {
+    display: flex;
     color: var(--generalColor);
     background-color: white;
-    padding: 1.5rem;
+    padding: 1rem;
     margin: 0 0 1rem 0;
     -webkit-box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.2);
@@ -12,7 +13,7 @@
     display: flex;
     justify-content: flex-start;
     /*padding: 1rem 1rem 0rem 1rem;*/
-    margin: 0.5rem 0 0 0;
+    /*margin: 0.5rem 0 0 1rem;*/
 }
 .inputAddToDoList input{
     outline: none;
@@ -72,11 +73,25 @@
     content: 'x';
 }
 .addTaskBox{
-    background-color: white;
-    padding: 1.5rem;
-    margin: 0 0 1rem 0;
+    /*background-color: white;*/
+    display: flex;
+    align-items: center;
+    margin: 0 0 0 5rem;
     -webkit-box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 60px -23px rgba(0, 0, 0, 0.2);
     border-radius: var(--borderRadiusCustom);
+}
+.addTaskBox h4 {
+    margin: 0 1rem 0 0;
+}
+.moonLogo{
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: 0 0.5rem 0 0;
+    transition: ease-in-out 0.5s;
+    cursor: pointer;
+}
+.moonLogo:hover{
+    transform: rotate(360deg);
 }

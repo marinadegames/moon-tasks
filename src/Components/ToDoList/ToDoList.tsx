@@ -91,10 +91,6 @@ export function ToDoList(props: ToDoListsPropsType) {
                            onChange={onChangeCheckHandler}
                     />
 
-                    {/*<label htmlFor="happy" className={!t.isDone ? s.textTrue : s.textFalse}>*/}
-                    {/*    {t.title}*/}
-                    {/*</label>*/}
-
                     <EditableLabel title={t.title}
                                    editTaskHandlerForEditableLabel={ (title) => editTaskHandlerForEditableLabel(t.id, title) }
                                    className={!t.isDone ? s.textTrue : s.textFalse}/>

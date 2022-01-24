@@ -76,19 +76,15 @@ export function App() {
         copyTasks[toDoListId] = [{id: v1(), title: title, isDone: false}, ...tasks[toDoListId]]
         setTasks(copyTasks)
     }
-
     function changeTaskStatus( taskId: string, todolistID: string, isDone: boolean) {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone} : m)})
     }
-
     const changeToDoListFilter = (filter: FilterValuesType, toDoListId: string) => {
         setToDoLists(toDoLists.map(tl => tl.id === toDoListId ? {...tl, filter} : tl))
     }
-
     const removeToDoList = (toDoListsId: string) => {
         setToDoLists(toDoLists.filter( tl => tl.id !== toDoListsId))
     }
-
     const addToDoList = (title:string) => {
         debugger
         setToDoLists([...toDoLists, {id: toDoListId3, title, filter: 'ALL'}])
@@ -96,6 +92,10 @@ export function App() {
     }
     const editTaskHandler = (ToDoListId: string, tId: string, title: string) => {
         setTasks( {...tasks, [ToDoListId]: tasks[ToDoListId].map( t => t.id === tId ? {...t, title} : t)})
+    }
+    const editToDoListTitleHandler = (ToDoListId: string, title: string) => {
+        setToDoLists(toDoLists.map(td => td.id === ToDoListId ? {...td, title} : td))
+
     }
 
     return (
@@ -117,6 +117,7 @@ export function App() {
                                   changeToDoListFilter={changeToDoListFilter}
                                   removeToDoList={removeToDoList}
                                   editTaskHandler={editTaskHandler}
+                                  editToDoListTitleHandler={editToDoListTitleHandler}
                         />
                     )
                 })}

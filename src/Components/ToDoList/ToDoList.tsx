@@ -34,6 +34,7 @@ type ToDoListsPropsType = {
     changeToDoListFilter: (filter: FilterValuesType, toDoListId: string) => void
     removeToDoList: (toDoListsId: string) => void
     editTaskHandler: (ToDoListId: string, tId: string, title: string) => void
+    editToDoListTitleHandler: (ToDoListId: string, newTitle: string) => void
 }
 
 //components
@@ -71,6 +72,10 @@ export function ToDoList(props: ToDoListsPropsType) {
 
     const editTaskHandlerForEditableLabel = (taskId: string, newTitle: string) => {
         props.editTaskHandler(props.toDoListId, taskId, newTitle)
+    }
+
+    const editToDoListHandlerForEditableLabel = (toDoId: string, newTitle: string) => {
+        props.editToDoListTitleHandler(props.toDoListId, newTitle)
     }
 
 // MAP TASKS ======================
@@ -113,7 +118,10 @@ export function ToDoList(props: ToDoListsPropsType) {
                     <rect y="30" width="100" height="20"/>
                     <rect y="60" width="100" height="20"/>
                 </svg>
-                <h4>{props.title}</h4>
+                {/*<h4>{props.title}</h4>*/}
+                <EditableLabel title={props.title}
+                               editTaskHandlerForEditableLabel={ (title) => editToDoListHandlerForEditableLabel(props.toDoListId, title) }
+                               className={''}/>
                 <button className={s.deleteTaskBtn}
                         onClick={() => props.removeToDoList(props.toDoListId)}>
                     X

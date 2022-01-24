@@ -17,6 +17,7 @@ export const EditableLabel = (props: propsType) => {
     const editOn = () => {
         setEdit(true)
     }
+
     const editOff = () => {
         setEdit(false)
         props.editTaskHandlerForEditableLabel(title)
@@ -29,10 +30,13 @@ export const EditableLabel = (props: propsType) => {
     return (
 
         edit
-            ? <input onBlur={editOff}
-                     onChange={ (e) => onChangeTitle(e)}
-                     value={title}
-                     autoFocus />
+            ? <div className={s.editableInputFromTask}>
+                <input onBlur={editOff}
+                       onChange={(e) => onChangeTitle(e)}
+                       value={title}
+                       autoFocus/>
+            </div>
+
             : <label htmlFor="happy"
                      onDoubleClick={editOn}
                      className={props.className}>{props.title}</label>

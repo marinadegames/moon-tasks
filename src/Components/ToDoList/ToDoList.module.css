@@ -215,6 +215,7 @@
 .mainBoxTasks{
 
     margin: 0 0 0.2rem 0;
+    width: 100%;
     transition: ease-in 0.1s;
 
 }

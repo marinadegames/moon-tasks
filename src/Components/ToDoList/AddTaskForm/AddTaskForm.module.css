@@ -1,7 +1,7 @@
 .formAddTask{
     display: flex;
     justify-content: flex-start;
-    padding: 1rem 1rem 0rem 1rem;
+    padding: 1rem 1rem 0 1rem;
 }
 .formAddTask input{
     outline: none;
@@ -30,38 +30,4 @@
 .formAddTask button:hover {
     background-color: var(--generalColor);
     color: white;
-}
-
-.formAddTask .error{
-    outline: none;
-    color: var(--textColor);
-    padding: 0.5rem 0 0.5rem 0.5rem;
-    border: 2px solid red;
-    background-color: rgba(255, 185, 192, 0.33);
-    border-radius: var(--borderRadiusCustom) 0 0 var(--borderRadiusCustom);
-}
-.errorMessage{
-    padding: 0 0 0 1rem;
-    color: red;
-    margin: 0 0 0 10px;
-    font-size: small;
-}
-.formAddTask .errorBtn {
-    border-top: 2px solid red;
-    border-right: 2px solid red;
-    border-bottom: 2px solid red;
-    border-left: none;
-    border-radius: 0 var(--borderRadiusCustom) var(--borderRadiusCustom) 0;
-    width: 100%;
-    background-color: rgba(255, 185, 192, 0.33);
-    color: red;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: ease-in 0.2s;
-}
-.formAddTask .errorBtn:hover{
-    background-color: red;
-    color: white;
-    content: 'x';
 }

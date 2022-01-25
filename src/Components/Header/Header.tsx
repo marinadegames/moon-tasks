@@ -4,11 +4,13 @@ import s from './Header.module.css'
 import moonPurple from '../assets/moon-logo-purple.png'
 
 // types
-type HeaderPropsType = {}
+type HeaderPropsType = {
+    addToDoList: (title: string) => void
+}
 
 // components
 
-export function Header(props: any) {
+export function Header(props: HeaderPropsType) {
 
     const [toDoListTitle, setToDoListTitle] = useState<string>('')
 
@@ -37,6 +39,7 @@ export function Header(props: any) {
                                onChange={(e) => onChangeHandler(e.currentTarget.value)}/>
                         <button onClick={addToDoList}>+</button>
                     </div>
+
                 </div>
 
 

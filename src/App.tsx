@@ -5,10 +5,10 @@ import {ToDoList} from "./Components/ToDoList/ToDoList";
 import {Header} from "./Components/Header/Header";
 import s from './App.module.css'
 import {v1} from "uuid";
+
 //assets
 
 //types
-
 type ToDoListType = {
     id: string
     title: string
@@ -22,8 +22,8 @@ type TaskType = {
 type TaskStateType = {
     [key:string]: Array<TaskType>
 }
-
 export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
+
 //components
 export function App() {
 
@@ -65,7 +65,6 @@ export function App() {
                 return tasks
         }
     }
-
     const removeTask = (id: string, toDoListId: string) => {
         let copyTasks = {...tasks}
         copyTasks[toDoListId] = tasks[toDoListId].filter(tl => tl.id !== id)
@@ -95,7 +94,6 @@ export function App() {
     }
     const editToDoListTitleHandler = (ToDoListId: string, title: string) => {
         setToDoLists(toDoLists.map(td => td.id === ToDoListId ? {...td, title} : td))
-
     }
 
     return (

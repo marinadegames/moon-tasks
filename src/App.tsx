@@ -9,17 +9,17 @@ import {v1} from "uuid";
 //assets
 
 //types
-type ToDoListType = {
+export type ToDoListType = {
     id: string
     title: string
     filter: FilterValuesType
 }
-type TaskType = {
+export type TaskType = {
     id: string
     title: string
     isDone: boolean
 }
-type TaskStateType = {
+export type TaskStateType = {
     [key:string]: Array<TaskType>
 }
 export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'

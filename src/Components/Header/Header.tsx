@@ -1,5 +1,5 @@
 // imports
-import React, {useState} from "react";
+import React, {KeyboardEvent, useState} from "react";
 import s from './Header.module.css'
 import moonPurple from '../assets/moon-logo-purple.png'
 
@@ -24,6 +24,13 @@ export function Header(props: HeaderPropsType) {
         }
     }
 
+    const onKeyPressAddToDoList = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            props.addToDoList(toDoListTitle.trim())
+            setToDoListTitle('')
+        }
+    }
+
     return (
         <div>
             <div className={s.header}>
@@ -36,6 +43,7 @@ export function Header(props: HeaderPropsType) {
                     <div className={s.inputAddToDoList}>
                         <input type={'text'}
                                value={toDoListTitle}
+                               onKeyPress={ (e) => onKeyPressAddToDoList(e) }
                                onChange={(e) => onChangeHandler(e.currentTarget.value)}/>
                         <button onClick={addToDoList}>+</button>
                     </div>

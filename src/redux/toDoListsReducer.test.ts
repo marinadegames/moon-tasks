@@ -1,13 +1,13 @@
 // imports
 
 import { v1 } from "uuid"
-import {FilterValuesType, ToDoListType} from "../App";
+import {FilterValuesType} from "../App";
 import {
     AddToDoListAC,
     EditToDoListFilterAC,
     EditToDoListTitleAC,
     RemoveToDoListAC,
-    ToDoListsReducer
+    toDoListsReducer, ToDoListType
 } from "./toDoListsReducer";
 
 
@@ -22,7 +22,7 @@ test ('REMOVE ToDo List', () => {
         {id: toDoListId2, title: "What to buy", filter: 'ALL'},
     ]
 
-    let endState = ToDoListsReducer(startState, RemoveToDoListAC(toDoListId1))
+    let endState = toDoListsReducer(startState, RemoveToDoListAC(toDoListId1))
 
     expect(endState[0].id).toBe(toDoListId2)
     expect(endState.length).toBe(1)
@@ -40,7 +40,7 @@ test ('ADD ToDo List', () => {
         {id: toDoListId2, title: "What to buy", filter: 'ALL'},
     ]
 
-    let endState = ToDoListsReducer(startState, AddToDoListAC(newTitleToDoList))
+    let endState = toDoListsReducer(startState, AddToDoListAC(newTitleToDoList))
 
     expect(endState[2].title).toBe(newTitleToDoList)
     expect(endState.length).toBe(3)
@@ -58,7 +58,7 @@ test ('EDIT TITLE ToDo List', () => {
         {id: toDoListId2, title: "What to buy", filter: 'ALL'},
     ]
 
-    let endState = ToDoListsReducer(startState, EditToDoListTitleAC(toDoListId1, newTitleToDoList))
+    let endState = toDoListsReducer(startState, EditToDoListTitleAC(toDoListId1, newTitleToDoList))
 
     expect(endState[0].title).toBe(newTitleToDoList)
 })
@@ -75,7 +75,7 @@ test ('CHANGE FILTER ToDo List', () => {
         {id: toDoListId2, title: "What to buy", filter: 'ALL'},
     ]
 
-    let endState = ToDoListsReducer(startState, EditToDoListFilterAC(toDoListId1, newFilter))
+    let endState = toDoListsReducer(startState, EditToDoListFilterAC(toDoListId1, newFilter))
 
     expect(endState[0].filter).toBe(newFilter)
 })

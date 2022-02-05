@@ -30,7 +30,7 @@ type ToDoListsPropsType = {
     addTask: (title: string, toDoListId: string) => void
     removeTask: (id: string, toDoListId: string) => void
     changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
-    changeToDoListFilter: (filter: FilterValuesType, toDoListId: string) => void
+    changeToDoListFilter: (toDoListId: string, filter: FilterValuesType ) => void
     removeToDoList: (toDoListsId: string) => void
     editTaskHandler: (ToDoListId: string, tId: string, title: string) => void
     editToDoListTitleHandler: (ToDoListId: string, newTitle: string) => void
@@ -44,9 +44,9 @@ export function ToDoList(props: ToDoListsPropsType) {
     const [taskTitle, setTaskTitle] = useState<string>("")
 
 
-    const onClickSetAllFilter = () => props.changeToDoListFilter("ALL", props.toDoListId)
-    const onClickSetActiveFilter = () => props.changeToDoListFilter("ACTIVE", props.toDoListId)
-    const onClickSetCompletedFilter = () => props.changeToDoListFilter("COMPLETED", props.toDoListId)
+    const onClickSetAllFilter = () => props.changeToDoListFilter(props.toDoListId, 'ALL')
+    const onClickSetActiveFilter = () => props.changeToDoListFilter(props.toDoListId, "ACTIVE")
+    const onClickSetCompletedFilter = () => props.changeToDoListFilter( props.toDoListId, "COMPLETED")
     const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             addTask()
@@ -78,7 +78,9 @@ export function ToDoList(props: ToDoListsPropsType) {
     }
 
 // MAP TASKS ======================
+
     let tasksList = props.tasks.map((t: TypeTask) => {
+        // console.log('TASKS: ' + t.title)
         const removeTask = () => props.removeTask(t.id, props.toDoListId)
         const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
             props.changeTaskStatus(t.id, props.toDoListId, e.currentTarget.checked)

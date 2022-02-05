@@ -1,6 +1,12 @@
 import {v1} from "uuid";
-import {TaskStateType} from "../App";
-import {AddTaskAC, ChangeTaskStatusAC, RemoveTaskAC, tasksReducer} from "./TasksReducer";
+import {
+    AddTaskAC,
+    ChangeTaskStatusAC,
+    EditTaskTitleAC,
+    RemoveTaskAC,
+    tasksReducer,
+    TaskStateType
+} from "./TasksReducer";
 
 
 test('ADD TASK', () => {
@@ -78,5 +84,31 @@ test('CHANGE STATUS TASK', () => {
     const endState = tasksReducer(startState, action)
 
     expect(endState[toDoListId1][0].isDone).toBe(true)
+
+})
+test('EDIT TASK TITLE', () => {
+    const toDoListId1 = v1()
+    const toDoListId2 = v1()
+
+    const startState: TaskStateType = {
+        [toDoListId1]: [
+            {id: v1(), title: 'HTML&CSS', isDone: false},
+            {id: v1(), title: 'JS', isDone: false},
+            {id: v1(), title: 'React', isDone: true},
+            {id: v1(), title: 'Redux', isDone: false},
+            {id: v1(), title: 'English', isDone: true},
+        ],
+        [toDoListId2]: [
+            {id: v1(), title: 'Milk', isDone: false},
+            {id: v1(), title: 'Juice', isDone: false},
+            {id: v1(), title: 'Meat', isDone: true},
+        ],
+    }
+    const newTitle = 'Water'
+    const tId = startState[toDoListId2][0].id
+    const action = EditTaskTitleAC(toDoListId2, tId, newTitle)
+    const endState = tasksReducer(startState, action)
+
+    expect(endState[toDoListId2][0].title).toBe(newTitle)
 
 })

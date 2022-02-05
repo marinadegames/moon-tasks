@@ -1,9 +1,22 @@
 // imports
-import {FilterValuesType, ToDoListType} from "../App";
+import {FilterValuesType} from "../App";
 import {v1} from "uuid";
 
+// initial state
+export const toDoListId1 = v1()
+export const toDoListId2 = v1()
+
+const initialState: Array<ToDoListType> = [
+    {id: toDoListId1, title: "What's study", filter: 'ALL'},
+    {id: toDoListId2, title: "What to buy", filter: 'ALL'},
+]
 
 // types
+export type ToDoListType = {
+    id: string
+    title: string
+    filter: FilterValuesType
+}
 type ActionType = RemoveToDoListAT | AddToDOListAT | EditToDoListTitleAT | EditToDoListFilterAT
 
 type RemoveToDoListAT = {
@@ -27,12 +40,12 @@ type EditToDoListFilterAT = {
 }
 
 // REDUCER
-export const ToDoListsReducer = (toDoLists: Array<ToDoListType>, action: ActionType): Array<ToDoListType>=> {
+export const toDoListsReducer = (toDoLists: Array<ToDoListType> = initialState, action: ActionType): Array<ToDoListType> => {
 
-    switch (action.type){
+    switch (action.type) {
 
         case 'REMOVE_TODOLIST':
-            return toDoLists.filter( tl => tl.id !== action.id)
+            return toDoLists.filter(tl => tl.id !== action.id)
 
         case 'ADD_TODOLIST':
             return [...toDoLists, {id: action.id, title: action.title, filter: 'ALL'}]
@@ -50,16 +63,16 @@ export const ToDoListsReducer = (toDoLists: Array<ToDoListType>, action: ActionT
 }
 
 // ACTION CREATORS
-export const RemoveToDoListAC = (id: string):RemoveToDoListAT => {
+export const RemoveToDoListAC = (id: string): RemoveToDoListAT => {
     return {type: 'REMOVE_TODOLIST', id}
 }
-export const AddToDoListAC = (title: string):AddToDOListAT => {
+export const AddToDoListAC = (title: string): AddToDOListAT => {
     let newId = v1()
     return {type: 'ADD_TODOLIST', id: newId, title}
 }
-export const EditToDoListTitleAC = (id: string, title: string):EditToDoListTitleAT => {
+export const EditToDoListTitleAC = (id: string, title: string): EditToDoListTitleAT => {
     return {type: 'EDIT_TODOLIST_TITLE', id, title}
 }
-export const EditToDoListFilterAC = (id: string, filter: FilterValuesType):EditToDoListFilterAT => {
+export const EditToDoListFilterAC = (id: string, filter: FilterValuesType): EditToDoListFilterAT => {
     return {type: 'EDIT_TODOLIST_FILTER', id, filter}
 }

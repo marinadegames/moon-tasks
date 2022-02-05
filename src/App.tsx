@@ -1,74 +1,63 @@
 //imports
-import React, {useState} from 'react';
+import React from 'react';
 import './App.module.css';
 import {ToDoList} from "./Components/ToDoList/ToDoList";
 import {Header} from "./Components/Header/Header";
 import s from './App.module.css'
-import {v1} from "uuid";
+import {useDispatch, useSelector} from "react-redux";
+import {rootReducerType} from "./redux/store";
+import {
+    AddTaskAC,
+    ChangeTaskStatusAC,
+    EditTaskTitleAC,
+    RemoveTaskAC,
+    TaskStateType,
+    TaskType
+} from "./redux/TasksReducer";
+import {
+    AddToDoListAC,
+    EditToDoListFilterAC,
+    EditToDoListTitleAC,
+    RemoveToDoListAC,
+    ToDoListType
+} from "./redux/toDoListsReducer";
 
-//assets
-
-//types
-export type ToDoListType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-export type TaskStateType = {
-    [key: string]: Array<TaskType>
-}
 export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 
 //components
 export function App() {
 
-    //BLL:
+    // dispatch
+    const dispatch = useDispatch()
+    const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
+    const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
 
-    // local state ToDoLists
-    const toDoListId1 = v1()
-    const toDoListId2 = v1()
-    const toDoListId3 = v1()
-
-    const [toDoLists, setToDoLists] = useState<Array<ToDoListType>>([
-        {id: toDoListId1, title: "What's study", filter: 'ALL'},
-        {id: toDoListId2, title: "What to buy", filter: 'ALL'},
-    ])
-
-    const [tasks, setTasks] = useState<TaskStateType>({
-        [toDoListId1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: false},
-            {id: v1(), title: 'JS', isDone: false},
-            {id: v1(), title: 'React', isDone: true},
-            {id: v1(), title: 'Redux', isDone: false},
-            {id: v1(), title: 'English', isDone: true},
-        ],
-        [toDoListId2]: [
-            {id: v1(), title: 'Milk', isDone: false},
-            {id: v1(), title: 'Juice', isDone: false},
-            {id: v1(), title: 'Meat', isDone: true},
-        ],
-    })
-
-// Function
-    // tasks handlers
-    const addTask = (title: string, toDoListId: string) => {
-        const copyTasks = {...tasks}
-        copyTasks[toDoListId] = [{id: v1(), title: title, isDone: false}, ...tasks[toDoListId]]
-        setTasks(copyTasks)
+    // functional
+    function removeTask(id:string, toDoListId: string){
+        dispatch(RemoveTaskAC(id, toDoListId))
     }
-    const removeTask = (id: string, toDoListId: string) => {
-        let copyTasks = {...tasks}
-        copyTasks[toDoListId] = tasks[toDoListId].filter(tl => tl.id !== id)
-        setTasks(copyTasks)
+    function addTask(newTitle:string, toDoListId: string){
+        dispatch(AddTaskAC(newTitle, toDoListId))
     }
-    function changeTaskStatus(taskId: string, todolistID: string, isDone: boolean) {
-        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone} : m)})
+    function changeTaskStatus(taskId: string, toDoListID: string, isDone: boolean){
+        dispatch(ChangeTaskStatusAC(taskId,toDoListID,isDone))
     }
+    function changeToDoListFilter(id: string, filter: FilterValuesType){
+        dispatch(EditToDoListFilterAC(id, filter))
+    }
+    function addToDoList(title: string){
+        dispatch(AddToDoListAC(title))
+    }
+    function removeToDoList(id: string){
+        dispatch(RemoveToDoListAC(id))
+    }
+    function editTaskHandler(ToDoListId: string, tId: string, title: string){
+        dispatch(EditTaskTitleAC(ToDoListId, tId, title))
+    }
+    function editToDoListTitleHandler(id: string, title: string){
+        dispatch(EditToDoListTitleAC(id, title))
+    }
+
     const getTasksForRender = (filter: FilterValuesType, tasks: Array<TaskType>): Array<TaskType> => {
         switch (filter) {
             case "COMPLETED":
@@ -80,26 +69,6 @@ export function App() {
         }
     }
 
-    // ToDoLists handlers
-    const changeToDoListFilter = (filter: FilterValuesType, toDoListId: string) => {
-        setToDoLists(toDoLists.map(tl => tl.id === toDoListId ? {...tl, filter} : tl))
-    }
-    const removeToDoList = (toDoListsId: string) => {
-        setToDoLists(toDoLists.filter(tl => tl.id !== toDoListsId))
-    }
-    const addToDoList = (title: string) => {
-        debugger
-        setToDoLists([...toDoLists, {id: toDoListId3, title, filter: 'ALL'}])
-        setTasks({...tasks, [toDoListId3]: []})
-    }
-
-    // EDITABLE INPUT HANDLER
-    const editTaskHandler = (ToDoListId: string, tId: string, title: string) => {
-        setTasks({...tasks, [ToDoListId]: tasks[ToDoListId].map(t => t.id === tId ? {...t, title} : t)})
-    }
-    const editToDoListTitleHandler = (ToDoListId: string, title: string) => {
-        setToDoLists(toDoLists.map(td => td.id === ToDoListId ? {...td, title} : td))
-    }
 
 
     return (

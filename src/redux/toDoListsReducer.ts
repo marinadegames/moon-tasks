@@ -2,9 +2,8 @@
 import {FilterValuesType, ToDoListType} from "../App";
 import {v1} from "uuid";
 
+
 // types
-
-
 type ActionType = RemoveToDoListAT | AddToDOListAT | EditToDoListTitleAT | EditToDoListFilterAT
 
 type RemoveToDoListAT = {
@@ -27,7 +26,7 @@ type EditToDoListFilterAT = {
     filter: FilterValuesType
 }
 
-// reducer
+// REDUCER
 export const ToDoListsReducer = (toDoLists: Array<ToDoListType>, action: ActionType): Array<ToDoListType>=> {
 
     switch (action.type){
@@ -50,6 +49,7 @@ export const ToDoListsReducer = (toDoLists: Array<ToDoListType>, action: ActionT
     }
 }
 
+// ACTION CREATORS
 export const RemoveToDoListAC = (id: string):RemoveToDoListAT => {
     return {type: 'REMOVE_TODOLIST', id}
 }

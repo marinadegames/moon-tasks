@@ -29,7 +29,10 @@
 * new `header layout` 🤯
 * added `logotype` 🌑
 * fix styles 🎨
-* and more...
+* and more...  
+  
+🦾 `v 0.1.1` - added `reducers` for ToDoLists and Tasks
+
 
 
 

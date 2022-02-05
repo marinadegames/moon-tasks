@@ -20,7 +20,7 @@ export type TaskType = {
     isDone: boolean
 }
 export type TaskStateType = {
-    [key:string]: Array<TaskType>
+    [key: string]: Array<TaskType>
 }
 export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 
@@ -54,8 +54,22 @@ export function App() {
         ],
     })
 
-// functions
-    const getTasksForRender = (filter: FilterValuesType, tasks: Array<TaskType>):Array<TaskType> => {
+// Function
+    // tasks handlers
+    const addTask = (title: string, toDoListId: string) => {
+        const copyTasks = {...tasks}
+        copyTasks[toDoListId] = [{id: v1(), title: title, isDone: false}, ...tasks[toDoListId]]
+        setTasks(copyTasks)
+    }
+    const removeTask = (id: string, toDoListId: string) => {
+        let copyTasks = {...tasks}
+        copyTasks[toDoListId] = tasks[toDoListId].filter(tl => tl.id !== id)
+        setTasks(copyTasks)
+    }
+    function changeTaskStatus(taskId: string, todolistID: string, isDone: boolean) {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone} : m)})
+    }
+    const getTasksForRender = (filter: FilterValuesType, tasks: Array<TaskType>): Array<TaskType> => {
         switch (filter) {
             case "COMPLETED":
                 return tasks.filter(t => t.isDone)
@@ -65,36 +79,28 @@ export function App() {
                 return tasks
         }
     }
-    const removeTask = (id: string, toDoListId: string) => {
-        let copyTasks = {...tasks}
-        copyTasks[toDoListId] = tasks[toDoListId].filter(tl => tl.id !== id)
-        setTasks(copyTasks)
-    }
-    const addTask = (title: string, toDoListId: string) => {
-        const copyTasks = {...tasks}
-        copyTasks[toDoListId] = [{id: v1(), title: title, isDone: false}, ...tasks[toDoListId]]
-        setTasks(copyTasks)
-    }
-    function changeTaskStatus( taskId: string, todolistID: string, isDone: boolean) {
-        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone} : m)})
-    }
+
+    // ToDoLists handlers
     const changeToDoListFilter = (filter: FilterValuesType, toDoListId: string) => {
         setToDoLists(toDoLists.map(tl => tl.id === toDoListId ? {...tl, filter} : tl))
     }
     const removeToDoList = (toDoListsId: string) => {
-        setToDoLists(toDoLists.filter( tl => tl.id !== toDoListsId))
+        setToDoLists(toDoLists.filter(tl => tl.id !== toDoListsId))
     }
-    const addToDoList = (title:string) => {
+    const addToDoList = (title: string) => {
         debugger
         setToDoLists([...toDoLists, {id: toDoListId3, title, filter: 'ALL'}])
         setTasks({...tasks, [toDoListId3]: []})
     }
+
+    // EDITABLE INPUT HANDLER
     const editTaskHandler = (ToDoListId: string, tId: string, title: string) => {
-        setTasks( {...tasks, [ToDoListId]: tasks[ToDoListId].map( t => t.id === tId ? {...t, title} : t)})
+        setTasks({...tasks, [ToDoListId]: tasks[ToDoListId].map(t => t.id === tId ? {...t, title} : t)})
     }
     const editToDoListTitleHandler = (ToDoListId: string, title: string) => {
         setToDoLists(toDoLists.map(td => td.id === ToDoListId ? {...td, title} : td))
     }
+
 
     return (
         <div>

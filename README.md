@@ -32,8 +32,8 @@
 * and more...  
   
 🦾 `v 0.1.1` - added `reducers` for ToDoLists and Tasks  
-📩 `v 0.1.2` - transferring the project to `REDUX` | ⚠️don't work ADD NEW TODOLIST!!!
-
+📩 `v 0.1.2` - transferring the project to `REDUX` | ⚠️don't work ADD NEW TODOLIST!!!  
+🛠️ `v 0.1.3` - fixed `ADD TODOLIST`
 
 
 

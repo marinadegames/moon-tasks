@@ -30,7 +30,7 @@ type ToDoListsPropsType = {
     addTask: (title: string, toDoListId: string) => void
     removeTask: (id: string, toDoListId: string) => void
     changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
-    changeToDoListFilter: (toDoListId: string, filter: FilterValuesType ) => void
+    changeToDoListFilter: (toDoListId: string, filter: FilterValuesType) => void
     removeToDoList: (toDoListsId: string) => void
     editTaskHandler: (ToDoListId: string, tId: string, title: string) => void
     editToDoListTitleHandler: (ToDoListId: string, newTitle: string) => void
@@ -46,7 +46,7 @@ export function ToDoList(props: ToDoListsPropsType) {
 
     const onClickSetAllFilter = () => props.changeToDoListFilter(props.toDoListId, 'ALL')
     const onClickSetActiveFilter = () => props.changeToDoListFilter(props.toDoListId, "ACTIVE")
-    const onClickSetCompletedFilter = () => props.changeToDoListFilter( props.toDoListId, "COMPLETED")
+    const onClickSetCompletedFilter = () => props.changeToDoListFilter(props.toDoListId, "COMPLETED")
     const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             addTask()
@@ -98,7 +98,7 @@ export function ToDoList(props: ToDoListsPropsType) {
                     />
 
                     <EditableLabel title={t.title}
-                                   editTaskHandlerForEditableLabel={ (title) => editTaskHandlerForEditableLabel(t.id, title) }
+                                   editTaskHandlerForEditableLabel={(title) => editTaskHandlerForEditableLabel(t.id, title)}
                                    className={!t.isDone ? s.textTrue : s.textFalse}/>
 
                     <button onClick={removeTask}
@@ -120,7 +120,7 @@ export function ToDoList(props: ToDoListsPropsType) {
                     <rect y="60" width="100" height="20"/>
                 </svg>
                 <EditableLabel title={props.title}
-                               editTaskHandlerForEditableLabel={ (title) => editToDoListHandlerForEditableLabel(props.toDoListId, title) }
+                               editTaskHandlerForEditableLabel={(title) => editToDoListHandlerForEditableLabel(props.toDoListId, title)}
                                className={''}/>
                 <button className={s.deleteTaskBtn}
                         onClick={() => props.removeToDoList(props.toDoListId)}>

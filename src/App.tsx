@@ -33,28 +33,35 @@ export function App() {
     const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
 
     // functional
-    function removeTask(id:string, toDoListId: string){
+    function removeTask(id: string, toDoListId: string) {
         dispatch(RemoveTaskAC(id, toDoListId))
     }
-    function addTask(newTitle:string, toDoListId: string){
+
+    function addTask(newTitle: string, toDoListId: string) {
         dispatch(AddTaskAC(newTitle, toDoListId))
     }
-    function changeTaskStatus(taskId: string, toDoListID: string, isDone: boolean){
-        dispatch(ChangeTaskStatusAC(taskId,toDoListID,isDone))
+
+    function changeTaskStatus(taskId: string, toDoListID: string, isDone: boolean) {
+        dispatch(ChangeTaskStatusAC(taskId, toDoListID, isDone))
     }
-    function changeToDoListFilter(id: string, filter: FilterValuesType){
+
+    function changeToDoListFilter(id: string, filter: FilterValuesType) {
         dispatch(EditToDoListFilterAC(id, filter))
     }
-    function addToDoList(title: string){
+
+    function addToDoList(title: string) {
         dispatch(AddToDoListAC(title))
     }
-    function removeToDoList(id: string){
+
+    function removeToDoList(id: string) {
         dispatch(RemoveToDoListAC(id))
     }
-    function editTaskHandler(ToDoListId: string, tId: string, title: string){
+
+    function editTaskHandler(ToDoListId: string, tId: string, title: string) {
         dispatch(EditTaskTitleAC(ToDoListId, tId, title))
     }
-    function editToDoListTitleHandler(id: string, title: string){
+
+    function editToDoListTitleHandler(id: string, title: string) {
         dispatch(EditToDoListTitleAC(id, title))
     }
 
@@ -69,8 +76,7 @@ export function App() {
         }
     }
 
-
-
+    //return
     return (
         <div>
             <div>

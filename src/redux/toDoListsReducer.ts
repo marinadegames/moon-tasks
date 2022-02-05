@@ -23,7 +23,7 @@ type RemoveToDoListAT = {
     type: 'REMOVE_TODOLIST'
     id: string
 }
-type AddToDOListAT = {
+export type AddToDOListAT = {
     type: 'ADD_TODOLIST'
     id: string
     title: string

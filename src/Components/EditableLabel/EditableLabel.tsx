@@ -1,5 +1,5 @@
 // imports
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, memo, useState} from "react";
 import s from './EditableLabel.module.css'
 
 // types
@@ -10,7 +10,10 @@ type propsType = {
 }
 
 // components
-export const EditableLabel = (props: propsType) => {
+export const EditableLabel = memo((props: propsType) => {
+    console.log('EDITABLE SPAN ' + props.title)
+
+
     const [edit, setEdit] = useState(false)
     const [title, setTitle] = useState(props.title)
     const editOn = () => {
@@ -39,3 +42,4 @@ export const EditableLabel = (props: propsType) => {
                      className={props.className}>{props.title}</label>
     )
 }
+)

@@ -1,5 +1,5 @@
 //imports
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.module.css';
 import {ToDoList} from "./Components/ToDoList/ToDoList";
 import {Header} from "./Components/Header/Header";
@@ -13,7 +13,7 @@ import {
     RemoveTaskAC,
     TaskStateType,
     TaskType
-} from "./redux/TasksReducer";
+} from "./redux/tasksReducer";
 import {
     AddToDoListAC,
     EditToDoListFilterAC,
@@ -25,47 +25,50 @@ import {
 export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 
 //components
-export function App() {
+export const App = () => {
+    console.clear()
+    console.log('===== START RENDER =====')
+    console.log('__APP')
 
-    // dispatch
-    const dispatch = useDispatch()
+    // select state
     const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
     const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
+    const dispatch = useDispatch()
 
     // functional
-    function removeTask(id: string, toDoListId: string) {
+    const removeTask = useCallback((id: string, toDoListId: string) => {
         dispatch(RemoveTaskAC(id, toDoListId))
-    }
+    }, [dispatch])
 
-    function addTask(newTitle: string, toDoListId: string) {
+    const addTask = useCallback((newTitle: string, toDoListId: string) => {
         dispatch(AddTaskAC(newTitle, toDoListId))
-    }
+    }, [dispatch])
 
-    function changeTaskStatus(taskId: string, toDoListID: string, isDone: boolean) {
+    const changeTaskStatus = useCallback((taskId: string, toDoListID: string, isDone: boolean) => {
         dispatch(ChangeTaskStatusAC(taskId, toDoListID, isDone))
-    }
+    }, [dispatch])
 
-    function changeToDoListFilter(id: string, filter: FilterValuesType) {
+    const changeToDoListFilter = useCallback((id: string, filter: FilterValuesType) => {
         dispatch(EditToDoListFilterAC(id, filter))
-    }
+    }, [dispatch])
 
-    function addToDoList(title: string) {
+    const addToDoList = useCallback((title: string) => {
         dispatch(AddToDoListAC(title))
-    }
+    }, [dispatch])
 
-    function removeToDoList(id: string) {
+    const removeToDoList = useCallback((id: string) => {
         dispatch(RemoveToDoListAC(id))
-    }
+    }, [dispatch])
 
-    function editTaskHandler(ToDoListId: string, tId: string, title: string) {
+    const editTaskHandler = useCallback((ToDoListId: string, tId: string, title: string) => {
         dispatch(EditTaskTitleAC(ToDoListId, tId, title))
-    }
+    }, [dispatch])
 
-    function editToDoListTitleHandler(id: string, title: string) {
+    const editToDoListTitleHandler = useCallback((id: string, title: string) => {
         dispatch(EditToDoListTitleAC(id, title))
-    }
+    }, [dispatch])
 
-    const getTasksForRender = (filter: FilterValuesType, tasks: Array<TaskType>): Array<TaskType> => {
+    const getTasksForRender = useCallback((filter: FilterValuesType, tasks: Array<TaskType>): Array<TaskType> => {
         switch (filter) {
             case "COMPLETED":
                 return tasks.filter(t => t.isDone)
@@ -74,7 +77,7 @@ export function App() {
             default:
                 return tasks
         }
-    }
+    }, [])
 
     //return
     return (
@@ -104,6 +107,7 @@ export function App() {
         </div>
     )
 }
+
 
 
 

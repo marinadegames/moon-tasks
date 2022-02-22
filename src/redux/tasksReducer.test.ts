@@ -6,7 +6,7 @@ import {
     RemoveTaskAC,
     tasksReducer,
     TaskStateType
-} from "./TasksReducer";
+} from "./tasksReducer";
 
 
 test('ADD TASK', () => {

@@ -7,8 +7,8 @@ export const toDoListId1 = v1()
 export const toDoListId2 = v1()
 
 const initialState: Array<ToDoListType> = [
-    {id: toDoListId1, title: "What's study", filter: 'ALL'},
-    {id: toDoListId2, title: "What to buy", filter: 'ALL'},
+    // {id: toDoListId1, title: "What's study", filter: 'ALL'},
+    // {id: toDoListId2, title: "What to buy", filter: 'ALL'},
 ]
 
 // types

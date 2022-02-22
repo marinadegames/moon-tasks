@@ -1,6 +1,6 @@
 // imports
 import {v1} from "uuid";
-import {AddToDOListAT, toDoListId1, toDoListId2} from "./toDoListsReducer";
+import {AddToDOListAT} from "./toDoListsReducer";
 
 
 // types
@@ -38,20 +38,7 @@ type EditTaskTitleActionType = {
     title: string
 }
 // Initial State
-const initialStateTasks: TaskStateType = {
-    [toDoListId1]: [
-        {id: v1(), title: 'HTML&CSS', isDone: false},
-        {id: v1(), title: 'JS', isDone: false},
-        {id: v1(), title: 'React', isDone: true},
-        {id: v1(), title: 'Redux', isDone: false},
-        {id: v1(), title: 'English', isDone: true},
-    ],
-    [toDoListId2]: [
-        {id: v1(), title: 'Milk', isDone: false},
-        {id: v1(), title: 'Juice', isDone: false},
-        {id: v1(), title: 'Meat', isDone: true},
-    ],
-}
+const initialStateTasks: TaskStateType = {}
 
 // reducer
 export const tasksReducer = (state: TaskStateType = initialStateTasks, action: ActionType): TaskStateType => {

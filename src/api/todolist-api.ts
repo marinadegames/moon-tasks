@@ -3,9 +3,21 @@ import axios from "axios";
 
 // types
 
+type TodoType = {
+    id: string
+    addedDate: string
+    order: number
+    title: string
+}
+export type BaseResponseType<D = {}> = {
+    resultCode: number
+    messages: Array<string>
+    fieldsErrors: Array<string>
+    data: D
+}
+
+
 // settings
-
-
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
@@ -18,16 +30,16 @@ const instance = axios.create({
 // api
 export const todolistApi = {
     getTodolists() {
-        return instance.get('todo-lists')
+        return instance.get<Array<TodoType>>('todo-lists')
     },
     createTodolist(newTitle: string) {
-        return instance.post('todo-lists', {title: newTitle})
+        return instance.post<BaseResponseType<{ item: TodoType }>>('todo-lists', {title: newTitle})
     },
     updateTodolist(todolistId: string, newTitle: string) {
-        return instance.put(`todo-lists/${todolistId}`, {title: newTitle})
+        return instance.put<BaseResponseType>(`todo-lists/${todolistId}`, {title: newTitle})
     },
     deleteTodolist(todolistId: string) {
-        return instance.delete(`todo-lists/${todolistId}`)
+        return instance.delete<BaseResponseType>(`todo-lists/${todolistId}`)
     }
 
 

@@ -36,6 +36,7 @@
 🛠️ `v 0.1.3` - fixed `ADD TODOLIST`  
 🔃 `v 0.1.4` - added optimization: `useCallback`, `React.memo`, `Composition`  
 🔵 `v 0.1.5` - added `Storybook` | added `axios` | added `.env` file  
+➕ `v 0.1.6` - added `CRUD` from todolists in storybook 
 
 
 

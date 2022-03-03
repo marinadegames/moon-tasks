@@ -16,9 +16,19 @@ const instance = axios.create({
 
 
 // api
-
 export const todolistApi = {
     getTodolists() {
-        instance.get('')
+        return instance.get('todo-lists')
+    },
+    createTodolist(newTitle: string) {
+        return instance.post('todo-lists', {title: newTitle})
+    },
+    updateTodolist(todolistId: string, newTitle: string) {
+        return instance.put(`todo-lists/${todolistId}`, {title: newTitle})
+    },
+    deleteTodolist(todolistId: string) {
+        return instance.delete(`todo-lists/${todolistId}`)
     }
+
+
 }

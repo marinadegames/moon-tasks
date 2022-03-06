@@ -5,22 +5,19 @@ import {AddTaskForm} from "./AddTaskForm/AddTaskForm";
 import {FilterValuesType} from "../../App";
 import {EditableLabel} from "../EditableLabel/EditableLabel";
 import {Task} from "../Task/Task";
+import { TaskType } from "../../api/todolist-api";
 
 
 //types
-type TypeTask = {
-    id: string
-    title: string
-    isDone: boolean
-}
+
 type ToDoListsPropsType = {
     toDoListId: string
     title: string
     filter: FilterValuesType
-    tasks: Array<TypeTask>
+    tasks: Array<TaskType>
     addTask: (title: string, toDoListId: string) => void
     removeTask: (id: string, toDoListId: string) => void
-    changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
+    changeTaskStatus: (todolistID: string, taskId: string, status: number) => void
     changeToDoListFilter: (toDoListId: string, filter: FilterValuesType) => void
     removeToDoList: (toDoListsId: string) => void
     editTaskHandler: (ToDoListId: string, tId: string, title: string) => void
@@ -30,8 +27,6 @@ type ToDoListsPropsType = {
 
 //components
 export const ToDoList = memo((props: ToDoListsPropsType) => {
-        console.log('__ToDoList__ ' + props.toDoListId)
-
         // local state
         let [error, setError] = useState<string | null>(null)
         const [taskTitle, setTaskTitle] = useState<string>("")
@@ -68,7 +63,6 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
 
         return (
             <div className={s.task}>
-
                 <div className={s.titleBoxTasks}>
                     <svg viewBox="0 0 100 80" width="20" height="20">
                         <rect width="100" height="20"/>
@@ -112,8 +106,9 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
                         {props.tasks.map(t => {
                             return (
                                 <Task id={t.id}
+                                      key={t.id}
                                       toDoListId={props.toDoListId}
-                                      isDone={t.isDone}
+                                      status={t.status}
                                       title={t.title}
                                       removeTask={props.removeTask}
                                       editTaskHandler={props.editTaskHandler}

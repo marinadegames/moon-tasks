@@ -1,15 +1,10 @@
 // imports
 import {FilterValuesType} from "../App";
 import {v1} from "uuid";
+import {TodolistType} from "../api/todolist-api";
 
 // initial state
-export const toDoListId1 = v1()
-export const toDoListId2 = v1()
-
-const initialState: Array<ToDoListType> = [
-    // {id: toDoListId1, title: "What's study", filter: 'ALL'},
-    // {id: toDoListId2, title: "What to buy", filter: 'ALL'},
-]
+const initialState: Array<TodolistDomainType> = []
 
 // types
 export type ToDoListType = {
@@ -38,9 +33,13 @@ type EditToDoListFilterAT = {
     id: string
     filter: FilterValuesType
 }
+export type TodolistDomainType = TodolistType & {
+    filter: FilterValuesType
+}
+
 
 // REDUCER
-export const toDoListsReducer = (toDoLists: Array<ToDoListType> = initialState, action: ActionType): Array<ToDoListType> => {
+export const toDoListsReducer = (toDoLists = initialState, action: ActionType): Array<TodolistDomainType> => {
 
     switch (action.type) {
 
@@ -48,7 +47,15 @@ export const toDoListsReducer = (toDoLists: Array<ToDoListType> = initialState, 
             return toDoLists.filter(tl => tl.id !== action.id)
 
         case 'ADD_TODOLIST':
-            return [...toDoLists, {id: action.id, title: action.title, filter: 'ALL'}]
+            return [...toDoLists,
+                {
+                    id: action.id,
+                    title: action.title,
+                    filter: 'ALL',
+                    order: 0,
+                    addedDate: '',
+                }
+            ]
 
         case 'EDIT_TODOLIST_TITLE':
             return toDoLists.map(td => td.id === action.id ? {...td, title: action.title} : td)

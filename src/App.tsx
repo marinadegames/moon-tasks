@@ -21,14 +21,12 @@ import {
     RemoveToDoListAC,
     ToDoListType
 } from "./redux/toDoListsReducer";
+import {TaskStatuses} from "./api/todolist-api";
 
 export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 
 //components
 export const App = () => {
-    console.clear()
-    console.log('===== START RENDER =====')
-    console.log('__APP')
 
     // select state
     const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
@@ -44,8 +42,8 @@ export const App = () => {
         dispatch(AddTaskAC(newTitle, toDoListId))
     }, [dispatch])
 
-    const changeTaskStatus = useCallback((taskId: string, toDoListID: string, isDone: boolean) => {
-        dispatch(ChangeTaskStatusAC(taskId, toDoListID, isDone))
+    const changeTaskStatus = useCallback((taskId: string, toDoListID: string, status: number) => {
+        dispatch(ChangeTaskStatusAC(taskId, toDoListID, status))
     }, [dispatch])
 
     const changeToDoListFilter = useCallback((id: string, filter: FilterValuesType) => {
@@ -71,9 +69,9 @@ export const App = () => {
     const getTasksForRender = useCallback((filter: FilterValuesType, tasks: Array<TaskType>): Array<TaskType> => {
         switch (filter) {
             case "COMPLETED":
-                return tasks.filter(t => t.isDone)
+                return tasks.filter(t => t.status === TaskStatuses.Completed)
             case "ACTIVE":
-                return tasks.filter(t => !t.isDone)
+                return tasks.filter(t => t.status === TaskStatuses.New)
             default:
                 return tasks
         }

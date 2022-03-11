@@ -117,3 +117,5 @@ export const ChangeTaskStatusAC = (taskId: string, toDoListID: string, status: n
 export const EditTaskTitleAC = (ToDoListId: string, tId: string, title: string): EditTaskTitleActionType => {
     return {type: 'EDIT_TASK_TITLE', ToDoListId, tId, title} as const
 }
+
+// thunks

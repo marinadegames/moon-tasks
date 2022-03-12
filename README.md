@@ -32,13 +32,14 @@
 * and more...  
   
 🦾 `v 0.1.1` - added `reducers` for ToDoLists and Tasks  
-📩 `v 0.1.2` - transferring the project to `REDUX` | ⚠️don't work ADD NEW TODOLIST!!!  
+📩 `v 0.1.2` - transferring the project to `REDUX`  
 🛠️ `v 0.1.3` - fixed `ADD TODOLIST`  
 🔃 `v 0.1.4` - added optimization: `useCallback`, `React.memo`, `Composition`  
 🔵 `v 0.1.5` - added `Storybook` | added `axios` | added `.env` file  
-➕ `v 0.1.6` - added `CRUD` from todolists in `storybook` | added types from `API-requests`  
-🆔 `v 0.1.7` - transition to type from API    
+➕ `v 0.1.6` - added `CRUD` in `storybook` | added types from `API-requests`  
+🆔 `v 0.1.7` - `transition` to type from API    
 🎿 `v 0.1.8` - added `🎿redux-thunk🎿`  
+⛷️ `v 0.1.9` - added `CRUD-operations` for tasks and todolists from `API`
 
 
 

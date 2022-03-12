@@ -29,15 +29,19 @@ type ToDoListsPropsType = {
 
 //components
 export const ToDoList = memo((props: ToDoListsPropsType) => {
+
+        console.log('=== TODOLIST ===')
+
         // local state
         let [error, setError] = useState<string | null>(null)
         const [taskTitle, setTaskTitle] = useState<string>("")
 
         // get tasks
         const dispatch = useDispatch()
+
         useEffect(() => {
             dispatch(fetchTasksTC(props.toDoListId))
-        }, [props.toDoListId])
+        }, [dispatch, props.toDoListId])
 
         // functions
         const onClickSetAllFilter = () => props.changeToDoListFilter(props.toDoListId, 'ALL')

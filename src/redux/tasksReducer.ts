@@ -1,7 +1,7 @@
 // imports
 import {v1} from "uuid";
 import {AddToDOListAT, SetTodolistsAT} from "./toDoListsReducer";
-import {TaskPriorities, TaskStatuses, todolistApi, UpdateTaskModelType} from "../api/todolist-api";
+import {TaskPriorities, TaskStatuses, todolistApi} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {rootReducerType} from "./store";
 

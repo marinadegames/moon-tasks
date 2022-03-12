@@ -11,7 +11,7 @@ type propsType = {
 
 // components
 export const EditableLabel = memo((props: propsType) => {
-
+    console.log('=== EDITABLE SPAN ===')
         const [edit, setEdit] = useState(false)
         const [title, setTitle] = useState(props.title)
         const editOn = () => {
@@ -26,7 +26,6 @@ export const EditableLabel = memo((props: propsType) => {
         }
 
         return (
-
             edit
                 ? <div className={s.editableInputFromTask}>
                     <input onBlur={editOff}

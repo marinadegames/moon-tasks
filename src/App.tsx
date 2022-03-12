@@ -12,7 +12,7 @@ import {
     EditTaskTitleAC,
     RemoveTaskAC,
     TaskStateType,
-    TaskType
+    TaskType, updateTaskStatusTC
 } from "./redux/tasksReducer";
 import {
     addTodolistTC,
@@ -50,7 +50,7 @@ export const App = () => {
     }, [dispatch])
 
     const changeTaskStatus = useCallback((taskId: string, toDoListID: string, status: number) => {
-        dispatch(ChangeTaskStatusAC(taskId, toDoListID, status))
+        dispatch(updateTaskStatusTC(taskId, toDoListID, status))
     }, [dispatch])
 
     const changeToDoListFilter = useCallback((id: string, filter: FilterValuesType) => {

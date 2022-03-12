@@ -7,8 +7,8 @@ import s from './App.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./redux/store";
 import {
-    AddTaskAC,
-    ChangeTaskStatusAC,
+    AddTaskAC, addTasksTC,
+    ChangeTaskStatusAC, deleteTasksTC,
     EditTaskTitleAC,
     RemoveTaskAC,
     TaskStateType,
@@ -42,11 +42,11 @@ export const App = () => {
 
     // TASKS
     const removeTask = useCallback((id: string, toDoListId: string) => {
-        dispatch(RemoveTaskAC(id, toDoListId))
+        dispatch(deleteTasksTC(toDoListId, id))
     }, [dispatch])
 
     const addTask = useCallback((newTitle: string, toDoListId: string) => {
-        dispatch(AddTaskAC(newTitle, toDoListId))
+        dispatch(addTasksTC(toDoListId, newTitle))
     }, [dispatch])
 
     const changeTaskStatus = useCallback((taskId: string, toDoListID: string, status: number) => {

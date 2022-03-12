@@ -134,7 +134,7 @@ export const EditTaskTitleAC = (ToDoListId: string, tId: string, title: string):
     return {type: 'EDIT_TASK_TITLE', ToDoListId, tId, title} as const
 }
 export const SetTasksAC = (todolistId: string, tasks: Array<TaskType>): SetTasksActionType => {
-    return {type: "SET_TASKS", todolistId, tasks}
+    return {type: "SET_TASKS", todolistId, tasks} as const
 }
 
 // thunks
@@ -148,6 +148,22 @@ export const fetchTasksTC = (todolistId: string) => {
                     const action = SetTasksAC(todolistId, tasks)
                     dispatch(action)
                 }
+            })
+    }
+}
+export const addTasksTC = (todolistId: string, newTitle: string) => {
+    return (dispatch: Dispatch) => {
+        todolistApi.createTask(todolistId, newTitle)
+            .then(resp => {
+                dispatch(AddTaskAC(newTitle, todolistId))
+            })
+    }
+}
+export const deleteTasksTC = (todolistId: string, taskId: string) => {
+    return (dispatch: Dispatch) => {
+        todolistApi.deleteTask(todolistId, taskId)
+            .then(resp => {
+                dispatch(RemoveTaskAC(taskId, todolistId))
             })
     }
 }

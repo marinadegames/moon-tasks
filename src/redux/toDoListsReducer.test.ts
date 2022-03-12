@@ -8,6 +8,7 @@ import {
     RemoveToDoListAC, TodolistDomainType,
     toDoListsReducer, ToDoListType
 } from "./toDoListsReducer";
+import {TodolistType} from "../api/todolist-api";
 
 
 // start state
@@ -33,13 +34,22 @@ test('REMOVE ToDo List', () => {
     expect(endState[0].title).toBe(startState[1].title)
     expect(endState.length).toBe(1)
 })
-test('ADD ToDo List', () => {
-    const newTitleToDoList = 'What to drink'
-    const action = AddToDoListAC(newTitleToDoList)
-    const endState = toDoListsReducer(startState, action)
-    expect(endState[2].title).toBe(newTitleToDoList)
+test('ADDED TODOLIST', () => {
+
+
+    let newTodolistTitle = "New Todolist";
+    let newTodolist: TodolistType = {
+        id: v1(),
+        title: newTodolistTitle,
+        addedDate: '',
+        order: 0
+    }
+
+    const endState = toDoListsReducer(startState, AddToDoListAC(newTodolist))
+
     expect(endState.length).toBe(3)
-})
+    expect(endState[0].title).toBe(newTodolistTitle);
+});
 test('EDIT TITLE ToDo List', () => {
     const newTitleToDoList = 'What to drink'
     const action = EditToDoListTitleAC(toDoListId1, newTitleToDoList)

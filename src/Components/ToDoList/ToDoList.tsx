@@ -1,11 +1,13 @@
 //imports
-import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, memo, useEffect, useState} from "react";
 import s from './ToDoList.module.css'
 import {AddTaskForm} from "./AddTaskForm/AddTaskForm";
 import {FilterValuesType} from "../../App";
 import {EditableLabel} from "../EditableLabel/EditableLabel";
 import {Task} from "../Task/Task";
-import { TaskType } from "../../api/todolist-api";
+import {TaskType} from "../../api/todolist-api";
+import {useDispatch} from "react-redux";
+import {fetchTasksTC} from "../../redux/tasksReducer";
 
 
 //types
@@ -30,6 +32,12 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
         // local state
         let [error, setError] = useState<string | null>(null)
         const [taskTitle, setTaskTitle] = useState<string>("")
+
+        // get tasks
+        const dispatch = useDispatch()
+        useEffect(() => {
+            dispatch(fetchTasksTC(props.toDoListId))
+        }, [props.toDoListId])
 
         // functions
         const onClickSetAllFilter = () => props.changeToDoListFilter(props.toDoListId, 'ALL')

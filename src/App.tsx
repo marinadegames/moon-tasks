@@ -1,5 +1,5 @@
 //imports
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.module.css';
 import {ToDoList} from "./Components/ToDoList/ToDoList";
 import {Header} from "./Components/Header/Header";
@@ -15,9 +15,8 @@ import {
     TaskType
 } from "./redux/tasksReducer";
 import {
-    AddToDoListAC,
     EditToDoListFilterAC,
-    EditToDoListTitleAC,
+    EditToDoListTitleAC, fetchTodolistsTC,
     RemoveToDoListAC,
     ToDoListType
 } from "./redux/toDoListsReducer";
@@ -28,10 +27,16 @@ export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 //components
 export const App = () => {
 
+
+
     // select state
     const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
     const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTodolistsTC())
+    }, [dispatch])
 
     // functional
     const removeTask = useCallback((id: string, toDoListId: string) => {
@@ -51,7 +56,7 @@ export const App = () => {
     }, [dispatch])
 
     const addToDoList = useCallback((title: string) => {
-        dispatch(AddToDoListAC(title))
+        // dispatch(AddToDoListAC(title))
     }, [dispatch])
 
     const removeToDoList = useCallback((id: string) => {

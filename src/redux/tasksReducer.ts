@@ -1,7 +1,8 @@
 // imports
 import {v1} from "uuid";
-import {AddToDOListAT} from "./toDoListsReducer";
-import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
+import {AddToDOListAT, SetTodolistsAT} from "./toDoListsReducer";
+import {TaskPriorities, TaskStatuses, todolistApi} from "../api/todolist-api";
+import {Dispatch} from "redux";
 
 
 // types
@@ -28,6 +29,8 @@ type ActionType =
     | ChangeTaskStatusActionType
     | EditTaskTitleActionType
     | AddToDOListAT
+    | SetTodolistsAT
+    | SetTasksActionType
 
 type AddTaskActionType = {
     type: 'ADD_TASK'
@@ -51,12 +54,21 @@ type EditTaskTitleActionType = {
     tId: string
     title: string
 }
+export type SetTasksActionType = {
+    type: 'SET_TASKS'
+    tasks: Array<TaskType>
+    todolistId: string
+}
 // Initial State
 const initialStateTasks: TaskStateType = {}
 
 // reducer
 export const tasksReducer = (state: TaskStateType = initialStateTasks, action: ActionType): TaskStateType => {
     switch (action.type) {
+        case "SET_TODOLISTS":
+            const copyState = {...state}
+            action.todolists.forEach(td => copyState[td.id] = [])
+            return copyState
         case "ADD_TASK":
             const copyTasksADD = {...state}
             copyTasksADD[action.toDoListId] = [{
@@ -76,7 +88,7 @@ export const tasksReducer = (state: TaskStateType = initialStateTasks, action: A
             return copyTasksADD
         case 'ADD_TODOLIST':
             const copyTasksADDTODO = {...state}
-            copyTasksADDTODO[action.id] = []
+            copyTasksADDTODO[action.todolist.id] = []
             return copyTasksADDTODO
         case "REMOVE_TASK":
             const copyTasksREMOVE = {...state}
@@ -98,6 +110,10 @@ export const tasksReducer = (state: TaskStateType = initialStateTasks, action: A
                     title: action.title
                 } : t)
             }
+        case "SET_TASKS":
+            const copyState2 = {...state}
+            copyState2[action.todolistId] = action.tasks
+            return copyState2
         default:
             return state
     }
@@ -117,5 +133,21 @@ export const ChangeTaskStatusAC = (taskId: string, toDoListID: string, status: n
 export const EditTaskTitleAC = (ToDoListId: string, tId: string, title: string): EditTaskTitleActionType => {
     return {type: 'EDIT_TASK_TITLE', ToDoListId, tId, title} as const
 }
+export const SetTasksAC = (todolistId: string, tasks: Array<TaskType>): SetTasksActionType => {
+    return {type: "SET_TASKS", todolistId, tasks}
+}
 
 // thunks
+
+export const fetchTasksTC = (todolistId: string) => {
+    return (dispatch: Dispatch) => {
+        todolistApi.getTasks(todolistId)
+            .then(resp => {
+                if (resp.data.items.length !== 0) {
+                    const tasks = resp.data.items
+                    const action = SetTasksAC(todolistId, tasks)
+                    dispatch(action)
+                }
+            })
+    }
+}

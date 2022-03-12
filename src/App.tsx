@@ -7,18 +7,18 @@ import s from './App.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./redux/store";
 import {
-    AddTaskAC, addTasksTC,
-    ChangeTaskStatusAC, deleteTasksTC,
+    addTasksTC, changeTaskTitleTC,
+    deleteTaskTC,
     EditTaskTitleAC,
-    RemoveTaskAC,
     TaskStateType,
     TaskType, updateTaskStatusTC
 } from "./redux/tasksReducer";
 import {
-    addTodolistTC,
+    addTodolistTC, changeTodolistTitleTC,
     EditToDoListFilterAC,
-    EditToDoListTitleAC, fetchTodolistsTC,
-    RemoveToDoListAC, removeTodolistTC,
+    EditToDoListTitleAC,
+    fetchTodolistsTC,
+    removeTodolistTC,
     ToDoListType
 } from "./redux/toDoListsReducer";
 import {TaskStatuses} from "./api/todolist-api";
@@ -27,8 +27,6 @@ export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 
 //components
 export const App = () => {
-
-
     // select state
     const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
     const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
@@ -39,10 +37,8 @@ export const App = () => {
     }, [dispatch])
 
     // functional
-
-    // TASKS
     const removeTask = useCallback((id: string, toDoListId: string) => {
-        dispatch(deleteTasksTC(toDoListId, id))
+        dispatch(deleteTaskTC(toDoListId, id))
     }, [dispatch])
 
     const addTask = useCallback((newTitle: string, toDoListId: string) => {
@@ -57,23 +53,20 @@ export const App = () => {
         dispatch(EditToDoListFilterAC(id, filter))
     }, [dispatch])
 
-
-    // TODOLISTS
     const addToDoList = useCallback((title: string) => {
         dispatch(addTodolistTC(title))
     }, [dispatch])
 
     const removeToDoList = useCallback((id: string) => {
-        // dispatch(RemoveToDoListAC(id))
         dispatch(removeTodolistTC(id))
     }, [dispatch])
 
     const editTaskHandler = useCallback((ToDoListId: string, tId: string, title: string) => {
-        dispatch(EditTaskTitleAC(ToDoListId, tId, title))
+        dispatch(changeTaskTitleTC(ToDoListId, tId, title))
     }, [dispatch])
 
     const editToDoListTitleHandler = useCallback((id: string, title: string) => {
-        dispatch(EditToDoListTitleAC(id, title))
+        dispatch(changeTodolistTitleTC(id, title))
     }, [dispatch])
 
     const getTasksForRender = useCallback((filter: FilterValuesType, tasks: Array<TaskType>): Array<TaskType> => {

@@ -76,7 +76,7 @@ export const EditToDoListTitleAC = (id: string, title: string): EditToDoListTitl
 export const EditToDoListFilterAC = (id: string, filter: FilterValuesType): EditToDoListFilterAT => {
     return {type: 'EDIT_TODOLIST_FILTER', id, filter}
 }
-export const SetTodolistsAC = (todolists: Array<TodolistType>):SetTodolistsAT => {
+export const SetTodolistsAC = (todolists: Array<TodolistType>): SetTodolistsAT => {
     return {type: "SET_TODOLISTS", todolists}
 }
 
@@ -105,4 +105,11 @@ export const removeTodolistTC = (todolistId: string) => {
             })
     }
 }
-
+export const changeTodolistTitleTC = (todolistId: string, newTitle: string) => {
+    return (dispatch: Dispatch) => {
+        todolistApi.updateTodolist(todolistId, newTitle)
+            .then(resp => {
+                dispatch(EditToDoListTitleAC(todolistId, newTitle))
+            })
+    }
+}

@@ -15,9 +15,10 @@ import {
     TaskType
 } from "./redux/tasksReducer";
 import {
+    addTodolistTC,
     EditToDoListFilterAC,
     EditToDoListTitleAC, fetchTodolistsTC,
-    RemoveToDoListAC,
+    RemoveToDoListAC, removeTodolistTC,
     ToDoListType
 } from "./redux/toDoListsReducer";
 import {TaskStatuses} from "./api/todolist-api";
@@ -26,7 +27,6 @@ export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 
 //components
 export const App = () => {
-
 
 
     // select state
@@ -39,6 +39,8 @@ export const App = () => {
     }, [dispatch])
 
     // functional
+
+    // TASKS
     const removeTask = useCallback((id: string, toDoListId: string) => {
         dispatch(RemoveTaskAC(id, toDoListId))
     }, [dispatch])
@@ -55,12 +57,15 @@ export const App = () => {
         dispatch(EditToDoListFilterAC(id, filter))
     }, [dispatch])
 
+
+    // TODOLISTS
     const addToDoList = useCallback((title: string) => {
-        // dispatch(AddToDoListAC(title))
+        dispatch(addTodolistTC(title))
     }, [dispatch])
 
     const removeToDoList = useCallback((id: string) => {
-        dispatch(RemoveToDoListAC(id))
+        // dispatch(RemoveToDoListAC(id))
+        dispatch(removeTodolistTC(id))
     }, [dispatch])
 
     const editTaskHandler = useCallback((ToDoListId: string, tId: string, title: string) => {

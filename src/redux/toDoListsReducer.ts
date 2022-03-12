@@ -89,4 +89,20 @@ export const fetchTodolistsTC = () => {
             })
     }
 }
+export const addTodolistTC = (newTitle: string) => {
+    return (dispatch: Dispatch) => {
+        todolistApi.createTodolist(newTitle)
+            .then(resp => {
+                dispatch(AddToDoListAC(resp.data.data.item))
+            })
+    }
+}
+export const removeTodolistTC = (todolistId: string) => {
+    return (dispatch: Dispatch) => {
+        todolistApi.deleteTodolist(todolistId)
+            .then(resp => {
+                dispatch(RemoveToDoListAC(todolistId))
+            })
+    }
+}
 

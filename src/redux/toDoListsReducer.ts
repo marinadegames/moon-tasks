@@ -95,17 +95,17 @@ export const fetchTodolistsTC = (): AppThunk => async (dispatch: any) => {
     } catch (error) {
         console.warn(error)
     }
-    dispatch(setStatusAppAC('idle'))
 }
 export const addTodolistTC = (newTitle: string): AppThunk => async (dispatch: any) => {
     try {
         dispatch(setStatusAppAC('loading'))
         const resp = await todolistApi.createTodolist(newTitle)
         dispatch(AddToDoListAC(resp.data.data.item))
-        dispatch(setStatusAppAC('idle'))
+
     } catch (e) {
         console.warn(e)
     }
+    dispatch(setStatusAppAC('idle'))
 }
 export const removeTodolistTC = (todolistId: string): AppThunk => async (dispatch: any) => {
     try {

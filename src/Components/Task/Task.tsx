@@ -30,7 +30,7 @@ type PropsType = {
 // component
 
 export const Task = memo((props: PropsType) => {
-    console.log('=== Task ===')
+
         const removeTask = () => props.removeTask(props.id, props.toDoListId)
         const onChangeCheckHandler = (e: ChangeEvent<HTMLInputElement>) => {
             let newValueChecked = e.currentTarget.checked

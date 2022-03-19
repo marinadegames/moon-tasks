@@ -1,0 +1,42 @@
+.loadContainer_HIDDEN {
+    display: none;
+}
+
+.loadContainer {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: 0 0 15px 0;
+}
+
+.loadingPanelBOX {
+    position: absolute;
+
+    animation: infinite;
+    /*animation-duration: 1.3s;*/
+    animation-delay: 0s;
+    animation-name: loadingProgress;
+}
+
+.loadingPanel {
+    border: 2px solid var(--generalColor);
+    height: 12px;
+    border-radius: var(--borderRadiusCustom);
+    position: inherit;
+    width: 100%;
+    background-color: var(--generalColor);
+}
+
+
+@keyframes loadingProgress {
+    0% {
+        width: 10%;
+    }
+    50% {
+        width: 100%;
+    }
+    100% {
+        width: 10%;
+    }
+}
+

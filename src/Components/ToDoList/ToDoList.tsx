@@ -30,8 +30,6 @@ type ToDoListsPropsType = {
 //components
 export const ToDoList = memo((props: ToDoListsPropsType) => {
 
-        console.log('=== TODOLIST ===')
-
         // local state
         let [error, setError] = useState<string | null>(null)
         const [taskTitle, setTaskTitle] = useState<string>("")

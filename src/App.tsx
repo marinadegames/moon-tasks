@@ -25,8 +25,6 @@ export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 
 //components
 export const App = memo(() => {
-        console.clear()
-        console.log('=== APP ===')
 
         // select state
         const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)

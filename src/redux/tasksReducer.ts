@@ -3,6 +3,7 @@ import {v1} from "uuid";
 import {AddToDOListAT, SetTodolistsAT} from "./toDoListsReducer";
 import {TaskPriorities, TaskStatuses, todolistApi} from "../api/todolist-api";
 import {AppThunk, rootReducerType} from "./store";
+import {setStatusAppAC} from "./appReducer";
 
 // types
 export type TaskType = {
@@ -138,45 +139,49 @@ export const SetTasksAC = (todolistId: string, tasks: Array<TaskType>): SetTasks
 
 // thunks
 
-export const fetchTasksTC = (todolistId: string): AppThunk => {
-    return (dispatch) => {
-        todolistApi.getTasks(todolistId)
-            .then(resp => {
-                if (resp.data.items.length !== 0) {
-                    const tasks = resp.data.items
-                    const action = SetTasksAC(todolistId, tasks)
-                    dispatch(action)
-                }
-            })
-    }
-}
-
-
-export const addTasksTC = (todolistId: string, newTitle: string): AppThunk => async dispatch => {
+export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch: any) => {
     try {
-        const resp = todolistApi.createTask(todolistId, newTitle)
-        dispatch(AddTaskAC(newTitle, todolistId))
-        console.log(resp)
+        dispatch(setStatusAppAC('loading'))
+        const resp = await todolistApi.getTasks(todolistId)
+        if (resp.data.items.length !== 0) {
+            dispatch(SetTasksAC(todolistId, resp.data.items))
+            dispatch(setStatusAppAC('idle'))
+        }
     } catch (e) {
         console.warn(e)
     }
 }
 
-export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => async dispatch => {
+
+export const addTasksTC = (todolistId: string, newTitle: string): AppThunk => async (dispatch: any) => {
     try {
+        dispatch(setStatusAppAC('loading'))
+        const resp = todolistApi.createTask(todolistId, newTitle)
+        dispatch(AddTaskAC(newTitle, todolistId))
+        console.log(resp)
+        dispatch(setStatusAppAC('idle'))
+    } catch (e) {
+        console.warn(e)
+    }
+}
+
+export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => async (dispatch: any) => {
+    try {
+        dispatch(setStatusAppAC('loading'))
         const resp = await todolistApi.deleteTask(todolistId, taskId)
         dispatch(RemoveTaskAC(taskId, todolistId))
         console.log(resp)
+        dispatch(setStatusAppAC('idle'))
     } catch (e) {
         console.warn(e)
     }
 }
 
 export const updateTaskStatusTC = (taskId: string, todolistId: string, status: TaskStatuses): AppThunk => async (
-    dispatch,
+    dispatch: any,
     getState: () => rootReducerType
 ) => {
-
+    dispatch(setStatusAppAC('loading'))
     const allTasksFromState = getState().tasks;
     const tasksForCurrentTodolist = allTasksFromState[todolistId]
     const task = tasksForCurrentTodolist.find(t => {
@@ -195,6 +200,7 @@ export const updateTaskStatusTC = (taskId: string, todolistId: string, status: T
             })
             dispatch(ChangeTaskStatusAC(taskId, todolistId, status))
             console.log(resp)
+            dispatch(setStatusAppAC('idle'))
         } catch (e) {
             console.warn(e)
         }
@@ -202,9 +208,10 @@ export const updateTaskStatusTC = (taskId: string, todolistId: string, status: T
 }
 
 export const changeTaskTitleTC = (todolistId: string, taskId: string, newTitle: string): AppThunk => async (
-    dispatch,
+    dispatch: any,
     getState: () => rootReducerType
 ) => {
+    dispatch(setStatusAppAC('loading'))
     const allTasksFromState = getState().tasks;
     const tasksForCurrentTodolist = allTasksFromState[todolistId]
     const task = tasksForCurrentTodolist.find(t => {
@@ -223,6 +230,7 @@ export const changeTaskTitleTC = (todolistId: string, taskId: string, newTitle: 
             })
             dispatch(EditTaskTitleAC(todolistId, taskId, newTitle))
             console.log(resp)
+            dispatch(setStatusAppAC('idle'))
         } catch (e) {
             console.warn(e)
         }

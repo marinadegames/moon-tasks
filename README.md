@@ -40,7 +40,8 @@
 🆔 `v 0.1.7` - `transition` to type from API    
 🎿 `v 0.1.8` - added `🎿redux-thunk🎿`  
 ⛷️ `v 0.1.9` - added `CRUD-operations` for tasks and todolists from `API`  
-📚 `v 0.2.0` - added `loading animation`
+📚 `v 0.2.0` - added `loading animation`  
+😁 `v 0.2.1` - added `universal component`
 
 
 

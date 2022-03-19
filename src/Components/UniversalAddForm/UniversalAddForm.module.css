@@ -1,0 +1,79 @@
+.inputAdd {
+    display: flex;
+    justify-content: flex-start;
+    /*margin: 1rem;*/
+}
+
+.inputAdd input {
+    outline: none;
+    color: var(--textColor);
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    border: 2px solid var(--generalColor);
+    border-radius: var(--borderRadiusCustom) 0 0 var(--borderRadiusCustom);
+}
+
+.inputAdd input::placeholder {
+    color: var(--textColor);
+}
+
+.inputAdd button {
+    border-top: 2px solid var(--generalColor);
+    border-right: 2px solid var(--generalColor);
+    border-bottom: 2px solid var(--generalColor);
+    border-left: none;
+    border-radius: 0 var(--borderRadiusCustom) var(--borderRadiusCustom) 0;
+    /*width: 100%;*/
+    background-color: white;
+    color: var(--generalColor);
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: ease-in 0.2s;
+}
+
+.inputAdd button:hover {
+    background-color: var(--generalColor);
+    color: white;
+}
+
+.inputAdd_error {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.inputAdd_error input {
+    outline: none;
+    color: var(--textColor);
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    border: 2px solid red;
+    background-color: rgba(255, 185, 192, 0.33);
+    border-radius: var(--borderRadiusCustom) 0 0 var(--borderRadiusCustom);
+}
+
+.inputAdd_error button {
+    border-top: 2px solid red;
+    border-right: 2px solid red;
+    border-bottom: 2px solid red;
+    border-left: none;
+    border-radius: 0 var(--borderRadiusCustom) var(--borderRadiusCustom) 0;
+    background-color: rgba(255, 185, 192, 0.33);
+    color: red;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: ease-in 0.2s;
+}
+
+.inputAdd_error button:hover {
+    background-color: red;
+    color: white;
+    content: 'x';
+}
+
+.errorMessage {
+    color: var(--red);
+    position: absolute;
+    font-size: 15px;
+    background-color: white;
+}
+

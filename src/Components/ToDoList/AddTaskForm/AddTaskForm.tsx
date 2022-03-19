@@ -1,6 +1,7 @@
 // imports
 import React, {ChangeEvent, KeyboardEvent} from "react";
 import s from './AddTaskForm.module.css'
+import {UniversalAddForm} from "../../UniversalAddForm/UniversalAddForm";
 
 // assets
 
@@ -21,18 +22,19 @@ export const AddTaskForm = function (props: PropsAddTaskForm) {
 
     return (
         <div>
-            <div className={s.formAddTask}>
-                <input className={props.error ? s.error : ''}
-                       value={props.taskTitle}
-                       placeholder={'add task...'}
-                       onKeyPress={props.onKeyPressHandler}
-                       onChange={props.onChangeHandler}/>
-                <button onClick={props.addTask}
-                        className={props.error ? s.errorBtn : ''}>
-                    +
-                </button>
+            <UniversalAddForm callback={props.addTask}/>
+            {/*<div className={s.formAddTask}>*/}
+            {/*    <input className={props.error ? s.error : ''}*/}
+            {/*           value={props.taskTitle}*/}
+            {/*           placeholder={'add task...'}*/}
+            {/*           onKeyPress={props.onKeyPressHandler}*/}
+            {/*           onChange={props.onChangeHandler}/>*/}
+            {/*    <button onClick={props.addTask}*/}
+            {/*            className={props.error ? s.errorBtn : ''}>*/}
+            {/*        +*/}
+            {/*    </button>*/}
 
-            </div>
+            {/*</div>*/}
             {props.error && <small className={s.errorMessage}>Field if required!</small>}
         </div>
     )

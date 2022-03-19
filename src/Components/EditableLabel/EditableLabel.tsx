@@ -14,6 +14,7 @@ export const EditableLabel = memo((props: propsType) => {
 
         const [edit, setEdit] = useState(false)
         const [title, setTitle] = useState(props.title)
+
         const editOn = () => {
             setEdit(true)
         }

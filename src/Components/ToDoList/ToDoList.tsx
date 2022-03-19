@@ -1,13 +1,13 @@
 //imports
-import React, {ChangeEvent, KeyboardEvent, memo, useEffect, useState} from "react";
+import React, {memo, useEffect} from "react";
 import s from './ToDoList.module.css'
-import {AddTaskForm} from "./AddTaskForm/AddTaskForm";
 import {FilterValuesType} from "../../App";
 import {EditableLabel} from "../EditableLabel/EditableLabel";
 import {Task} from "../Task/Task";
 import {TaskType} from "../../api/todolist-api";
 import {useDispatch} from "react-redux";
 import {fetchTasksTC} from "../../redux/tasksReducer";
+import {UniversalAddForm} from "../UniversalAddForm/UniversalAddForm";
 
 
 //types
@@ -30,13 +30,8 @@ type ToDoListsPropsType = {
 //components
 export const ToDoList = memo((props: ToDoListsPropsType) => {
 
-        // local state
-        let [error, setError] = useState<string | null>(null)
-        const [taskTitle, setTaskTitle] = useState<string>("")
-
         // get tasks
         const dispatch = useDispatch()
-
         useEffect(() => {
             dispatch(fetchTasksTC(props.toDoListId))
         }, [dispatch, props.toDoListId])
@@ -45,32 +40,12 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
         const onClickSetAllFilter = () => props.changeToDoListFilter(props.toDoListId, 'ALL')
         const onClickSetActiveFilter = () => props.changeToDoListFilter(props.toDoListId, "ACTIVE")
         const onClickSetCompletedFilter = () => props.changeToDoListFilter(props.toDoListId, "COMPLETED")
-        const onKeyPressAddTask = (e: KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter") {
-                addTask()
-            }
-        }
-        const addTask = () => {
-            if (taskTitle.trim() !== "") {
-                props.addTask(taskTitle.trim(), props.toDoListId);
-                setTaskTitle("");
-            } else {
-                setError("Title is required");
-            }
-        }
-        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            setTaskTitle(e.currentTarget.value)
-            if (error !== '') {
-                setError(null)
-            }
-        }
+        const addTaskHandler = (title: string) => props.addTask(title.trim(), props.toDoListId)
         const editToDoListHandlerForEditableLabel = (toDoId: string, newTitle: string) => {
             props.editToDoListTitleHandler(props.toDoListId, newTitle)
         }
 
-// MAP TASKS ======================
-
-
+        // RETURN ;) ======================>
         return (
             <div className={s.task}>
                 <div className={s.titleBoxTasks}>
@@ -102,15 +77,9 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
                         </button>
                     </div>
 
-                    <AddTaskForm
-                        onChangeHandler={onChangeHandler}
-                        title={props.title}
-                        error={error}
-                        onKeyPressHandler={onKeyPressAddTask}
-                        addTask={addTask}
-                        setTaskTitle={setTaskTitle}
-                        taskTitle={taskTitle}
-                    />
+                    <div className={s.addTaskFormBox}>
+                        <UniversalAddForm callback={addTaskHandler}/>
+                    </div>
 
                     <div className={s.tasks}>
                         {props.tasks.map(t => {

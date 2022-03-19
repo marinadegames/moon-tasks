@@ -31,3 +31,10 @@
     background-color: var(--generalColor);
     color: white;
 }
+.errorMessage {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #e37482;
+    padding: 0.5rem 0 0 1rem;
+}

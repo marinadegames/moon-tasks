@@ -1,8 +1,8 @@
 // imports
 import {FilterValuesType} from "../App";
-import {todolistApi, TodolistType} from "../api/todolist-api";
+import {todolistsAPI, TodolistType} from "../api/todolist-api";
 import {AppThunk} from "./store";
-import {setStatusAppAC} from "./appReducer";
+import {setErrorAppAC, setStatusAppAC} from "./appReducer";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -12,37 +12,17 @@ export type ToDoListType = {
     title: string
     filter: FilterValuesType
 }
+export type AddToDOListAT = ReturnType<typeof AddToDoListAC>
+export type SetTodolistsAT = ReturnType<typeof SetTodolistsAC>
 export type TodolistsActionType =
-    RemoveToDoListAT
     | AddToDOListAT
-    | EditToDoListTitleAT
-    | EditToDoListFilterAT
     | SetTodolistsAT
+    | ReturnType<typeof RemoveToDoListAC>
+    | ReturnType<typeof EditToDoListFilterAC>
+    | ReturnType<typeof EditToDoListTitleAC>
 
-type RemoveToDoListAT = {
-    type: 'REMOVE_TODOLIST'
-    id: string
-}
-export type AddToDOListAT = {
-    type: 'ADD_TODOLIST'
-    todolist: TodolistType
-}
-type EditToDoListTitleAT = {
-    type: 'EDIT_TODOLIST_TITLE'
-    id: string
-    title: string
-}
-type EditToDoListFilterAT = {
-    type: 'EDIT_TODOLIST_FILTER'
-    id: string
-    filter: FilterValuesType
-}
 export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
-}
-export type SetTodolistsAT = {
-    type: 'SET_TODOLISTS'
-    todolists: Array<TodolistType>
 }
 
 // REDUCER
@@ -69,27 +49,21 @@ export const toDoListsReducer = (toDoLists = initialState, action: TodolistsActi
 }
 
 // ACTION CREATORS
-export const RemoveToDoListAC = (id: string): RemoveToDoListAT => {
-    return {type: 'REMOVE_TODOLIST', id}
-}
-export const AddToDoListAC = (todolist: TodolistType): AddToDOListAT => {
-    return {type: 'ADD_TODOLIST', todolist}
-}
-export const EditToDoListTitleAC = (id: string, title: string): EditToDoListTitleAT => {
-    return {type: 'EDIT_TODOLIST_TITLE', id, title}
-}
-export const EditToDoListFilterAC = (id: string, filter: FilterValuesType): EditToDoListFilterAT => {
-    return {type: 'EDIT_TODOLIST_FILTER', id, filter}
-}
-export const SetTodolistsAC = (todolists: Array<TodolistType>): SetTodolistsAT => {
-    return {type: "SET_TODOLISTS", todolists}
-}
+export const RemoveToDoListAC = (id: string) => ({type: 'REMOVE_TODOLIST', id} as const)
+export const AddToDoListAC = (todolist: TodolistType) => ({type: 'ADD_TODOLIST', todolist} as const)
+export const EditToDoListTitleAC = (id: string, title: string) => ({type: 'EDIT_TODOLIST_TITLE', id, title} as const)
+export const EditToDoListFilterAC = (id: string, filter: FilterValuesType) => ({
+    type: 'EDIT_TODOLIST_FILTER',
+    id,
+    filter
+} as const)
+export const SetTodolistsAC = (todolists: Array<TodolistType>) => ({type: "SET_TODOLISTS", todolists} as const)
 
 // thunks
 export const fetchTodolistsTC = (): AppThunk => async (dispatch: any) => {
     try {
         dispatch(setStatusAppAC('loading'))
-        const resp = await todolistApi.getTodolists()
+        const resp = await todolistsAPI.getTodolists()
         dispatch(SetTodolistsAC(resp.data))
         dispatch(setStatusAppAC('idle'))
     } catch (error) {
@@ -99,34 +73,64 @@ export const fetchTodolistsTC = (): AppThunk => async (dispatch: any) => {
 export const addTodolistTC = (newTitle: string): AppThunk => async (dispatch: any) => {
     try {
         dispatch(setStatusAppAC('loading'))
-        const resp = await todolistApi.createTodolist(newTitle)
-        dispatch(AddToDoListAC(resp.data.data.item))
+        const resp = await todolistsAPI.createTodolist(newTitle)
+
+        if (resp.data.resultCode === 0) {
+            dispatch(AddToDoListAC(resp.data.data.item))
+        } else {
+            if (resp.data.messages.length) {
+                dispatch(setErrorAppAC(resp.data.messages[0]))
+            } else {
+                dispatch(setErrorAppAC('some error'))
+            }
+        }
 
     } catch (e) {
         console.warn(e)
+    } finally {
+        dispatch(setStatusAppAC('idle'))
     }
-    dispatch(setStatusAppAC('idle'))
 }
 export const removeTodolistTC = (todolistId: string): AppThunk => async (dispatch: any) => {
     try {
         dispatch(setStatusAppAC('loading'))
-        const resp = await todolistApi.deleteTodolist(todolistId)
-        dispatch(RemoveToDoListAC(todolistId))
-        console.log(resp)
-        dispatch(setStatusAppAC('idle'))
+        const resp = await todolistsAPI.deleteTodolist(todolistId)
+
+        if (resp.data.resultCode === 0) {
+            dispatch(RemoveToDoListAC(todolistId))
+            dispatch(setStatusAppAC('idle'))
+        } else {
+            if (resp.data.messages.length) {
+                dispatch(setErrorAppAC(resp.data.messages[0]))
+            } else {
+                dispatch(setErrorAppAC('some error'))
+            }
+        }
     } catch (e) {
         console.warn(e)
+    } finally {
+        dispatch(setStatusAppAC('idle'))
     }
 }
 export const changeTodolistTitleTC = (todolistId: string, newTitle: string): AppThunk => async (dispatch: any) => {
     try {
         dispatch(setStatusAppAC('loading'))
-        const resp = await todolistApi.updateTodolist(todolistId, newTitle)
-        dispatch(EditToDoListTitleAC(todolistId, newTitle))
-        console.log(resp)
-        dispatch(setStatusAppAC('idle'))
+        const resp = await todolistsAPI.updateTodolist(todolistId, newTitle)
+
+        if (resp.data.resultCode === 0) {
+            dispatch(EditToDoListTitleAC(todolistId, newTitle))
+            dispatch(setStatusAppAC('idle'))
+        } else {
+            if (resp.data.messages.length) {
+                dispatch(setErrorAppAC(resp.data.messages[0]))
+            } else {
+                dispatch(setErrorAppAC('some error'))
+            }
+        }
     } catch (e) {
         console.warn(e)
+    } finally {
+        dispatch(setStatusAppAC('idle'))
     }
 
 }

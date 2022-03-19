@@ -1,9 +1,9 @@
 // imports
 import {v1} from "uuid";
 import {AddToDOListAT, SetTodolistsAT} from "./toDoListsReducer";
-import {TaskPriorities, TaskStatuses, todolistApi} from "../api/todolist-api";
+import {TaskPriorities, TaskStatuses, todolistsAPI} from "../api/todolist-api";
 import {AppThunk, rootReducerType} from "./store";
-import {setStatusAppAC} from "./appReducer";
+import {setErrorAppAC, SetErrorAppActionType, setStatusAppAC} from "./appReducer";
 
 // types
 export type TaskType = {
@@ -22,7 +22,6 @@ export type TaskType = {
 export type TaskStateType = {
     [key: string]: Array<TaskType>
 }
-
 export type TasksActionType =
     AddTaskActionType
     | RemoveTaskActionType
@@ -119,7 +118,6 @@ export const tasksReducer = (state: TaskStateType = initialStateTasks, action: T
     }
 }
 
-
 // AC
 export const AddTaskAC = (newTitle: string, toDoListId: string): AddTaskActionType => {
     return {type: 'ADD_TASK', newTitle, toDoListId} as const
@@ -138,11 +136,10 @@ export const SetTasksAC = (todolistId: string, tasks: Array<TaskType>): SetTasks
 }
 
 // thunks
-
 export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch: any) => {
     try {
         dispatch(setStatusAppAC('loading'))
-        const resp = await todolistApi.getTasks(todolistId)
+        const resp = await todolistsAPI.getTasks(todolistId)
         if (resp.data.items.length !== 0) {
             dispatch(SetTasksAC(todolistId, resp.data.items))
         }
@@ -153,31 +150,50 @@ export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch: a
     }
 }
 
-
-export const addTasksTC = (todolistId: string, newTitle: string): AppThunk => async (dispatch: any) => {
+export const addTasksTC = (todolistId: string, newTitle: string): AppThunk => async (dispatch: any | SetErrorAppActionType) => {
     try {
         dispatch(setStatusAppAC('loading'))
-        const resp = todolistApi.createTask(todolistId, newTitle)
-        dispatch(AddTaskAC(newTitle, todolistId))
-        console.log(resp)
-        dispatch(setStatusAppAC('idle'))
+        const resp = await todolistsAPI.createTask(todolistId, newTitle)
+        if (resp.data.resultCode === 0) {
+            dispatch(AddTaskAC(newTitle, todolistId))
+            dispatch(setStatusAppAC('idle'))
+        } else {
+            if (resp.data.messages.length) {
+                dispatch(setErrorAppAC(resp.data.messages[0]))
+            } else {
+                dispatch(setErrorAppAC('some error'))
+            }
+        }
+
     } catch (e) {
         console.warn(e)
+    } finally {
+        dispatch(setStatusAppAC('idle'))
     }
 }
 
 export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => async (dispatch: any) => {
     try {
         dispatch(setStatusAppAC('loading'))
-        const resp = await todolistApi.deleteTask(todolistId, taskId)
-        dispatch(RemoveTaskAC(taskId, todolistId))
+        const resp = await todolistsAPI.deleteTask(todolistId, taskId)
         console.log(resp)
-        dispatch(setStatusAppAC('idle'))
+        if (resp.data.resultCode === 0) {
+            dispatch(RemoveTaskAC(taskId, todolistId))
+            dispatch(setStatusAppAC('idle'))
+        } else {
+            if (resp.data.messages.length) {
+                dispatch(setErrorAppAC(resp.data.messages[0]))
+            } else {
+                dispatch(setErrorAppAC('some error'))
+            }
+        }
+
     } catch (e) {
         console.warn(e)
+    } finally {
+        dispatch(setStatusAppAC('idle'))
     }
 }
-
 export const updateTaskStatusTC = (taskId: string, todolistId: string, status: TaskStatuses): AppThunk => async (
     dispatch: any,
     getState: () => rootReducerType
@@ -191,7 +207,7 @@ export const updateTaskStatusTC = (taskId: string, todolistId: string, status: T
 
     if (task) {
         try {
-            const resp = await todolistApi.updateTask(todolistId, taskId, {
+            const resp = await todolistsAPI.updateTask(todolistId, taskId, {
                 title: task.title,
                 startDate: task.startDate,
                 priority: task.priority,
@@ -207,7 +223,6 @@ export const updateTaskStatusTC = (taskId: string, todolistId: string, status: T
         }
     }
 }
-
 export const changeTaskTitleTC = (todolistId: string, taskId: string, newTitle: string): AppThunk => async (
     dispatch: any,
     getState: () => rootReducerType
@@ -220,7 +235,7 @@ export const changeTaskTitleTC = (todolistId: string, taskId: string, newTitle: 
     })
     if (task) {
         try {
-            const resp = await todolistApi.updateTask(todolistId, taskId, {
+            const resp = await todolistsAPI.updateTask(todolistId, taskId, {
                 title: newTitle,
                 startDate: task.startDate,
                 priority: task.priority,

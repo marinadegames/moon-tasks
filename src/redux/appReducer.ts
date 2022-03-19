@@ -8,11 +8,11 @@ export type InitialStateType = {
 }
 export type StatusesType = 'idle' | 'loading' | 'succeeded' | 'failed'
 type ActionType = setStatusAppActionType | SetErrorAppActionType
-type setStatusAppActionType = {
+export type setStatusAppActionType = {
     type: 'SET_APP_STATUS'
     status: StatusesType
 }
-type SetErrorAppActionType = {
+export type SetErrorAppActionType = {
     type: 'SET_APP_ERROR'
     error: string | null
 }

@@ -17,7 +17,6 @@ export const store = createStore(rootReducer, applyMiddleware(thunk))
 
 //all types action to all app
 export type AppActionsType = TodolistsActionType | TasksActionType
-
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
     rootReducerType,
     unknown,

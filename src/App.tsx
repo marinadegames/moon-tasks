@@ -20,6 +20,7 @@ import {
     ToDoListType
 } from "./redux/toDoListsReducer";
 import {TaskStatuses} from "./api/todolist-api";
+import {ErrorMessage} from "./Components/ErrorMessage/ErrorMessage";
 
 export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
 
@@ -29,11 +30,13 @@ export const App = memo(() => {
         // select state
         const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
         const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
+        const error = useSelector<rootReducerType, string | null>(state => state.app.error)
         const dispatch = useDispatch()
 
         useEffect(() => {
             dispatch(fetchTodolistsTC())
         }, [dispatch])
+
 
         // functional
         const removeTask = useCallback((id: string, toDoListId: string) => {
@@ -104,6 +107,7 @@ export const App = memo(() => {
                         )
                     })}
                 </div>
+                {error !== null ? <ErrorMessage textError={error} timer={5000}/> : null}
             </div>
         )
     }

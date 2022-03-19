@@ -1,6 +1,6 @@
 .header {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     color: var(--generalColor);
     background-color: white;
     padding: 1rem;
@@ -12,26 +12,49 @@
     position: relative;
 }
 
-.addTaskBox{
-    /*background-color: white;*/
+.headerContainer {
     display: flex;
     align-items: center;
-    margin: 0 0 0 5rem;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.menu {
+    font-size: 20px;
+    font-weight: 600;
+    border: 2px solid var(--generalColor);
+    padding: 0.2rem 1rem;
+    border-radius: var(--borderRadiusCustom);
+    cursor: pointer;
+    transition: .2s ease-in-out;
+}
+
+.menu:hover {
+    background-color: var(--generalColor);
+    color: white;
+}
+
+.addTaskBox {
+    display: flex;
+    align-items: center;
     -webkit-box-shadow: 0 0 60px -23px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 0 60px -23px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 60px -23px rgba(0, 0, 0, 0.2);
     border-radius: var(--borderRadiusCustom);
 }
+
 .addTaskBox h4 {
     margin: 0 1rem 0 0;
 }
-.moonLogo{
+
+.moonLogo {
     height: 2.5rem;
     width: 2.5rem;
     margin: 0 0.5rem 0 0;
     transition: ease-in-out 0.5s;
     cursor: pointer;
 }
-.moonLogo:hover{
+
+.moonLogo:hover {
     transform: rotate(360deg);
 }

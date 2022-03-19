@@ -25,15 +25,19 @@ export const Header = memo((props: HeaderPropsType) => {
         return (
             <div>
                 <div className={s.header}>
-                    <img src={moonPurple}
-                         alt={'moonPurple'}
-                         className={s.moonLogo}/>
-                    <h1>MOON tasks</h1>
+                    <div className={s.headerContainer}>
+                        <img src={moonPurple}
+                             alt={'moonPurple'}
+                             className={s.moonLogo}/>
+                        <h1>MOON tasks</h1>
+                    </div>
                     <div className={s.addTaskBox}>
                         <h4>Add new todolist:</h4>
                         <UniversalAddForm callback={props.addToDoList} placeholder={'add todolist'}/>
                     </div>
-
+                    <div className={s.headerContainer}>
+                        <div className={s.menu}>menu</div>
+                    </div>
                 </div>
                 <LoadingPanel speed={'1s'} status={status}/>
             </div>

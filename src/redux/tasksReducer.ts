@@ -163,6 +163,7 @@ export const addTasksTC = (todolistId: string, newTitle: string): AppThunk => as
     } catch (e) {
         console.warn(e)
     }
+    dispatch(setStatusAppAC('idle'))
 }
 
 export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => async (dispatch: any) => {

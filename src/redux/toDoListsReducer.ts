@@ -95,6 +95,7 @@ export const fetchTodolistsTC = (): AppThunk => async (dispatch: any) => {
     } catch (error) {
         console.warn(error)
     }
+    dispatch(setStatusAppAC('idle'))
 }
 export const addTodolistTC = (newTitle: string): AppThunk => async (dispatch: any) => {
     try {

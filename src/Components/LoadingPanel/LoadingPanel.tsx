@@ -12,11 +12,6 @@ type PropsType = {
 // component
 export const LoadingPanel = memo((props: PropsType) => {
 
-        // state
-
-        // functional
-
-
         // return
         return (
             <div className={s.loadContainer}>
@@ -25,7 +20,6 @@ export const LoadingPanel = memo((props: PropsType) => {
                     <div className={s.loadingPanel}/>
                 </div>
             </div>
-
         )
     }
 )

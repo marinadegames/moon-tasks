@@ -1,5 +1,5 @@
 /* ============= TASK ============= */
-.titleBoxTasks {
+.titleBoxTasks{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,14 +14,12 @@
     -moz-box-shadow: 0 0 60px -23px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 60px -23px rgba(0, 0, 0, 0.5);
 }
-
-.titleBoxTasks svg {
+.titleBoxTasks svg{
     fill: white;
     margin: 0 1rem 0 0;
     cursor: pointer;
 }
-
-.tasksBox {
+.tasksBox{
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -31,21 +29,20 @@
     -moz-box-shadow: 0 0 60px -23px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 60px -23px rgba(0, 0, 0, 0.2);
 }
-
 .task {
     border-radius: var(--borderRadiusCustom);
     padding: 1rem 2rem 1rem 0;
     width: 15rem;
 }
 
-.task input {
+.task input{
     padding: 0;
     margin: 0;
     cursor: pointer;
 }
 
 
-.btnRemoveTask {
+.btnRemoveTask{
     cursor: pointer;
     color: var(--textColor);
     float: right;
@@ -53,7 +50,7 @@
     background-color: white;
 }
 
-.btnAll {
+.btnAll{
     cursor: pointer;
     font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
@@ -62,17 +59,15 @@
     background-color: white;
     font-weight: bold;
     color: var(--generalColor);
-    padding: 0.3rem;
+    padding: 0.3rem ;
     width: 35%;
     transition: ease-in 0.2s;
 }
-
 .btnAll:hover {
     background-color: var(--generalColor);
     color: white;
 }
-
-.btnAllActive {
+.btnAllActive{
     cursor: pointer;
     font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
@@ -81,11 +76,10 @@
     background-color: var(--generalColor);
     font-weight: bold;
     color: white;
-    padding: 0.3rem;
+    padding: 0.3rem ;
     width: 35%;
     transition: ease-in 0.2s;
 }
-
 .btnActive {
     cursor: pointer;
     font-size: 0.7rem;
@@ -99,13 +93,11 @@
     width: 35%;
     transition: ease-in 0.2s;
 }
-
 .btnActive:hover {
     color: white;
     background-color: var(--red);
 }
-
-.btnActiveActive {
+.btnActiveActive{
     cursor: pointer;
     font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
@@ -119,11 +111,11 @@
     transition: ease-in 0.2s;
 }
 
-.btnCompleted {
+.btnCompleted{
     cursor: pointer;
     font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
-    margin: 0 0 0 10px;
+    margin: 0 0 0 10px ;
     background-color: white;
     color: var(--green);
     font-weight: bold;
@@ -132,17 +124,15 @@
     border: 2px solid var(--green);
     transition: ease-in 0.2s;
 }
-
-.btnCompleted:hover {
+.btnCompleted:hover{
     color: white;
     background-color: var(--green);
 }
-
-.btnCompletedActive {
+.btnCompletedActive{
     cursor: pointer;
     font-size: 0.7rem;
     border-radius: var(--borderRadiusCustom);
-    margin: 0 0 0 10px;
+    margin: 0 0 0 10px ;
     background-color: var(--green);
     color: white;
     font-weight: bold;
@@ -151,15 +141,13 @@
     border: 2px solid var(--green);
     transition: ease-in 0.2s;
 }
-
-.btnsFilters {
+.btnsFilters{
     display: flex;
     justify-content: center;
     padding: 1rem 1rem 0 1rem;
     margin: 0;
 }
-
-.tasks {
+.tasks{
     padding: 1rem;
 }
 
@@ -174,15 +162,13 @@
     width: 1rem;
     opacity: 0;
 }
-
-.customCheckbox + label {
+.customCheckbox+label {
     display: inline-flex;
 
     align-items: center;
     /*user-select: none;*/
 }
-
-.customCheckbox + label::before {
+.customCheckbox+label::before {
 
     content: '';
     display: inline-block;
@@ -197,82 +183,70 @@
     /*background-size: 50% 50%;*/
     transition: ease-in 0.2s;
 }
-
-.customCheckbox:checked + label::before {
+.customCheckbox:checked+label::before {
     border: 2px solid var(--generalColor);
     background-color: var(--generalColor);
 }
-
 /* стили при наведении курсора на checkbox */
-.customCheckbox:not(:disabled):not(:checked) + label:hover::before {
+.customCheckbox:not(:disabled):not(:checked)+label:hover::before {
     border-color: var(--generalColor);
     background-color: var(--generalColor);
 }
-
 /* стили для активного состояния чекбокса (при нажатии на него) */
-.customCheckbox:not(:disabled):active + label::before {
+.customCheckbox:not(:disabled):active+label::before {
     background-color: #b3d7ff;
     border-color: #b3d7ff;
 }
-
 /* стили для чекбокса, находящегося в фокусе */
-.customCheckbox:focus + label::before {
+.customCheckbox:focus+label::before {
     box-shadow: 0 0 0 0.2rem rgba(188, 145, 226, 0.71);
 }
-
 /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
-.customCheckbox:focus:not(:checked) + label::before {
+.customCheckbox:focus:not(:checked)+label::before {
     border-color: var(--generalColor);
 }
-
-/* стили для чекбокса, находящегося в состоянии disabled */
-.customCheckbox:disabled + label::before {
+    /* стили для чекбокса, находящегося в состоянии disabled */
+.customCheckbox:disabled+label::before {
     background-color: #e9ecef;
 }
 
 
 /* change color icon delete task*/
-.mainBoxTasks {
+.mainBoxTasks{
     margin: 0 0 0.2rem 0;
     width: 100%;
     transition: ease-in 0.1s;
 }
-
-.mainBoxTasks label:hover {
+.mainBoxTasks label:hover{
     cursor: pointer;
 }
-
-.mainBoxTasks:hover {
+.mainBoxTasks:hover{
     cursor: pointer;
 }
-
-.mainBoxTasks:hover .svgDelete {
+.mainBoxTasks:hover .svgDelete{
     fill: var(--textColor);
 }
 
-.svgDelete {
+.svgDelete{
     fill: white;
     padding: 0;
     margin: 0;
     transition: ease-in 0.1s;
 }
-
-.svgDelete:hover {
+.svgDelete:hover{
     fill: var(--red) !important;
 }
 
-.textFalse {
+.textFalse{
     text-decoration: line-through;
     opacity: 0.5;
     overflow-wrap: break-word;
 }
-
 .textTrue {
     text-decoration: none;
     overflow-wrap: break-word;
 }
-
-.deleteTaskBtn {
+.deleteTaskBtn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -286,17 +260,10 @@
     border-radius: 5rem;
     transition: ease-in-out 0.2s;
 }
-
-.deleteTaskBtn:hover {
+.deleteTaskBtn:hover{
     border: 2px solid white;
     background-color: var(--red);
 }
-
 .addTaskFormBox {
     margin: 1rem 1rem 0 1rem;
-}
-
-.addTaskFormBox input {
-    width: 100%;
-    padding: 0.5rem;
 }

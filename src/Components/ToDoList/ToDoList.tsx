@@ -78,7 +78,7 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
                     </div>
 
                     <div className={s.addTaskFormBox}>
-                        <UniversalAddForm callback={addTaskHandler}/>
+                        <UniversalAddForm callback={addTaskHandler} placeholder={'add task'}/>
                     </div>
 
                     <div className={s.tasks}>

@@ -3,7 +3,7 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../../redux/authReducer";
 import {Navigate} from "react-router-dom";
-import React from "react";
+import React, {memo} from "react";
 import {rootReducerType} from "../../redux/store";
 
 
@@ -14,7 +14,7 @@ type FormikErrorType = {
 }
 
 
-export const Login = () => {
+export const Login = memo(() => {
 
     const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch()
@@ -105,4 +105,4 @@ export const Login = () => {
             </form>
         </div>
     )
-}
+})

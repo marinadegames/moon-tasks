@@ -142,6 +142,7 @@ export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch: a
         const resp = await todolistsAPI.getTasks(todolistId)
         if (resp.data.items.length !== 0) {
             dispatch(SetTasksAC(todolistId, resp.data.items))
+            dispatch(setStatusAppAC('idle'))
         }
     } catch (e) {
         console.log(e)
@@ -187,7 +188,6 @@ export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => as
                 dispatch(setErrorAppAC('some error'))
             }
         }
-
     } catch (e) {
         console.warn(e)
     } finally {

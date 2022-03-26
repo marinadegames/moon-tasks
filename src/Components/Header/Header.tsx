@@ -37,10 +37,16 @@ export const Header = memo((props: HeaderPropsType) => {
                              className={s.moonLogo}/>
                         <h1>MOON tasks</h1>
                     </div>
-                    <div className={s.addTaskBox}>
-                        <h4>Add new todolist:</h4>
-                        <UniversalAddForm callback={props.addToDoList} placeholder={'add todolist'}/>
-                    </div>
+
+                    {!isLoggedIn
+                        ? <></>
+                        : <div className={s.addTaskBox}>
+                            <h4>Add new todolist:</h4>
+                            <UniversalAddForm callback={props.addToDoList} placeholder={'add todolist'}/>
+                        </div>
+                    }
+
+
                     <div className={s.headerContainer}>
                         {isLoggedIn
                             ? <button className={s.menu} onClick={logoutHandler}>log out</button>

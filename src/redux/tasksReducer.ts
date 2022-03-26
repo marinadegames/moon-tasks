@@ -150,7 +150,6 @@ export const fetchTasksTC = (todolistId: string): AppThunk => async (dispatch: a
         dispatch(setStatusAppAC('idle'))
     }
 }
-
 export const addTasksTC = (todolistId: string, newTitle: string): AppThunk => async (dispatch: any | SetErrorAppActionType) => {
     try {
         dispatch(setStatusAppAC('loading'))
@@ -172,7 +171,6 @@ export const addTasksTC = (todolistId: string, newTitle: string): AppThunk => as
         dispatch(setStatusAppAC('idle'))
     }
 }
-
 export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => async (dispatch: any) => {
     try {
         dispatch(setStatusAppAC('loading'))

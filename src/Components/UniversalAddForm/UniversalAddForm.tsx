@@ -6,6 +6,7 @@ import s from './UniversalAddForm.module.css'
 type PropsType = {
     callback: (title: string) => void
     placeholder?: string
+    buttonVisibility?: boolean
 }
 
 // component
@@ -14,6 +15,7 @@ export const UniversalAddForm = (props: PropsType) => {
     // local state
     const [text, setText] = useState<string>('')
     const [error, setError] = useState<boolean>(false)
+
 
     // functional
     const onChangeHandler = (e: string) => {
@@ -44,7 +46,10 @@ export const UniversalAddForm = (props: PropsType) => {
                        placeholder={props.placeholder}
                        onKeyPress={(e) => onKeyPressAdd(e)}
                        onChange={(e) => onChangeHandler(e.currentTarget.value)}/>
-                <button onClick={addHandler}>+</button>
+                {!props.buttonVisibility
+                ? <button onClick={addHandler}>+</button>
+                :  null }
+
             </div>
             {error && <small className={s.errorMessage}>Title needed!</small>}
         </div>

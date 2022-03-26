@@ -20,6 +20,7 @@ import {
 import {TaskStatuses} from "../../api/todolist-api";
 import {FilterValuesType} from "../../App";
 import {rootReducerType} from "../../redux/store";
+import {Navigate} from 'react-router-dom';
 
 
 export const TodolistsList = () => {
@@ -27,6 +28,7 @@ export const TodolistsList = () => {
 
     const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
     const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
+    const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -49,7 +51,6 @@ export const TodolistsList = () => {
     const changeToDoListFilter = useCallback((id: string, filter: FilterValuesType) => {
         dispatch(EditToDoListFilterAC(id, filter))
     }, [dispatch])
-
 
 
     const removeToDoList = useCallback((id: string) => {
@@ -75,6 +76,7 @@ export const TodolistsList = () => {
         }
     }, [])
 
+    if (!isLoggedIn) return <Navigate to={'/login'}/>
 
     return (
         <div className={s.toDoLists}>

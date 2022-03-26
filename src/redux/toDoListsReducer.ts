@@ -66,8 +66,10 @@ export const fetchTodolistsTC = (): AppThunk => async (dispatch: any) => {
         const resp = await todolistsAPI.getTodolists()
         dispatch(SetTodolistsAC(resp.data))
         dispatch(setStatusAppAC('idle'))
-    } catch (error) {
-        console.warn(error)
+    } catch (e: any) {
+        console.warn(e)
+    } finally {
+        dispatch(setStatusAppAC('idle'))
     }
 }
 export const addTodolistTC = (newTitle: string): AppThunk => async (dispatch: any) => {

@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.circularLoading {
+    border: 10px solid var(--generalColor);
+    height: 150px;
+    width: 150px;
+
+    animation: infinite;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-name: circularLoading;
+
+}
+@keyframes circularLoading {
+    0% {
+        transform: rotate(0deg);
+        border-radius: 0;
+    }
+    25% {
+        transform: rotate(45deg);
+        border-radius: 50%;
+    }
+    50% {
+        transform: rotate(90deg);
+        border-radius: 0;
+    }
+    75% {
+        transform: rotate(135deg);
+        border-radius: 50%;
+    }
+    100% {
+        transform: rotate(180deg);
+        border-radius: 0;
+
+    }
+}

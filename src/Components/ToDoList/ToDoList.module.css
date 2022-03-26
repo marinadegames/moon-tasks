@@ -297,6 +297,7 @@
 }
 
 .addTaskFormBox input {
+    cursor: auto;
     width: 100%;
     padding: 0.5rem;
 }

@@ -1,25 +1,31 @@
 // imports
-import React, {memo} from "react";
+import React, {memo, useCallback, useEffect} from "react";
 import s from './Header.module.css'
-import moonPurple from '../assets/moon-logo-purple.png'
-import {LoadingPanel} from "../LoadingPanel/LoadingPanel";
-import {useSelector} from "react-redux";
+import moonPurple from '../../assets/moon-logo-purple.png'
+import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "../../redux/store";
-import {StatusesType} from "../../redux/appReducer";
+import {setStatusAppAC, StatusesType} from "../../redux/appReducer";
 import {UniversalAddForm} from "../UniversalAddForm/UniversalAddForm";
+import {LoadingPanel} from "../LoadingPanel/LoadingPanel";
+import {logoutTC} from "../../redux/authReducer";
 
-// types
 type HeaderPropsType = {
     addToDoList: (title: string) => void
 }
 
-// components
-
 export const Header = memo((props: HeaderPropsType) => {
 
-        // local state
         const status = useSelector<rootReducerType, StatusesType>(state => state.app.status)
-        console.log(status)
+        const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
+        const dispatch = useDispatch()
+
+        const logoutHandler = useCallback(() => {
+            dispatch(logoutTC())
+        }, [dispatch])
+
+        useEffect(() => {
+            dispatch(setStatusAppAC('idle'))
+        }, [dispatch])
 
         // return
         return (
@@ -36,7 +42,9 @@ export const Header = memo((props: HeaderPropsType) => {
                         <UniversalAddForm callback={props.addToDoList} placeholder={'add todolist'}/>
                     </div>
                     <div className={s.headerContainer}>
-                        <div className={s.menu}>menu</div>
+                        {isLoggedIn
+                            ? <button className={s.menu} onClick={logoutHandler}>log out</button>
+                            : <button className={s.menu}>login</button>}
                     </div>
                 </div>
                 <LoadingPanel speed={'1s'} status={status}/>

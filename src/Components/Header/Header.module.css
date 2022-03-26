@@ -27,6 +27,8 @@
     border-radius: var(--borderRadiusCustom);
     cursor: pointer;
     transition: .2s ease-in-out;
+    color: var(--generalColor);
+    background-color: white;
 }
 
 .menu:hover {

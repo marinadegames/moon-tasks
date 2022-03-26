@@ -6,7 +6,7 @@
     display: flex;
     justify-content: center;
     position: relative;
-    margin: 0 0 15px 0;
+    margin: 0 0 35px 0;
 }
 
 .loadingPanelBOX {
@@ -19,8 +19,8 @@
 }
 
 .loadingPanel {
-    border: 2px solid var(--generalColor);
-    height: 12px;
+    border: 1px solid var(--generalColor);
+    height: 10px;
     border-radius: var(--borderRadiusCustom);
     position: inherit;
     width: 100%;
@@ -30,13 +30,13 @@
 
 @keyframes loadingProgress {
     0% {
-        width: 10%;
+        width: 5%;
     }
     50% {
         width: 100%;
     }
     100% {
-        width: 10%;
+        width: 5%;
     }
 }
 

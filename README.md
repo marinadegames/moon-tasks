@@ -44,6 +44,7 @@
 😁 `v 0.2.1` - added `universal component`  
 ⚠️ `v 0.2.2` - added `error message`  
 🔍️ `v 0.2.3` - add `react-router-dom` and `formik`  
+♻️️ `v 0.2.5` - initialized app
 
 
 

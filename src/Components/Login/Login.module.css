@@ -1,11 +1,12 @@
 .loginContainer {
-    width: 50%;
-    height: 50vh;
+    max-width: 50%;
+    min-height: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     margin: 0 auto;
+    padding: 3rem;
     background-color: white;
     border-radius: var(--borderRadiusCustom);
     -webkit-box-shadow: 0 0 60px -23px rgba(0, 0, 0, 0.2);
@@ -22,7 +23,6 @@
 }
 
 .boxInputLogin input {
-    width: 95%;
     outline: none;
     color: var(--textColor);
     padding: 0.5rem 0 0.5rem 0.5rem;
@@ -112,12 +112,14 @@
 .customCheckbox:disabled + label::before {
     background-color: #e9ecef;
 }
+
 .inputBox {
     display: flex;
     flex-direction: column;
     position: relative;
     width: 100%;
 }
+
 .errorMsg {
     margin: 47px 0 0 0;
     position: absolute;

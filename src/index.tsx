@@ -5,14 +5,13 @@ import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import {store} from "./redux/store";
 import {App} from "./App";
-import {BrowserRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
-            <small style={{position:'absolute', top:'0', left:'0'}}>Browser router edition</small>
+        <HashRouter>
             <App/>
-        </BrowserRouter>
+        </HashRouter>
     </Provider>,
     document.getElementById('root')
 );

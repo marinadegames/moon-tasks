@@ -42,7 +42,6 @@ export const App = memo(() => {
                 <Routes>
                     <Route path={'/'} element={<TodolistsList/>}/>
                     <Route path={'/login'} element={<Login/>}/>
-
                 </Routes>
 
 

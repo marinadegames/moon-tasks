@@ -73,7 +73,7 @@ const slice = createSlice({
             if (index > -1) tasks.splice(index, 1)
         },
         AddTaskAC(state, action: PayloadAction<{ title: string, todolistId: string }>) {
-            state[action.payload.todolistId].push({
+            state[action.payload.todolistId].unshift({
                 id: v1(),
                 title: action.payload.title,
                 status: TaskStatuses.New,

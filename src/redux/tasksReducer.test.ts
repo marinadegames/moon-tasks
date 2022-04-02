@@ -1,6 +1,6 @@
 // imports
 import {v1} from "uuid";
-import {TaskStateType} from "./tasksReducer";
+import {AddTaskAC, ChangeTaskStatusAC, EditTaskTitleAC, RemoveTaskAC, tasksReducer, TaskStateType} from "./tasksReducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 
 
@@ -104,34 +104,31 @@ beforeEach(() => {
 
 
 // test
-// test('ADD TASK', () => {
-//     const newTitle = 'Water'
-//     const action = AddTaskAC(newTitle, toDoListId2)
-//     const endState = tasksReducer(startState, action)
-//
-//     expect(endState[toDoListId2][0].title).toBe(newTitle)
-//     expect(endState[toDoListId2].length).toBe(4)
-//
-// })
-// test('REMOVE TASK', () => {
-//     const taskId = startState[toDoListId1][0].id
-//     const action = RemoveTaskAC(taskId, toDoListId1)
-//     const endState = tasksReducer(startState, action)
-//     expect(endState[toDoListId1].length).toBe(2)
-//     expect(endState[toDoListId1][0].title).toBe(startState[toDoListId1][1].title)
-// })
-// test('CHANGE STATUS TASK', () => {
-//     const taskId = startState[toDoListId1][0].id
-//     const action = ChangeTaskStatusAC(taskId, toDoListId1, TaskStatuses.Completed)
-//     const endState = tasksReducer(startState, action)
-//     expect(endState[toDoListId1][0].status).toBe(TaskStatuses.Completed)
-//
-// })
-// test('EDIT TASK TITLE', () => {
-//     const newTitle = 'Water'
-//     const tId = startState[toDoListId2][0].id
-//     const action = EditTaskTitleAC(toDoListId2, tId, newTitle)
-//     const endState = tasksReducer(startState, action)
-//     expect(endState[toDoListId2][0].title).toBe(newTitle)
-//
-// })
+test('ADD TASK should be correct', () => {
+    const newTitle = 'Water'
+    const action = AddTaskAC({title: newTitle, todolistId: toDoListId2})
+    const endState = tasksReducer(startState, action)
+    expect(endState[toDoListId2][0].title).toBe(newTitle)
+    expect(endState[toDoListId2].length).toBe(4)
+
+})
+test('REMOVE TASK should be correct', () => {
+    const taskId = startState[toDoListId1][0].id
+    const action = RemoveTaskAC({id: taskId, todolistId: toDoListId1})
+    const endState = tasksReducer(startState, action)
+    expect(endState[toDoListId1].length).toBe(2)
+    expect(endState[toDoListId1][0].title).toBe(startState[toDoListId1][1].title)
+})
+test('CHANGE STATUS TASK should be correct', () => {
+    const taskId = startState[toDoListId1][0].id
+    const action = ChangeTaskStatusAC({id: taskId, todolistId: toDoListId1, status: TaskStatuses.Completed})
+    const endState = tasksReducer(startState, action)
+    expect(endState[toDoListId1][0].status).toBe(TaskStatuses.Completed)
+})
+test('EDIT TASK TITLE should be correct', () => {
+    const newTitle = 'Water'
+    const tId = startState[toDoListId2][0].id
+    const action = EditTaskTitleAC({todolistId: toDoListId2, id: tId, title: newTitle, status: TaskStatuses.Completed})
+    const endState = tasksReducer(startState, action)
+    expect(endState[toDoListId2][0].title).toBe(newTitle)
+})

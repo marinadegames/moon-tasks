@@ -13,10 +13,8 @@ type PropsType = {
 // component
 export const ErrorMessage = memo((props: PropsType) => {
 
-    //state
     const dispatch = useDispatch()
 
-    // functional
     useEffect(() => {
         setTimeout(() => {
             dispatch(setErrorAppAC({error: null}))

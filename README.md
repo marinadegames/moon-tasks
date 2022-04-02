@@ -45,7 +45,8 @@
 ⚠️ `v 0.2.2` - added `error message`  
 🔍️ `v 0.2.3` - add `react-router-dom` and `formik`  
 ♻️️ `v 0.2.5` - initialized app  
-🚽 `v 0.2.6` - delete trash
+🚽 `v 0.2.6` - delete trash  
+😎 `v 0.2.7` - `redux toolkit`
 
 
 

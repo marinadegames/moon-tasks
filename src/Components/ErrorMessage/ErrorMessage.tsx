@@ -19,12 +19,12 @@ export const ErrorMessage = memo((props: PropsType) => {
     // functional
     useEffect(() => {
         setTimeout(() => {
-            dispatch(setErrorAppAC(null))
+            dispatch(setErrorAppAC({error: null}))
         }, props.timer)
     }, [props.timer, dispatch])
 
     const deleteErrorMessage = () => {
-        dispatch(setErrorAppAC(null))
+        dispatch(setErrorAppAC({error: null}))
     }
 
     // return

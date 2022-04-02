@@ -24,7 +24,7 @@ export const Header = memo((props: HeaderPropsType) => {
         }, [dispatch])
 
         useEffect(() => {
-            dispatch(setStatusAppAC('idle'))
+            dispatch(setStatusAppAC({status: 'idle'}))
         }, [dispatch])
 
         // return

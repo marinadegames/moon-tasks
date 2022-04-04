@@ -18,8 +18,6 @@ export const Login = memo(() => {
 
     const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch()
-    console.log(isLoggedIn)
-
 
     const formik = useFormik({
         initialValues: {

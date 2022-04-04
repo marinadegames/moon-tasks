@@ -24,8 +24,6 @@ import {Navigate} from 'react-router-dom';
 
 
 export const TodolistsList = () => {
-
-
     const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
     const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
     const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)

@@ -1,15 +1,12 @@
-// import
 import s from './LoadingPanel.module.css'
 import {memo} from "react";
 import {StatusesType} from "../../redux/appReducer";
 
-// type
 type PropsType = {
     status: StatusesType
     speed: string
 }
 
-// component
 export const LoadingPanel = memo((props: PropsType) => {
 
         // return

@@ -4,7 +4,7 @@ import {AddToDoListAC, AddToDOListAT, RemoveToDoListAC, SetTodolistsAC, SetTodol
 import {TaskPriorities, TaskStatuses, todolistsAPI} from "../api/todolist-api";
 import {rootReducerType} from "./store";
 import {setErrorAppAC, setStatusAppAC} from "./appReducer";
-import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 
 // types
 export type TaskType = {
@@ -62,7 +62,25 @@ export type SetTasksActionType = {
 // Initial State
 const initialStateTasks: TaskStateType = {}
 
-// reducer
+// thunks
+export const fetchTasksTC = createAsyncThunk(
+    'tasks/fetchTasks',
+    async ( todolistId:string, thunkAPI) => {
+        try {
+            thunkAPI.dispatch(setStatusAppAC({status: 'loading'}))
+            const resp = await todolistsAPI.getTasks(todolistId)
+            if (resp.data.items.length !== 0) {
+                thunkAPI.dispatch(setStatusAppAC({status: 'idle'}))
+                thunkAPI.dispatch(SetTasksAC({todolistId: todolistId, tasks: resp.data.items}))
+            }
+        } catch (e) {
+            console.log(e)
+        } finally {
+            thunkAPI.dispatch(setStatusAppAC({status: 'idle'}))
+        }
+    })
+
+// slice
 const slice = createSlice({
     name: 'tasks',
     initialState: initialStateTasks,
@@ -128,21 +146,12 @@ const slice = createSlice({
 export const tasksReducer = slice.reducer
 export const {RemoveTaskAC, AddTaskAC, EditTaskTitleAC, ChangeTaskStatusAC, SetTasksAC} = slice.actions
 
-// thunks
-export const fetchTasksTC = (todolistId: string) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        const resp = await todolistsAPI.getTasks(todolistId)
-        if (resp.data.items.length !== 0) {
-            dispatch(SetTasksAC({todolistId: todolistId, tasks: resp.data.items}))
-            dispatch(setStatusAppAC({status: 'idle'}))
-        }
-    } catch (e) {
-        console.log(e)
-    } finally {
-        dispatch(setStatusAppAC({status: 'idle'}))
-    }
-}
+
+
+
+
+
+
 export const addTasksTC = (todolistId: string, newTitle: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(setStatusAppAC({status: 'loading'}))

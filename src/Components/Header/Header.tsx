@@ -20,7 +20,7 @@ export const Header = memo((props: HeaderPropsType) => {
         const dispatch = useDispatch()
 
         const logoutHandler = useCallback(() => {
-            dispatch(logoutTC())
+            dispatch(logoutTC({}))
         }, [dispatch])
 
         useEffect(() => {

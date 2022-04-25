@@ -38,7 +38,7 @@ export const Login = memo(() => {
             return errors;
         },
         onSubmit: values => {
-            dispatch(loginTC(values))
+            dispatch(loginTC({data: values}))
             formik.resetForm()
             console.log(values);
         },

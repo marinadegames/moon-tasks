@@ -1,7 +1,7 @@
 // imports
 import {FilterValuesType} from "../App";
 import {todolistsAPI, TodolistType} from "../api/todolist-api";
-import {createAsyncThunk, createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setErrorAppAC, setStatusAppAC} from "./appReducer";
 
 const initialState: Array<TodolistDomainType> = []

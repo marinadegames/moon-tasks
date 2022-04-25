@@ -30,7 +30,7 @@ export const TodolistsList = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(fetchTodolistsTC())
+        dispatch(fetchTodolistsTC({}))
     }, [dispatch])
 
     // functional
@@ -52,7 +52,7 @@ export const TodolistsList = () => {
 
 
     const removeToDoList = useCallback((id: string) => {
-        dispatch(removeTodolistTC(id))
+        dispatch(removeTodolistTC({todolistId: id}))
     }, [dispatch])
 
     const editTaskHandler = useCallback((ToDoListId: string, tId: string, title: string) => {
@@ -60,7 +60,7 @@ export const TodolistsList = () => {
     }, [dispatch])
 
     const editToDoListTitleHandler = useCallback((id: string, title: string) => {
-        dispatch(changeTodolistTitleTC(id, title))
+        dispatch(changeTodolistTitleTC({todolistId: id, newTitle: title}))
     }, [dispatch])
 
     const getTasksForRender = useCallback((filter: FilterValuesType, tasks: Array<TaskType>): Array<TaskType> => {

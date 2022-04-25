@@ -27,7 +27,7 @@ export const App = memo(() => {
         }, [dispatch])
 
         const addToDoList = useCallback((title: string) => {
-            dispatch(addTodolistTC(title))
+            dispatch(addTodolistTC({newTitle: title}))
         }, [dispatch])
 
         if (!isInitialized) return <CircularLoading/>

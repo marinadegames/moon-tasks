@@ -12,7 +12,6 @@ let startState: TaskStateType
 beforeEach(() => {
     toDoListId1 = v1()
     toDoListId2 = v1()
-
     startState = {
         [toDoListId1]: [
             {
@@ -99,7 +98,6 @@ beforeEach(() => {
 
         ],
     }
-
 })
 
 

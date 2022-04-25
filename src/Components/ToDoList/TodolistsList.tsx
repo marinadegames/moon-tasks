@@ -35,15 +35,15 @@ export const TodolistsList = () => {
 
     // functional
     const removeTask = useCallback((id: string, toDoListId: string) => {
-        dispatch(deleteTaskTC(toDoListId, id))
+        dispatch(deleteTaskTC({todolistId: toDoListId, taskId: id}))
     }, [dispatch])
 
     const addTask = useCallback((newTitle: string, toDoListId: string) => {
-        dispatch(addTasksTC(toDoListId, newTitle))
+        dispatch(addTasksTC({todolistId: toDoListId, newTitle: newTitle}))
     }, [dispatch])
 
     const changeTaskStatus = useCallback((taskId: string, toDoListID: string, status: number) => {
-        dispatch(updateTaskStatusTC(taskId, toDoListID, status))
+        dispatch(updateTaskStatusTC({taskId: taskId, todolistId: toDoListID, status: status}))
     }, [dispatch])
 
     const changeToDoListFilter = useCallback((id: string, filter: FilterValuesType) => {
@@ -56,7 +56,7 @@ export const TodolistsList = () => {
     }, [dispatch])
 
     const editTaskHandler = useCallback((ToDoListId: string, tId: string, title: string) => {
-        dispatch(changeTaskTitleTC(ToDoListId, tId, title))
+        dispatch(changeTaskTitleTC({todolistId: ToDoListId, taskId: tId, newTitle: title}))
     }, [dispatch])
 
     const editToDoListTitleHandler = useCallback((id: string, title: string) => {

@@ -27,7 +27,6 @@ export const Header = memo((props: HeaderPropsType) => {
             dispatch(setStatusAppAC({status: 'idle'}))
         }, [dispatch])
 
-        // return
         return (
             <div>
                 <div className={s.header}>
@@ -45,8 +44,6 @@ export const Header = memo((props: HeaderPropsType) => {
                             <UniversalAddForm callback={props.addToDoList} placeholder={'add todolist'}/>
                         </div>
                     }
-
-
                     <div className={s.headerContainer}>
                         {isLoggedIn
                             ? <button className={s.menu} onClick={logoutHandler}>log out</button>

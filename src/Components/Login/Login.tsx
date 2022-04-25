@@ -6,13 +6,11 @@ import {Navigate} from "react-router-dom";
 import React, {memo} from "react";
 import {rootReducerType} from "../../redux/store";
 
-
 type FormikErrorType = {
     email?: string
     password?: string
     rememberMe?: boolean
 }
-
 
 export const Login = memo(() => {
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i

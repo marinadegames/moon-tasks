@@ -46,7 +46,13 @@
 🔍️ `v 0.2.3` - add `react-router-dom` and `formik`  
 ♻️️ `v 0.2.5` - initialized app  
 🚽 `v 0.2.6` - delete trash  
-😎 `v 0.2.7` - `redux toolkit`
+😎 `v 0.2.7` - `redux toolkit`  
+✉️ `v 0.3.0` - `refactoring`:  
+* fix formik
+* add notification
+* error handlers
+* any refactorings 
+
 
 
 

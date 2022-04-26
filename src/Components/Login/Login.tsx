@@ -13,6 +13,7 @@ type FormikErrorType = {
 }
 
 export const Login = memo(() => {
+
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
     const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch()
@@ -38,7 +39,6 @@ export const Login = memo(() => {
         onSubmit: values => {
             dispatch(loginTC({data: values}))
             formik.resetForm()
-            console.log(values);
         },
     })
 
@@ -57,9 +57,8 @@ export const Login = memo(() => {
             }}>
                 <p>To log in get registered
                     <> </>
-                    {/* eslint-disable-next-line react/jsx-no-target-blank */}
                     <a href={'https://social-network.samuraijs.com/'}
-                       target={'_blank'}> here
+                       target={'_blank'} rel="noreferrer"> here
                     </a>
                 </p>
                 or use common test account credentials:<br/>
@@ -97,7 +96,7 @@ export const Login = memo(() => {
                         </label>
                     </div>
                 </label>
-                <button className={s.loginButton}>Login</button>
+                <button type={'submit'} className={s.loginButton}>Login</button>
             </form>
         </div>
     )

@@ -1,5 +1,5 @@
 // imports
-import {setErrorAppAC, setStatusAppAC} from "./appReducer";
+import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {authAPI, LoginDataType} from "../api/todolist-api";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
@@ -23,14 +23,14 @@ export const loginTC = createAsyncThunk(
             if (resp.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value: true}))
                 dispatch(setStatusAppAC({status: 'succeeded'}))
-                console.log("YOU IS LOGGED!")
+                dispatch(setNotificationAppAC({notification: 'Login successful!'}))
             } else {
-                dispatch(setErrorAppAC({error: 'ERROR!'}))
+                dispatch(setErrorAppAC({error: 'Error login!'}))
                 dispatch(setIsLoggedInAC({value: false}))
-                console.log('ERROR!!!')
             }
         } catch (e) {
             console.error(e)
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }
@@ -45,13 +45,12 @@ export const logoutTC = createAsyncThunk(
             if (resp.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value: false}))
                 dispatch(setStatusAppAC({status: 'succeeded'}))
-                console.log("logout")
+                dispatch(setNotificationAppAC({notification: 'Logout successful!'}))
             } else {
-                dispatch(setErrorAppAC({error: 'ERROR!'}))
-                console.log('ERROR!!!')
+                dispatch(setErrorAppAC({error: 'Logout error!'}))
             }
         } catch (e) {
-            console.error(e)
+            dispatch(setErrorAppAC({error: 'Logout error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }
@@ -64,12 +63,12 @@ export const me = createAsyncThunk(
         try {
             const resp = await authAPI.logout()
             if (resp.data.resultCode === 0) {
-                console.log("logout")
+                dispatch(setNotificationAppAC({notification: 'You auth!'}))
             } else {
-                console.log('ERROR!!!')
+                dispatch(setErrorAppAC({error: 'Unknown error!'}))
             }
         } catch (e) {
-            console.error(e)
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }
@@ -83,7 +82,7 @@ const slice = createSlice({
         setIsLoggedInAC(state, action: PayloadAction<{ value: boolean }>) {
             state.isLoggedIn = action.payload.value
         }
-    }
+    },
 })
 
 export const authReducer = slice.reducer;

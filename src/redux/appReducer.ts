@@ -7,6 +7,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 export type InitialStateType = {
     status: StatusesType
     error: string | null
+    notification: string | null
     initialized: boolean
 }
 export type StatusesType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -15,7 +16,8 @@ export type StatusesType = 'idle' | 'loading' | 'succeeded' | 'failed'
 const initialState: InitialStateType = {
     status: 'loading',
     error: null,
-    initialized: false
+    notification: null,
+    initialized: false,
 }
 
 // tc
@@ -48,12 +50,15 @@ const slice = createSlice({
         setErrorAppAC(state, action: PayloadAction<{ error: string | null }>) {
             state.error = action.payload.error
         },
+        setNotificationAppAC(state, action: PayloadAction<{ notification: string | null }>) {
+            state.notification = action.payload.notification
+        },
         setAppInitializedAC(state, action: PayloadAction<{ value: boolean }>) {
             state.initialized = action.payload.value
-        }
+        },
     }
 })
 export const appReducer = slice.reducer
-export const {setStatusAppAC, setErrorAppAC, setAppInitializedAC} = slice.actions
+export const {setStatusAppAC,setNotificationAppAC, setErrorAppAC, setAppInitializedAC} = slice.actions
 
 

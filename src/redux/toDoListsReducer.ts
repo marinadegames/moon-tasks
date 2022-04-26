@@ -2,7 +2,7 @@
 import {FilterValuesType} from "../App";
 import {todolistsAPI, TodolistType} from "../api/todolist-api";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {setErrorAppAC, setStatusAppAC} from "./appReducer";
+import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -23,13 +23,13 @@ export type TodolistDomainType = TodolistType & {
 export const fetchTodolistsTC = createAsyncThunk(
     'todolists/fetchTodolists',
     async (payload: {}, {dispatch}) => {
+        dispatch(setStatusAppAC({status: 'loading'}))
         try {
-            dispatch(setStatusAppAC({status: 'loading'}))
             const resp = await todolistsAPI.getTodolists()
             dispatch(SetTodolistsAC({todolists: resp.data}))
-            dispatch(setStatusAppAC({status: 'idle'}))
-        } catch (e: any) {
-            console.warn(e)
+            dispatch(setNotificationAppAC({notification: 'Download successful'}))
+        } catch {
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }
@@ -44,15 +44,16 @@ export const addTodolistTC = createAsyncThunk(
             const resp = await todolistsAPI.createTodolist(payload.newTitle)
             if (resp.data.resultCode === 0) {
                 dispatch(AddToDoListAC({todolist: resp.data.data.item}))
+                dispatch(setNotificationAppAC({notification: 'Add todolist successful!'}))
             } else {
                 if (resp.data.messages.length) {
                     dispatch(setErrorAppAC({error: resp.data.messages[0]}))
                 } else {
-                    dispatch(setErrorAppAC({error: 'some error'}))
+                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
                 }
             }
         } catch (e) {
-            console.warn(e)
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }
@@ -65,19 +66,18 @@ export const removeTodolistTC = createAsyncThunk(
         try {
             dispatch(setStatusAppAC({status: 'loading'}))
             const resp = await todolistsAPI.deleteTodolist(payload.todolistId)
-
             if (resp.data.resultCode === 0) {
                 dispatch(RemoveToDoListAC({id: payload.todolistId}))
-                dispatch(setStatusAppAC({status: 'idle'}))
+                dispatch(setNotificationAppAC({notification: 'Delete todolist successful!'}))
             } else {
                 if (resp.data.messages.length) {
                     dispatch(setErrorAppAC({error: resp.data.messages[0]}))
                 } else {
-                    dispatch(setErrorAppAC({error: 'some error'}))
+                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
                 }
             }
         } catch (e) {
-            console.warn(e)
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }
@@ -87,21 +87,21 @@ export const removeTodolistTC = createAsyncThunk(
 export const changeTodolistTitleTC = createAsyncThunk(
     'todolists/removeTodolist',
     async (payload: { todolistId: string, newTitle: string }, {dispatch}) => {
+        dispatch(setStatusAppAC({status: 'loading'}))
         try {
-            dispatch(setStatusAppAC({status: 'loading'}))
             const resp = await todolistsAPI.updateTodolist(payload.todolistId, payload.newTitle)
             if (resp.data.resultCode === 0) {
                 dispatch(EditToDoListTitleAC({id: payload.todolistId, title: payload.newTitle}))
-                dispatch(setStatusAppAC({status: 'idle'}))
+                dispatch(setNotificationAppAC({notification: 'Change todolist title successful!'}))
             } else {
                 if (resp.data.messages.length) {
                     dispatch(setErrorAppAC({error: resp.data.messages[0]}))
                 } else {
-                    dispatch(setErrorAppAC({error: 'some error'}))
+                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
                 }
             }
         } catch (e) {
-            console.warn(e)
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }

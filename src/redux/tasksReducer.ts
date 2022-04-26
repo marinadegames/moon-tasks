@@ -3,7 +3,7 @@ import {v1} from "uuid";
 import {AddToDoListAC, AddToDOListAT, RemoveToDoListAC, SetTodolistsAC, SetTodolistsAT} from "./toDoListsReducer";
 import {TaskPriorities, TaskStatuses, todolistsAPI} from "../api/todolist-api";
 import {rootReducerType} from "./store";
-import {setErrorAppAC, setStatusAppAC} from "./appReducer";
+import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 // types
@@ -66,19 +66,19 @@ const initialStateTasks: TaskStateType = {}
 // thunks
 export const fetchTasksTC = createAsyncThunk(
     'tasks/fetchTasks',
-    async (todolistId: string, thunkAPI) => {
-        thunkAPI.dispatch(setStatusAppAC({status: 'loading'}))
+    async (todolistId: string, {dispatch}) => {
+        dispatch(setStatusAppAC({status: 'loading'}))
         try {
             const resp = await todolistsAPI.getTasks(todolistId)
             if (resp.data.items.length !== 0) {
                 const tasks = resp.data.items
-                thunkAPI.dispatch(setStatusAppAC({status: 'idle'}))
-                thunkAPI.dispatch(SetTasksAC({todolistId: todolistId, tasks}))
+                dispatch(SetTasksAC({todolistId: todolistId, tasks}))
+                dispatch(setNotificationAppAC({notification: 'Download successful'}))
             }
         } catch (e) {
-            console.log(e)
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
-            thunkAPI.dispatch(setStatusAppAC({status: 'idle'}))
+            dispatch(setStatusAppAC({status: 'idle'}))
         }
     })
 
@@ -90,16 +90,16 @@ export const addTasksTC = createAsyncThunk(
             const resp = await todolistsAPI.createTask(payload.todolistId, payload.newTitle)
             if (resp.data.resultCode === 0) {
                 dispatch(AddTaskAC({title: payload.newTitle, todolistId: payload.todolistId}))
-                dispatch(setStatusAppAC({status: 'idle'}))
+                dispatch(setNotificationAppAC({notification: 'Add new task successful!'}))
             } else {
                 if (resp.data.messages.length) {
                     dispatch(setErrorAppAC({error: resp.data.messages[0]}))
                 } else {
-                    dispatch(setErrorAppAC({error: 'some error'}))
+                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
                 }
             }
         } catch (e) {
-            console.warn(e)
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }
@@ -113,16 +113,16 @@ export const deleteTaskTC = createAsyncThunk(
             const resp = await todolistsAPI.deleteTask(payload.todolistId, payload.taskId)
             if (resp.data.resultCode === 0) {
                 dispatch(RemoveTaskAC({id: payload.taskId, todolistId: payload.todolistId}))
-                dispatch(setStatusAppAC({status: 'idle'}))
+                dispatch(setNotificationAppAC({notification: 'Delete task successful!'}))
             } else {
                 if (resp.data.messages.length) {
                     dispatch(setErrorAppAC({error: resp.data.messages[0]}))
                 } else {
-                    dispatch(setErrorAppAC({error: 'some error'}))
+                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
                 }
             }
         } catch (e) {
-            console.warn(e)
+            dispatch(setErrorAppAC({error: 'Unknown error!'}))
         } finally {
             dispatch(setStatusAppAC({status: 'idle'}))
         }
@@ -139,7 +139,7 @@ export const updateTaskStatusTC = createAsyncThunk(
         })
         if (task) {
             try {
-                const resp = await todolistsAPI.updateTask(payload.todolistId, payload.taskId, {
+                await todolistsAPI.updateTask(payload.todolistId, payload.taskId, {
                     title: task.title,
                     startDate: task.startDate,
                     priority: task.priority,
@@ -148,10 +148,11 @@ export const updateTaskStatusTC = createAsyncThunk(
                     status: payload.status
                 })
                 dispatch(ChangeTaskStatusAC({id: payload.taskId, todolistId: payload.todolistId, status: payload.status}))
-                console.log(resp)
-                dispatch(setStatusAppAC({status: 'idle'}))
+                dispatch(setNotificationAppAC({notification: 'Task status updated!'}))
             } catch (e) {
-                console.warn(e)
+                dispatch(setErrorAppAC({error: 'Unknown error!'}))
+            } finally {
+                dispatch(setStatusAppAC({status: 'idle'}))
             }
         }
     })
@@ -167,7 +168,7 @@ export const changeTaskTitleTC = createAsyncThunk(
         })
         if (task) {
             try {
-                const resp = await todolistsAPI.updateTask(payload.todolistId, payload.taskId, {
+                await todolistsAPI.updateTask(payload.todolistId, payload.taskId, {
                     title: payload.newTitle,
                     startDate: task.startDate,
                     priority: task.priority,
@@ -176,10 +177,11 @@ export const changeTaskTitleTC = createAsyncThunk(
                     status: task.status
                 })
                 dispatch(EditTaskTitleAC({todolistId: payload.todolistId, id: payload.taskId, title: payload.newTitle, status: 0}))
-                console.log(resp)
-                dispatch(setStatusAppAC({status: 'idle'}))
+                dispatch(setNotificationAppAC({notification: 'Task title updated!'}))
             } catch (e) {
-                console.warn(e)
+                dispatch(setErrorAppAC({error: 'Unknown error!'}))
+            } finally {
+                dispatch(setStatusAppAC({status: 'idle'}))
             }
         }
     })

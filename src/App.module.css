@@ -1,5 +1,4 @@
 /* my custom colors */
-
 :root {
     --background: #E3E9FF;
     --generalColor: #a174d9;
@@ -9,16 +8,17 @@
     --borderRadiusCustom: 5px;
 }
 
-body{
+body {
     background-color: var(--background);
     color: var(--textColor);
     padding: 2rem;
 }
-hr{
+
+hr {
     color: white;
 }
 
-h1,h2,h3,h4,h5,h6, p{
+h1, h2, h3, h4, h5, h6, p {
     padding: 0;
     margin: 0;
 }

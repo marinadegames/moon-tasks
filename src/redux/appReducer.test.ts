@@ -7,6 +7,7 @@ beforeEach(() => {
     startState = {
         status: 'loading',
         error: null,
+        notification: null,
         initialized: false
     }
 })

@@ -1,5 +1,5 @@
 // imports
-import {appReducer, InitialStateType, setAppInitializedAC, setErrorAppAC, setStatusAppAC} from "./appReducer";
+import {appReducer, InitialStateType, setAppInitializedAC, setErrorAppAC, setStatusAppAC} from "../redux/appReducer";
 
 // startState
 let startState: InitialStateType

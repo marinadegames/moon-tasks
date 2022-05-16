@@ -5,6 +5,5 @@ export const CircularLoading = () => {
         <div className={s.container}>
             <div className={s.circularLoading}/>
         </div>
-
     )
 }

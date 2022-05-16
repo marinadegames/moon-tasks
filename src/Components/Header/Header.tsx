@@ -3,7 +3,7 @@ import React, {memo, useCallback, useEffect} from "react";
 import s from './Header.module.css'
 import moonPurple from '../../assets/moon-logo-purple.png'
 import {useDispatch, useSelector} from "react-redux";
-import {rootReducerType} from "../../redux/store";
+import {AppRootStateType} from "../../redux/store";
 import {setStatusAppAC, StatusesType} from "../../redux/appReducer";
 import {UniversalAddForm} from "../UniversalAddForm/UniversalAddForm";
 import {LoadingPanel} from "../LoadingPanel/LoadingPanel";
@@ -15,8 +15,8 @@ type HeaderPropsType = {
 
 export const Header = memo((props: HeaderPropsType) => {
 
-        const status = useSelector<rootReducerType, StatusesType>(state => state.app.status)
-        const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
+        const status = useSelector<AppRootStateType, StatusesType>(state => state.app.status)
+        const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
         const dispatch = useDispatch()
 
         const logoutHandler = useCallback(() => {

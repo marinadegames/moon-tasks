@@ -1,5 +1,5 @@
 // imports
-import {FilterValuesType} from "../App";
+import {FilterValuesType} from "../app/App";
 import {todolistsAPI, TodolistType} from "../api/todolist-api";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";

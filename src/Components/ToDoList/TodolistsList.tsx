@@ -2,31 +2,18 @@ import s from './ToDoListsList.module.css'
 import {ToDoList} from "./ToDoList";
 import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    changeTodolistTitleTC,
-    EditToDoListFilterAC,
-    fetchTodolistsTC,
-    removeTodolistTC,
-    ToDoListType
-} from "../../redux/toDoListsReducer";
-import {
-    addTasksTC,
-    changeTaskTitleTC,
-    deleteTaskTC,
-    TaskStateType,
-    TaskType,
-    updateTaskStatusTC
-} from "../../redux/tasksReducer";
+import {changeTodolistTitleTC, EditToDoListFilterAC, fetchTodolistsTC, removeTodolistTC} from "../../redux/toDoListsReducer";
+import {addTasksTC, changeTaskTitleTC, deleteTaskTC, TaskType, updateTaskStatusTC} from "../../redux/tasksReducer";
 import {TaskStatuses} from "../../api/todolist-api";
-import {FilterValuesType} from "../../App";
-import {rootReducerType} from "../../redux/store";
+import {FilterValuesType} from "../../app/App";
 import {Navigate} from 'react-router-dom';
+import {selectIsLoggedIn, selectTasks, selectTodolists} from "../../selectors";
 
 
 export const TodolistsList = () => {
-    const tasks = useSelector<rootReducerType, TaskStateType>(state => state.tasks)
-    const toDoLists = useSelector<rootReducerType, Array<ToDoListType>>(state => state.toDoList)
-    const isLoggedIn = useSelector<rootReducerType, boolean>(state => state.auth.isLoggedIn)
+    const tasks = useSelector(selectTasks)
+    const toDoLists = useSelector(selectTodolists)
+    const isLoggedIn = useSelector(selectIsLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 // imports
 import {v1} from "uuid";
-import {AddTaskAC, ChangeTaskStatusAC, EditTaskTitleAC, RemoveTaskAC, tasksReducer, TaskStateType} from "./tasksReducer";
+import {AddTaskAC, ChangeTaskStatusAC, EditTaskTitleAC, RemoveTaskAC, tasksReducer, TaskStateType} from "../redux/tasksReducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 
 

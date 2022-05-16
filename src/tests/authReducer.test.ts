@@ -1,5 +1,5 @@
 // imports
-import {authReducer, setIsLoggedInAC} from "./authReducer";
+import {authReducer, setIsLoggedInAC} from "../redux/authReducer";
 
 type initType = {
     isLoggedIn: boolean

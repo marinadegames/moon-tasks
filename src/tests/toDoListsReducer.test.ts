@@ -1,8 +1,8 @@
 // imports
 import {v1} from "uuid"
-import {AddToDoListAC, EditToDoListFilterAC, EditToDoListTitleAC, RemoveToDoListAC, TodolistDomainType, toDoListsReducer} from "./toDoListsReducer";
+import {AddToDoListAC, EditToDoListFilterAC, EditToDoListTitleAC, RemoveToDoListAC, TodolistDomainType, toDoListsReducer} from "../redux/toDoListsReducer";
 import {TodolistType} from "../api/todolist-api";
-import {FilterValuesType} from "../App";
+import {FilterValuesType} from "../app/App";
 
 // start state
 let toDoListId1: string = v1()

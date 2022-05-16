@@ -1,7 +1,7 @@
 //imports
 import React, {memo, useEffect} from "react";
 import s from './ToDoList.module.css'
-import {FilterValuesType} from "../../App";
+import {FilterValuesType} from "../../app/App";
 import {EditableLabel} from "../EditableLabel/EditableLabel";
 import {Task} from "../Task/Task";
 import {TaskType} from "../../api/todolist-api";

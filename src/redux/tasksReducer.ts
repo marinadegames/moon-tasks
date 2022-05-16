@@ -2,7 +2,7 @@
 import {v1} from "uuid";
 import {AddToDoListAC, AddToDOListAT, RemoveToDoListAC, SetTodolistsAC, SetTodolistsAT} from "./toDoListsReducer";
 import {TaskPriorities, TaskStatuses, todolistsAPI} from "../api/todolist-api";
-import {rootReducerType} from "./store";
+import {AppRootStateType} from "./store";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
@@ -132,7 +132,7 @@ export const updateTaskStatusTC = createAsyncThunk(
     'tasks/updateTaskStatus',
     async (payload: { taskId: string, todolistId: string, status: TaskStatuses }, {dispatch, getState}) => {
         dispatch(setStatusAppAC({status: 'loading'}))
-        const allTasksFromState = getState() as rootReducerType
+        const allTasksFromState = getState() as AppRootStateType
         const tasksForCurrentTodolist = allTasksFromState.tasks[payload.todolistId]
         const task = tasksForCurrentTodolist.find(t => {
             return t.id === payload.taskId
@@ -161,7 +161,7 @@ export const changeTaskTitleTC = createAsyncThunk(
     'tasks/changeTaskTitle',
     async (payload: { todolistId: string, taskId: string, newTitle: string }, {dispatch, getState}) => {
         dispatch(setStatusAppAC({status: 'loading'}))
-        const allTasksFromState = getState() as rootReducerType;
+        const allTasksFromState = getState() as AppRootStateType;
         const tasksForCurrentTodolist = allTasksFromState.tasks[payload.todolistId]
         const task = tasksForCurrentTodolist.find(t => {
             return t.id === payload.taskId

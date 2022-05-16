@@ -51,9 +51,11 @@
 * fix formik
 * add notification
 * error handlers
-* any refactorings 
+* any refactorings   
 
+***   
 
+⚛️`v 1.0.0` - 🪄 release 🪄: `add selectors, refactoring`
 
 
 

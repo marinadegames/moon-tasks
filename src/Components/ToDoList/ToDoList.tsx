@@ -1,12 +1,14 @@
-import React, {memo, useCallback, useEffect} from "react";import s from './ToDoList.module.css'
+import React, {memo, useCallback, useEffect} from "react";
+import s from './ToDoList.module.css'
 import {EditableLabel} from "../EditableLabel/EditableLabel";
-import {Task} from "../Task/Task";
 import {TaskType} from "../../api/todolist-api";
 import {useDispatch} from "react-redux";
 import {fetchTasksTC} from "../../redux/tasksReducer";
 import {UniversalAddForm} from "../UniversalAddForm/UniversalAddForm";
 import {FilterValuesType} from "../../helpers/helpers";
 import {TodolistTitleIconList} from "./todolistTitleIconList";
+import {Task} from "../Task/Task";
+import {CircularLoadingSmall} from "../CircularLoading/CircularLoadingSmall";
 
 type ToDoListsPropsType = {
     toDoListId: string
@@ -47,7 +49,7 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
                     <button className={s.deleteTaskBtn} onClick={() => props.removeToDoList(props.toDoListId)}>X</button>
                 </div>
                 <div className={s.tasksBox}>
-                    <div className={s.btnsFilters}>
+                    <div className={s.buttonFilters}>
                         <button onClick={onClickSetAllFilter}
                                 className={props.filter === 'ALL' ? s.btnAllActive : s.btnAll}>ALL
                         </button>
@@ -62,19 +64,23 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
                         <UniversalAddForm callback={addTaskHandler} placeholder={'add task'}/>
                     </div>
                     <div className={s.tasks}>
-                        {props.tasks.map(t => {
-                            return (
-                                <Task id={t.id}
-                                      key={t.id}
-                                      toDoListId={props.toDoListId}
-                                      status={t.status}
-                                      title={t.title}
-                                      removeTask={props.removeTask}
-                                      editTaskHandler={props.editTaskHandler}
-                                      changeTaskStatus={props.changeTaskStatus}
-                                />
-                            )
-                        })}
+                        {props.tasks.length === 0
+                            ? <CircularLoadingSmall />
+                            : props.tasks.map(t => {
+                                return (
+                                    <Task id={t.id}
+                                          key={t.id}
+                                          toDoListId={props.toDoListId}
+                                          status={t.status}
+                                          title={t.title}
+                                          removeTask={props.removeTask}
+                                          editTaskHandler={props.editTaskHandler}
+                                          changeTaskStatus={props.changeTaskStatus}
+                                    />
+                                )
+                            })
+                        }
+
                     </div>
                 </div>
             </div>

@@ -3,20 +3,20 @@ import React, {memo, useCallback, useEffect} from "react";
 import s from './Header.module.css'
 import moonPurple from '../../assets/moon-logo-purple.png'
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../redux/store";
-import {setStatusAppAC, StatusesType} from "../../redux/appReducer";
+import {setStatusAppAC} from "../../redux/appReducer";
 import {UniversalAddForm} from "../UniversalAddForm/UniversalAddForm";
 import {LoadingPanel} from "../LoadingPanel/LoadingPanel";
 import {logoutTC} from "../../redux/authReducer";
+import {selectIsLoggedIn, selectStatus} from "./selectors";
 
 type HeaderPropsType = {
     addToDoList: (title: string) => void
 }
 
-export const Header = memo((props: HeaderPropsType) => {
+export const Header = memo(({addToDoList}:HeaderPropsType) => {
 
-        const status = useSelector<AppRootStateType, StatusesType>(state => state.app.status)
-        const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+        const status = useSelector(selectStatus)
+        const isLoggedIn = useSelector(selectIsLoggedIn)
         const dispatch = useDispatch()
 
         const logoutHandler = useCallback(() => {
@@ -41,7 +41,7 @@ export const Header = memo((props: HeaderPropsType) => {
                         ? <></>
                         : <div className={s.addTaskBox}>
                             <h4>Add new todolist:</h4>
-                            <UniversalAddForm callback={props.addToDoList} placeholder={'add todolist'}/>
+                            <UniversalAddForm callback={addToDoList} placeholder={'add todolist'}/>
                         </div>
                     }
                     <div className={s.headerContainer}>

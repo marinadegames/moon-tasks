@@ -23,7 +23,7 @@ const initialState: InitialStateType = {
 // tc
 export const initializedAppTC = createAsyncThunk(
     'app/initializedApp',
-    async (payload: {}, {dispatch}) => {
+    async (payload, {dispatch}) => {
         dispatch(setStatusAppAC({status: 'loading'}))
         try {
             const resp = await authAPI.me()
@@ -59,6 +59,6 @@ const slice = createSlice({
     }
 })
 export const appReducer = slice.reducer
-export const {setStatusAppAC,setNotificationAppAC, setErrorAppAC, setAppInitializedAC} = slice.actions
+export const {setStatusAppAC, setNotificationAppAC, setErrorAppAC, setAppInitializedAC} = slice.actions
 
 

@@ -2,7 +2,7 @@
 import {v1} from "uuid"
 import {AddToDoListAC, EditToDoListFilterAC, EditToDoListTitleAC, RemoveToDoListAC, TodolistDomainType, toDoListsReducer} from "../redux/toDoListsReducer";
 import {TodolistType} from "../api/todolist-api";
-import {FilterValuesType} from "../app/App";
+import {FilterValuesType} from "../helpers/helpers";
 
 // start state
 let toDoListId1: string = v1()

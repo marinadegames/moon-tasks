@@ -1,5 +1,5 @@
 //imports
-import React, {memo, useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.module.css';
 import {Header} from "../Components/Header/Header";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,40 +10,39 @@ import {Route, Routes} from 'react-router-dom';
 import {Login} from "../Components/Login/Login";
 import {CircularLoading} from "../Components/CircularLoading/CircularLoading";
 import {initializedAppTC} from "../redux/appReducer";
-import {selectIsInitialized, selectNotification, selectStatus} from "../selectors";
+import {selectIsInitialized, selectNotification, selectStatus} from './selectors';
 
-export type FilterValuesType = 'ALL' | 'COMPLETED' | 'ACTIVE'
+export const App = () => {
 
-//components
-export const App = memo(() => {
+    const error = useSelector(selectStatus)
+    const notification = useSelector(selectNotification)
+    const isInitialized = useSelector(selectIsInitialized)
+    const dispatch = useDispatch()
 
-        const error = useSelector(selectStatus)
-        const notification = useSelector(selectNotification)
-        const isInitialized = useSelector(selectIsInitialized)
-        const dispatch = useDispatch()
+    console.log(`Notification: ${notification}`)
+    console.log(`Error: ${error}`)
 
-        useEffect(() => {
-            dispatch(initializedAppTC({}))
-        }, [dispatch])
+    useEffect(() => {
+        dispatch(initializedAppTC())
+    }, [dispatch])
 
-        const addToDoList = useCallback((title: string) => {
-            dispatch(addTodolistTC({newTitle: title}))
-        }, [dispatch])
+    const addToDoList = useCallback((title: string) => {
+        dispatch(addTodolistTC({newTitle: title}))
+    }, [dispatch])
 
-        if (!isInitialized) return <CircularLoading/>
+    if (!isInitialized) return <CircularLoading/>
 
-        return (
+    return (
+        <div>
             <div>
-                <div>
-                    <Header addToDoList={addToDoList}/>
-                </div>
-                <Routes>
-                    <Route path={'/'} element={<TodolistsList/>}/>
-                    <Route path={'/login'} element={<Login/>}/>
-                </Routes>
-                {error !== null ? <Notification error={true} textError={error} timer={5000}/> : null}
-                {notification !== null && <Notification error={false} textNotification={notification} timer={5000}/>}
+                <Header addToDoList={addToDoList}/>
             </div>
-        )
-    }
-)
+            <Routes>
+                <Route path={'/'} element={<TodolistsList/>}/>
+                <Route path={'/login'} element={<Login/>}/>
+            </Routes>
+            {error !== null ? <Notification error={true} textError={error} timer={5000}/> : null}
+            {notification !== null && <Notification error={false} textNotification={notification} timer={5000}/>}
+        </div>
+    )
+}

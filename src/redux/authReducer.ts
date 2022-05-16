@@ -1,19 +1,15 @@
-// imports
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {authAPI, LoginDataType} from "../api/todolist-api";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-// types
 type InitStateType = {
     isLoggedIn: boolean
 }
 
-// init state
 const initState: InitStateType = {
     isLoggedIn: false
 }
 
-//tc
 export const loginTC = createAsyncThunk(
     'auth/login',
     async (payload: { data: LoginDataType }, {dispatch}) => {
@@ -73,7 +69,6 @@ export const me = createAsyncThunk(
             dispatch(setStatusAppAC({status: 'idle'}))
         }
     })
-
 
 const slice = createSlice({
     name: 'auth',

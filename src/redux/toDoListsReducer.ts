@@ -1,12 +1,10 @@
-// imports
-import {FilterValuesType} from "../app/App";
 import {todolistsAPI, TodolistType} from "../api/todolist-api";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
+import {FilterValuesType} from "../helpers/helpers";
 
 const initialState: Array<TodolistDomainType> = []
 
-// types
 export type ToDoListType = {
     id: string
     title: string
@@ -18,11 +16,9 @@ export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
 }
 
-
-// thunks
 export const fetchTodolistsTC = createAsyncThunk(
     'todolists/fetchTodolists',
-    async (payload: {}, {dispatch}) => {
+    async (payload, {dispatch}) => {
         dispatch(setStatusAppAC({status: 'loading'}))
         try {
             const resp = await todolistsAPI.getTodolists()

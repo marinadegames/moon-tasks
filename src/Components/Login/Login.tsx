@@ -4,7 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../../redux/authReducer";
 import {Navigate} from "react-router-dom";
 import React, {memo} from "react";
-import {selectIsLoggedIn} from "../../selectors";
+import {selectIsLoggedIn} from "./selectors";
+import {regex} from "../../helpers/helpers";
 
 type FormikErrorType = {
     email?: string
@@ -14,7 +15,6 @@ type FormikErrorType = {
 
 export const Login = memo(() => {
 
-    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
     const isLoggedIn = useSelector(selectIsLoggedIn)
     const dispatch = useDispatch()
 

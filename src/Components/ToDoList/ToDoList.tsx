@@ -1,16 +1,12 @@
-//imports
-import React, {memo, useEffect} from "react";
-import s from './ToDoList.module.css'
-import {FilterValuesType} from "../../app/App";
+import React, {memo, useCallback, useEffect} from "react";import s from './ToDoList.module.css'
 import {EditableLabel} from "../EditableLabel/EditableLabel";
 import {Task} from "../Task/Task";
 import {TaskType} from "../../api/todolist-api";
 import {useDispatch} from "react-redux";
 import {fetchTasksTC} from "../../redux/tasksReducer";
 import {UniversalAddForm} from "../UniversalAddForm/UniversalAddForm";
-
-
-//types
+import {FilterValuesType} from "../../helpers/helpers";
+import {TodolistTitleIconList} from "./todolistTitleIconList";
 
 type ToDoListsPropsType = {
     toDoListId: string
@@ -26,45 +22,31 @@ type ToDoListsPropsType = {
     editToDoListTitleHandler: (ToDoListId: string, newTitle: string) => void
 }
 
-
-//components
 export const ToDoList = memo((props: ToDoListsPropsType) => {
 
-        // get tasks
         const dispatch = useDispatch()
         useEffect(() => {
             dispatch(fetchTasksTC(props.toDoListId))
         }, [dispatch, props.toDoListId])
 
-        // functions
         const onClickSetAllFilter = () => props.changeToDoListFilter(props.toDoListId, 'ALL')
         const onClickSetActiveFilter = () => props.changeToDoListFilter(props.toDoListId, "ACTIVE")
         const onClickSetCompletedFilter = () => props.changeToDoListFilter(props.toDoListId, "COMPLETED")
-        const addTaskHandler = (title: string) => props.addTask(title.trim(), props.toDoListId)
-        const editToDoListHandlerForEditableLabel = (toDoId: string, newTitle: string) => {
+        const addTaskHandler = useCallback((title: string) => props.addTask(title.trim(), props.toDoListId), [props])
+        const editToDoListHandlerForEditableLabel = useCallback((toDoId: string, newTitle: string) => {
             props.editToDoListTitleHandler(props.toDoListId, newTitle)
-        }
+        }, [props])
 
-        // RETURN ;) ======================>
         return (
             <div className={s.task}>
                 <div className={s.titleBoxTasks}>
-                    <svg viewBox="0 0 100 80" width="20" height="20">
-                        <rect width="100" height="20"/>
-                        <rect y="30" width="100" height="20"/>
-                        <rect y="60" width="100" height="20"/>
-                    </svg>
-                    <EditableLabel title={props.title}
+                    <TodolistTitleIconList/>
+                    <EditableLabel titleProps={props.title}
                                    editTaskHandlerForEditableLabel={(title) => editToDoListHandlerForEditableLabel(props.toDoListId, title)}
                                    className={''}/>
-                    <button className={s.deleteTaskBtn}
-                            onClick={() => props.removeToDoList(props.toDoListId)}>
-                        X
-                    </button>
+                    <button className={s.deleteTaskBtn} onClick={() => props.removeToDoList(props.toDoListId)}>X</button>
                 </div>
-
                 <div className={s.tasksBox}>
-
                     <div className={s.btnsFilters}>
                         <button onClick={onClickSetAllFilter}
                                 className={props.filter === 'ALL' ? s.btnAllActive : s.btnAll}>ALL
@@ -76,11 +58,9 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
                                 className={props.filter === 'COMPLETED' ? s.btnCompletedActive : s.btnCompleted}>COMPL
                         </button>
                     </div>
-
                     <div className={s.addTaskFormBox}>
                         <UniversalAddForm callback={addTaskHandler} placeholder={'add task'}/>
                     </div>
-
                     <div className={s.tasks}>
                         {props.tasks.map(t => {
                             return (

@@ -5,22 +5,21 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeTodolistTitleTC, EditToDoListFilterAC, fetchTodolistsTC, removeTodolistTC} from "../../redux/toDoListsReducer";
 import {addTasksTC, changeTaskTitleTC, deleteTaskTC, TaskType, updateTaskStatusTC} from "../../redux/tasksReducer";
 import {TaskStatuses} from "../../api/todolist-api";
-import {FilterValuesType} from "../../app/App";
 import {Navigate} from 'react-router-dom';
-import {selectIsLoggedIn, selectTasks, selectTodolists} from "../../selectors";
-
+import {selectIsLoggedIn, selectTasks, selectTodolists} from "./selectors";
+import {FilterValuesType} from "../../helpers/helpers";
 
 export const TodolistsList = () => {
+    
     const tasks = useSelector(selectTasks)
     const toDoLists = useSelector(selectTodolists)
     const isLoggedIn = useSelector(selectIsLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(fetchTodolistsTC({}))
+        dispatch(fetchTodolistsTC())
     }, [dispatch])
 
-    // functional
     const removeTask = useCallback((id: string, toDoListId: string) => {
         dispatch(deleteTaskTC({todolistId: toDoListId, taskId: id}))
     }, [dispatch])
@@ -36,7 +35,6 @@ export const TodolistsList = () => {
     const changeToDoListFilter = useCallback((id: string, filter: FilterValuesType) => {
         dispatch(EditToDoListFilterAC({id, filter}))
     }, [dispatch])
-
 
     const removeToDoList = useCallback((id: string) => {
         dispatch(removeTodolistTC({todolistId: id}))
@@ -84,5 +82,4 @@ export const TodolistsList = () => {
             })}
         </div>
     )
-
 }

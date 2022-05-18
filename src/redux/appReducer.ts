@@ -8,6 +8,7 @@ export type InitialStateType = {
     error: string | null
     notification: string | null
     initialized: boolean
+    tasksDownloadInitialized: boolean
 }
 export type StatusesType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -16,6 +17,7 @@ const initialState: InitialStateType = {
     error: null,
     notification: null,
     initialized: false,
+    tasksDownloadInitialized: false
 }
 
 // use with saga (test)
@@ -53,9 +55,12 @@ const slice = createSlice({
         setAppInitializedAC(state, action: PayloadAction<{ value: boolean }>) {
             state.initialized = action.payload.value
         },
+        setTasksDownloadInitialized(state, action: PayloadAction<{ mode: boolean }>) {
+            state.tasksDownloadInitialized = action.payload.mode
+        },
     }
 })
 export const appReducer = slice.reducer
-export const {setStatusAppAC, setNotificationAppAC, setErrorAppAC, setAppInitializedAC} = slice.actions
+export const {setStatusAppAC, setNotificationAppAC, setErrorAppAC, setAppInitializedAC, setTasksDownloadInitialized} = slice.actions
 
 

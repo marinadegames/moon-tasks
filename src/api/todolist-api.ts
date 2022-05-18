@@ -18,7 +18,7 @@ export const todolistsAPI = {
         return instance.get<Array<TodolistType>>('todo-lists').then(resp => resp.data)
     },
     createTodolist(title: string) {
-        return instance.post<CreateTodolistResponseType>('todo-lists', {title: title})
+        return instance.post<CreateTodolistResponseType>('todo-lists', {title: title}).then(resp => resp.data)
     },
     updateTodolist(todolistId: string, title: string) {
         return instance.put<UpdateTodolistResponseType>(`todo-lists/${todolistId}`, {title: title})
@@ -75,7 +75,7 @@ export type TodolistType = {
     addedDate?: string
     order: number
 }
-type CreateTodolistResponseType = {
+export type CreateTodolistResponseType = {
     resultCode: number
     messages: Array<string>
     data: {

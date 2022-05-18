@@ -8,7 +8,8 @@ beforeEach(() => {
         status: 'loading',
         error: null,
         notification: null,
-        initialized: false
+        initialized: false,
+        tasksDownloadInitialized: false
     }
 })
 

@@ -2,7 +2,7 @@ import {v1} from "uuid";
 import {AddToDoListAC, AddToDOListAT, RemoveToDoListAC, SetTodolistsAC, SetTodolistsAT} from "./toDoListsReducer";
 import {GetTasksResponseType, ResponseType, TaskPriorities, TaskStatuses, todolistsAPI} from "../api/todolist-api";
 import {AppRootStateType} from "./store";
-import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
+import {setErrorAppAC, setNotificationAppAC, setStatusAppAC, setTasksDownloadInitialized} from "./appReducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {call, put, select} from "redux-saga/effects";
 
@@ -64,7 +64,7 @@ const initialStateTasks: TaskStateType = {}
 // sagas
 export function* fetchTasksWorkerSaga(action: ReturnType<typeof fetchTasks>) {
     yield put(setStatusAppAC({status: 'loading'}))
-
+    yield put(setTasksDownloadInitialized({mode: true}))
     try {
         const resp: GetTasksResponseType = yield call(todolistsAPI.getTasks, action.todolistId)
 
@@ -72,11 +72,19 @@ export function* fetchTasksWorkerSaga(action: ReturnType<typeof fetchTasks>) {
         if (resp.items.length !== 0) {
             yield put(SetTasksAC({todolistId: action.todolistId, tasks}))
             yield put(setNotificationAppAC({notification: 'Download successful'}))
+            yield put(setTasksDownloadInitialized({mode: false}))
+        }
+        if (resp.items.length === 0){
+            yield put(SetTasksAC({todolistId: action.todolistId, tasks}))
+            yield put(setNotificationAppAC({notification: 'Download successful'}))
+            yield put(setTasksDownloadInitialized({mode: false}))
         }
     } catch (e) {
         yield put(setErrorAppAC({error: 'Unknown error: fail for fetch tasks!'}))
+        yield put(setTasksDownloadInitialized({mode: false}))
     } finally {
         yield put(setStatusAppAC({status: 'idle'}))
+        yield put(setTasksDownloadInitialized({mode: false}))
     }
 }
 

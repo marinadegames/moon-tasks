@@ -1,9 +1,18 @@
 import s from './CircularLoadingSmall.module.css'
 
-export const CircularLoadingSmall = () => {
+type PropsType = {
+    isInitialized?: boolean
+}
+export const CircularLoadingSmall = ({isInitialized}: PropsType) => {
     return (
-        <div className={s.container}>
-            <div className={s.circularLoading}/>
-        </div>
+        <>
+            {isInitialized
+                ?
+                <div className={s.container}>
+                    <div className={s.circularLoading}/>
+                </div>
+                : null}
+        </>
     )
+
 }

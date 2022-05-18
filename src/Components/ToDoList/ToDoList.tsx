@@ -1,14 +1,15 @@
-import React, {memo, useCallback, useEffect} from "react";
+import React, {memo, useCallback, useEffect, useState} from "react";
 import s from './ToDoList.module.css'
 import {EditableLabel} from "../EditableLabel/EditableLabel";
 import {TaskType} from "../../api/todolist-api";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {fetchTasks} from "../../redux/tasksReducer";
 import {UniversalAddForm} from "../UniversalAddForm/UniversalAddForm";
 import {FilterValuesType} from "../../helpers/helpers";
 import {TodolistTitleIconList} from "./todolistTitleIconList";
 import {Task} from "../Task/Task";
 import {CircularLoadingSmall} from "../CircularLoading/CircularLoadingSmall";
+import {selectIsAppInitialized, selectTasksDownloadInitialized} from "./selectors";
 
 type ToDoListsPropsType = {
     toDoListId: string
@@ -26,6 +27,7 @@ type ToDoListsPropsType = {
 
 export const ToDoList = memo((props: ToDoListsPropsType) => {
 
+        const tasksDownloadInitialized = useSelector(selectTasksDownloadInitialized)
         const dispatch = useDispatch()
         useEffect(() => {
             dispatch(fetchTasks(props.toDoListId))
@@ -65,7 +67,7 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
                     </div>
                     <div className={s.tasks}>
                         {props.tasks.length === 0
-                            ? <CircularLoadingSmall/>
+                            ? <CircularLoadingSmall isInitialized={tasksDownloadInitialized}/>
                             : props.tasks.map(t => {
                                 return (
                                     <Task id={t.id}

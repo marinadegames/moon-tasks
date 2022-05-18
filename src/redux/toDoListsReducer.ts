@@ -1,4 +1,4 @@
-import {todolistsAPI, TodolistType} from "../api/todolist-api";
+import {CreateTodolistResponseType, todolistsAPI, TodolistType} from "../api/todolist-api";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {FilterValuesType} from "../helpers/helpers";
@@ -30,29 +30,26 @@ export function* fetchTodolistsSaga() {
     }
 }
 
-export const addTodolistTC = createAsyncThunk(
-    'todolists/addTodolist',
-    async (payload: { newTitle: string }, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await todolistsAPI.createTodolist(payload.newTitle)
-            if (resp.data.resultCode === 0) {
-                dispatch(AddToDoListAC({todolist: resp.data.data.item}))
-                dispatch(setNotificationAppAC({notification: 'Add todolist successful!'}))
+export function* addTodolistSaga(action: ReturnType<typeof addTodolist>) {
+    yield put(setStatusAppAC({status: 'loading'}))
+    try {
+        const resp: CreateTodolistResponseType = yield call(todolistsAPI.createTodolist, action.newTitle)
+        if (resp.resultCode === 0) {
+            yield put(AddToDoListAC({todolist: resp.data.item}))
+            yield put(setNotificationAppAC({notification: 'Add todolist successful!'}))
+        } else {
+            if (resp.messages.length) {
+                yield put(setErrorAppAC({error: resp.messages[0]}))
             } else {
-                if (resp.data.messages.length) {
-                    dispatch(setErrorAppAC({error: resp.data.messages[0]}))
-                } else {
-                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
-                }
+                yield put(setErrorAppAC({error: 'Unknown error: 123 add new todolist failed!'}))
             }
-        } catch (e) {
-            dispatch(setErrorAppAC({error: 'Unknown error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
         }
+    } catch (e) {
+        yield put(setErrorAppAC({error: 'Unknown error: add new todolist failed!'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
     }
-)
+}
 
 export const removeTodolistTC = createAsyncThunk(
     'todolists/removeTodolist',
@@ -132,5 +129,11 @@ export const {RemoveToDoListAC, AddToDoListAC, EditToDoListTitleAC, EditToDoList
 export const fetchTodolists = () => {
     return {
         type: 'TODOLISTS/FETCH_TODOLISTS',
+    }
+}
+export const addTodolist = (newTitle: string) => {
+    return {
+        type: 'TODOLISTS/CREATE_TODOLIST',
+        newTitle: newTitle
     }
 }

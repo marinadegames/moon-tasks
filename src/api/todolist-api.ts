@@ -21,7 +21,7 @@ export const todolistsAPI = {
         return instance.post<CreateTodolistResponseType>('todo-lists', {title: title}).then(resp => resp.data)
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put<UpdateTodolistResponseType>(`todo-lists/${todolistId}`, {title: title})
+        return instance.put<UpdateTodolistResponseType>(`todo-lists/${todolistId}`, {title: title}).then(resp => resp.data)
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<DeleteTodolistResponseType>(`todo-lists/${todolistId}`).then(resp => resp.data)
@@ -89,7 +89,7 @@ export type DeleteTodolistResponseType = {
         item: TodolistType
     }
 }
-type UpdateTodolistResponseType = {
+export type UpdateTodolistResponseType = {
     resultCode: number
     messages: Array<string>
     data: {

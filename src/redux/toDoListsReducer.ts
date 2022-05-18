@@ -1,5 +1,5 @@
-import {CreateTodolistResponseType, DeleteTodolistResponseType, todolistsAPI, TodolistType} from "../api/todolist-api";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {CreateTodolistResponseType, DeleteTodolistResponseType, todolistsAPI, TodolistType, UpdateTodolistResponseType} from "../api/todolist-api";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {FilterValuesType} from "../helpers/helpers";
 import {call, put} from "redux-saga/effects";
@@ -73,29 +73,27 @@ export function* removeTodolistSaga(action: ReturnType<typeof removeTodolist>) {
 
 }
 
-export const changeTodolistTitleTC = createAsyncThunk(
-    'todolists/removeTodolist',
-    async (payload: { todolistId: string, newTitle: string }, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await todolistsAPI.updateTodolist(payload.todolistId, payload.newTitle)
-            if (resp.data.resultCode === 0) {
-                dispatch(EditToDoListTitleAC({id: payload.todolistId, title: payload.newTitle}))
-                dispatch(setNotificationAppAC({notification: 'Change todolist title successful!'}))
+export function* changeTodolistTitleSaga(action: ReturnType<typeof changeTodolistTitle>) {
+    yield put(setStatusAppAC({status: 'loading'}))
+    try {
+        const resp: UpdateTodolistResponseType = yield call(todolistsAPI.updateTodolist, action.payload.todolistId, action.payload.newTitle)
+        if (resp.resultCode === 0) {
+            yield put(EditToDoListTitleAC({id: action.payload.todolistId, title: action.payload.newTitle}))
+            yield put(setNotificationAppAC({notification: 'Change todolist title successful!'}))
+        } else {
+            if (resp.messages.length) {
+                yield put(setErrorAppAC({error: resp.messages[0]}))
             } else {
-                if (resp.data.messages.length) {
-                    dispatch(setErrorAppAC({error: resp.data.messages[0]}))
-                } else {
-                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
-                }
+                yield put(setErrorAppAC({error: 'Unknown error: change todolist title failed!'}))
             }
-        } catch (e) {
-            dispatch(setErrorAppAC({error: 'Unknown error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
         }
+    } catch (e) {
+        yield put(setErrorAppAC({error: 'Unknown error: change todolist title failed!'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
     }
-)
+}
+
 
 const slice = createSlice({
     name: 'todolists',
@@ -140,6 +138,15 @@ export const removeTodolist = (payload: { todolistId: string }) => {
         type: 'TODOLISTS/REMOVE_TODOLIST',
         payload: {
             todolistId: payload.todolistId
+        }
+    }
+}
+export const changeTodolistTitle = (payload: { todolistId: string, newTitle: string }) => {
+    return {
+        type: 'TODOLISTS/CHANGE_TODOLIST_TITLE',
+        payload: {
+            todolistId: payload.todolistId,
+            newTitle: payload.newTitle
         }
     }
 }

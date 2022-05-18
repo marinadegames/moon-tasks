@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import {addTodolistSaga, fetchTodolistsSaga, removeTodolistSaga, toDoListsReducer} from "./toDoListsReducer";
+import {addTodolistSaga, changeTodolistTitleSaga, fetchTodolistsSaga, removeTodolistSaga, toDoListsReducer} from "./toDoListsReducer";
 import {appReducer, initializeAppWorkerSaga} from "./appReducer";
 import {authReducer} from "./authReducer";
 import {configureStore} from "@reduxjs/toolkit";
@@ -36,6 +36,7 @@ function* rootWatcher() {
     yield takeEvery('TODOLISTS/FETCH_TODOLISTS', fetchTodolistsSaga)
     yield takeEvery('TODOLISTS/CREATE_TODOLIST', addTodolistSaga)
     yield takeEvery('TODOLISTS/REMOVE_TODOLIST', removeTodolistSaga)
+    yield takeEvery('TODOLISTS/CHANGE_TODOLIST_TITLE', changeTodolistTitleSaga)
 }
 
 

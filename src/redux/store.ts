@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import {toDoListsReducer} from "./toDoListsReducer";
+import {fetchTodolistsSaga, toDoListsReducer} from "./toDoListsReducer";
 import {appReducer, initializeAppWorkerSaga} from "./appReducer";
 import {authReducer} from "./authReducer";
 import {configureStore} from "@reduxjs/toolkit";
@@ -32,6 +32,8 @@ function* rootWatcher() {
     yield takeEvery('TASKS/DELETE_TASK', deleteTaskSaga)
     yield takeEvery('TASKS/UPDATE_TASK_STATUS', updateTaskStatusSaga)
     yield takeEvery('TASKS/CHANGE_TASK_TITLE', changeTaskTitleSaga)
+
+    yield takeEvery('TODOLISTS/FETCH_TODOLISTS', fetchTodolistsSaga)
 }
 
 

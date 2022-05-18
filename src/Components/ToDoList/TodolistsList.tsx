@@ -2,7 +2,7 @@ import s from './ToDoListsList.module.css'
 import {ToDoList} from "./ToDoList";
 import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeTodolistTitleTC, EditToDoListFilterAC, fetchTodolistsTC, removeTodolistTC} from "../../redux/toDoListsReducer";
+import {changeTodolistTitleTC, EditToDoListFilterAC, fetchTodolists, removeTodolistTC} from "../../redux/toDoListsReducer";
 import {addTask, changeTaskTitle, deleteTask, TaskType, updateTaskStatus} from "../../redux/tasksReducer";
 import {TaskStatuses} from "../../api/todolist-api";
 import {Navigate} from 'react-router-dom';
@@ -17,7 +17,7 @@ export const TodolistsList = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(fetchTodolistsTC())
+        dispatch(fetchTodolists())
     }, [dispatch])
 
     const removeTask = useCallback((id: string, toDoListId: string) => {

@@ -2,6 +2,7 @@ import {todolistsAPI, TodolistType} from "../api/todolist-api";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {FilterValuesType} from "../helpers/helpers";
+import {call, put} from "redux-saga/effects";
 
 const initialState: Array<TodolistDomainType> = []
 
@@ -16,21 +17,18 @@ export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
 }
 
-export const fetchTodolistsTC = createAsyncThunk(
-    'todolists/fetchTodolists',
-    async (payload, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await todolistsAPI.getTodolists()
-            dispatch(SetTodolistsAC({todolists: resp.data}))
-            dispatch(setNotificationAppAC({notification: 'Download successful'}))
-        } catch {
-            dispatch(setErrorAppAC({error: 'Unknown error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
-        }
+export function* fetchTodolistsSaga() {
+    yield put(setStatusAppAC({status: 'loading'}))
+    const resp: TodolistType[] = yield call(todolistsAPI.getTodolists)
+    try {
+        yield put(SetTodolistsAC({todolists: resp}))
+        yield put(setNotificationAppAC({notification: 'Download successful'}))
+    } catch {
+        yield put(setErrorAppAC({error: 'Unknown error: fetch todolists failed!'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
     }
-)
+}
 
 export const addTodolistTC = createAsyncThunk(
     'todolists/addTodolist',
@@ -130,3 +128,9 @@ const slice = createSlice({
 })
 export const toDoListsReducer = slice.reducer;
 export const {RemoveToDoListAC, AddToDoListAC, EditToDoListTitleAC, EditToDoListFilterAC, SetTodolistsAC} = slice.actions
+
+export const fetchTodolists = () => {
+    return {
+        type: 'TODOLISTS/FETCH_TODOLISTS',
+    }
+}

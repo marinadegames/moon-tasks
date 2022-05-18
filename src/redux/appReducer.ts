@@ -37,8 +37,6 @@ export function* initializeAppWorkerSaga() {
     }
 }
 
-export const initializedApp = () => ({type: 'APP/INITIALIZE-APP'})
-
 const slice = createSlice({
     name: 'app',
     initialState: initialState,
@@ -63,4 +61,4 @@ const slice = createSlice({
 export const appReducer = slice.reducer
 export const {setStatusAppAC, setNotificationAppAC, setErrorAppAC, setAppInitializedAC, setTasksDownloadInitialized} = slice.actions
 
-
+export const initializedApp = () => ({type: 'APP/INITIALIZE-APP'})

@@ -30,25 +30,23 @@ export function* loginSaga(action: ReturnType<typeof login>) {
     }
 }
 
-export const logoutTC = createAsyncThunk(
-    'auth/logout',
-    async (payload: {}, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await authAPI.logout()
-            if (resp.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC({value: false}))
-                dispatch(setStatusAppAC({status: 'succeeded'}))
-                dispatch(setNotificationAppAC({notification: 'Logout successful!'}))
-            } else {
-                dispatch(setErrorAppAC({error: 'Logout error!'}))
-            }
-        } catch (e) {
-            dispatch(setErrorAppAC({error: 'Logout error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
+export function* logoutSaga() {
+    yield put(setStatusAppAC({status: 'loading'}))
+    try {
+        const resp: ResponseType = yield call(authAPI.logout)
+        if (resp.resultCode === 0) {
+            yield put(setIsLoggedInAC({value: false}))
+            yield put(setStatusAppAC({status: 'succeeded'}))
+            yield put(setNotificationAppAC({notification: 'Logout successful!'}))
+        } else {
+            yield put(setErrorAppAC({error: 'Logout error!'}))
         }
-    })
+    } catch (e) {
+        yield put(setErrorAppAC({error: 'Logout error!'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
+    }
+}
 
 export const me = createAsyncThunk(
     'auth/me',
@@ -56,7 +54,7 @@ export const me = createAsyncThunk(
         dispatch(setStatusAppAC({status: 'loading'}))
         try {
             const resp = await authAPI.logout()
-            if (resp.data.resultCode === 0) {
+            if (resp.resultCode === 0) {
                 dispatch(setNotificationAppAC({notification: 'You auth!'}))
             } else {
                 dispatch(setErrorAppAC({error: 'Unknown error!'}))
@@ -89,3 +87,4 @@ export const login = (payload: { data: LoginDataType }) => {
         }
     }
 }
+export const logout = () => ({type: 'AUTH/LOGOUT'})

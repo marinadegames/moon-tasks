@@ -1,7 +1,7 @@
 import {combineReducers} from "redux";
 import {addTodolistSaga, changeTodolistTitleSaga, fetchTodolistsSaga, removeTodolistSaga, toDoListsReducer} from "./toDoListsReducer";
 import {appReducer, initializeAppWorkerSaga} from "./appReducer";
-import {authReducer, loginSaga} from "./authReducer";
+import {authReducer, loginSaga, logoutSaga} from "./authReducer";
 import {configureStore} from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import {addTasksSaga, changeTaskTitleSaga, deleteTaskSaga, fetchTasksWorkerSaga, tasksReducer, updateTaskStatusSaga} from "./tasksReducer";
@@ -26,6 +26,9 @@ export const store = configureStore({
 sagaMiddleware.run(rootWatcher)
 
 function* rootWatcher() {
+    yield takeEvery('AUTH/LOGIN', loginSaga)
+    yield takeEvery('AUTH/LOGOUT', logoutSaga)
+
     yield takeEvery('APP/INITIALIZE-APP', initializeAppWorkerSaga)
     yield takeEvery('TASKS/FETCH_TASKS', fetchTasksWorkerSaga)
     yield takeEvery('TASKS/ADD_TASK', addTasksSaga)
@@ -37,8 +40,6 @@ function* rootWatcher() {
     yield takeEvery('TODOLISTS/CREATE_TODOLIST', addTodolistSaga)
     yield takeEvery('TODOLISTS/REMOVE_TODOLIST', removeTodolistSaga)
     yield takeEvery('TODOLISTS/CHANGE_TODOLIST_TITLE', changeTodolistTitleSaga)
-
-    yield takeEvery('AUTH/LOGIN', loginSaga)
 
 }
 

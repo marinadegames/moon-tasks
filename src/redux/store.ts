@@ -4,7 +4,7 @@ import {appReducer, initializeAppWorkerSaga} from "./appReducer";
 import {authReducer} from "./authReducer";
 import {configureStore} from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import {addTasksSaga, deleteTaskSaga, fetchTasksWorkerSaga, tasksReducer} from "./tasksReducer";
+import {addTasksSaga, deleteTaskSaga, fetchTasksWorkerSaga, tasksReducer, updateTaskStatusSaga} from "./tasksReducer";
 import createSagaMiddleware from 'redux-saga'
 import {takeEvery} from 'redux-saga/effects'
 
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
 })
 
 const sagaMiddleware = createSagaMiddleware()
-
+export type getStateType = ReturnType<typeof store.getState>
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export const store = configureStore({
     reducer: rootReducer,
@@ -30,6 +30,7 @@ function* rootWatcher() {
     yield takeEvery('TASKS/FETCH_TASKS', fetchTasksWorkerSaga)
     yield takeEvery('TASKS/ADD_TASK', addTasksSaga)
     yield takeEvery('TASKS/DELETE_TASK', deleteTaskSaga)
+    yield takeEvery('TASKS/UPDATE_TASK_STATUS', updateTaskStatusSaga)
 }
 
 

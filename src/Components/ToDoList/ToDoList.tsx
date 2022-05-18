@@ -29,7 +29,6 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
         const dispatch = useDispatch()
         useEffect(() => {
             dispatch(fetchTasks(props.toDoListId))
-            // dispatch(fetchTasksTC(props.toDoListId))
         }, [dispatch, props.toDoListId])
 
         const onClickSetAllFilter = () => props.changeToDoListFilter(props.toDoListId, 'ALL')

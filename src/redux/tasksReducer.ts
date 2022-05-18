@@ -4,7 +4,7 @@ import {GetTasksResponseType, ResponseType, TaskPriorities, TaskStatuses, todoli
 import {AppRootStateType} from "./store";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {call, put} from "redux-saga/effects";
+import {call, put, select} from "redux-saga/effects";
 
 export type TaskType = {
     description: string
@@ -123,34 +123,33 @@ export function* deleteTaskSaga(action: ReturnType<typeof deleteTask>) {
 }
 
 
-export const updateTaskStatusTC = createAsyncThunk(
-    'tasks/updateTaskStatus',
-    async (payload: { taskId: string, todolistId: string, status: TaskStatuses }, {dispatch, getState}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        const allTasksFromState = getState() as AppRootStateType
-        const tasksForCurrentTodolist = allTasksFromState.tasks[payload.todolistId]
-        const task = tasksForCurrentTodolist.find(t => {
-            return t.id === payload.taskId
-        })
-        if (task) {
-            try {
-                await todolistsAPI.updateTask(payload.todolistId, payload.taskId, {
-                    title: task.title,
-                    startDate: task.startDate,
-                    priority: task.priority,
-                    description: task.description,
-                    deadline: task.deadline,
-                    status: payload.status
-                })
-                dispatch(ChangeTaskStatusAC({id: payload.taskId, todolistId: payload.todolistId, status: payload.status}))
-                dispatch(setNotificationAppAC({notification: 'Task status updated!'}))
-            } catch (e) {
-                dispatch(setErrorAppAC({error: 'Unknown error!'}))
-            } finally {
-                dispatch(setStatusAppAC({status: 'idle'}))
-            }
-        }
+export function* updateTaskStatusSaga(action: ReturnType<typeof updateTaskStatus>) {
+    yield put(setStatusAppAC({status: 'loading'}))
+    const allTasksFromState: AppRootStateType = yield select();
+    console.log(allTasksFromState)
+    const tasksForCurrentTodolist = allTasksFromState.tasks[action.payload.todolistId]
+    const task = tasksForCurrentTodolist.find((t: TaskType) => {
+        return t.id === action.payload.taskId
     })
+    if (task) {
+        try {
+            yield call(todolistsAPI.updateTask, action.payload.todolistId, action.payload.taskId, {
+                title: task.title,
+                startDate: task.startDate,
+                priority: task.priority,
+                description: task.description,
+                deadline: task.deadline,
+                status: action.payload.status
+            })
+            yield put(ChangeTaskStatusAC({id: action.payload.taskId, todolistId: action.payload.todolistId, status: action.payload.status}))
+            yield put(setNotificationAppAC({notification: 'Task status updated!'}))
+        } catch (e) {
+            yield put(setErrorAppAC({error: 'Unknown error: change task status failed!'}))
+        } finally {
+            yield put(setStatusAppAC({status: 'idle'}))
+        }
+    }
+}
 
 export const changeTaskTitleTC = createAsyncThunk(
     'tasks/changeTaskTitle',
@@ -263,6 +262,16 @@ export const deleteTask = (payload: { todolistId: string, taskId: string }) => {
         payload: {
             todolistId: payload.todolistId,
             taskId: payload.taskId
+        }
+    }
+}
+export const updateTaskStatus = (payload: { taskId: string, todolistId: string, status: TaskStatuses }) => {
+    return {
+        type: 'TASKS/UPDATE_TASK_STATUS',
+        payload: {
+            taskId: payload.taskId,
+            todolistId: payload.todolistId,
+            status: payload.status
         }
     }
 }

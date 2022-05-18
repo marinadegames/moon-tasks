@@ -3,7 +3,7 @@ import {ToDoList} from "./ToDoList";
 import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {changeTodolistTitleTC, EditToDoListFilterAC, fetchTodolistsTC, removeTodolistTC} from "../../redux/toDoListsReducer";
-import {addTask, changeTaskTitleTC, deleteTask, TaskType, updateTaskStatus} from "../../redux/tasksReducer";
+import {addTask, changeTaskTitle, deleteTask, TaskType, updateTaskStatus} from "../../redux/tasksReducer";
 import {TaskStatuses} from "../../api/todolist-api";
 import {Navigate} from 'react-router-dom';
 import {selectIsLoggedIn, selectTasks, selectTodolists} from "./selectors";
@@ -42,7 +42,7 @@ export const TodolistsList = () => {
     }, [dispatch])
 
     const editTaskHandler = useCallback((ToDoListId: string, tId: string, title: string) => {
-        dispatch(changeTaskTitleTC({todolistId: ToDoListId, taskId: tId, newTitle: title}))
+        dispatch(changeTaskTitle({todolistId: ToDoListId, taskId: tId, newTitle: title}))
     }, [dispatch])
 
     const editToDoListTitleHandler = useCallback((id: string, title: string) => {

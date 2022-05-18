@@ -3,7 +3,7 @@ import {AddToDoListAC, AddToDOListAT, RemoveToDoListAC, SetTodolistsAC, SetTodol
 import {GetTasksResponseType, ResponseType, TaskPriorities, TaskStatuses, todolistsAPI} from "../api/todolist-api";
 import {AppRootStateType} from "./store";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {call, put, select} from "redux-saga/effects";
 
 export type TaskType = {
@@ -122,27 +122,33 @@ export function* deleteTaskSaga(action: ReturnType<typeof deleteTask>) {
     }
 }
 
-
 export function* updateTaskStatusSaga(action: ReturnType<typeof updateTaskStatus>) {
     yield put(setStatusAppAC({status: 'loading'}))
     const allTasksFromState: AppRootStateType = yield select();
-    console.log(allTasksFromState)
     const tasksForCurrentTodolist = allTasksFromState.tasks[action.payload.todolistId]
-    const task = tasksForCurrentTodolist.find((t: TaskType) => {
+    const task = tasksForCurrentTodolist.find((t) => {
         return t.id === action.payload.taskId
     })
     if (task) {
         try {
-            yield call(todolistsAPI.updateTask, action.payload.todolistId, action.payload.taskId, {
-                title: task.title,
-                startDate: task.startDate,
-                priority: task.priority,
-                description: task.description,
-                deadline: task.deadline,
-                status: action.payload.status
-            })
-            yield put(ChangeTaskStatusAC({id: action.payload.taskId, todolistId: action.payload.todolistId, status: action.payload.status}))
-            yield put(setNotificationAppAC({notification: 'Task status updated!'}))
+            const resp: ResponseType = yield call(
+                todolistsAPI.updateTask,
+                action.payload.todolistId,
+                action.payload.taskId,
+                {
+                    title: task.title,
+                    startDate: task.startDate,
+                    priority: task.priority,
+                    description: task.description,
+                    deadline: task.deadline,
+                    status: action.payload.status
+                })
+            if (resp.resultCode === 0) {
+                yield put(ChangeTaskStatusAC({id: action.payload.taskId, todolistId: action.payload.todolistId, status: action.payload.status}))
+                yield put(setNotificationAppAC({notification: 'Task status updated!'}))
+            } else {
+                yield put(setErrorAppAC({error: 'Unknown error: change task status failed!'}))
+            }
         } catch (e) {
             yield put(setErrorAppAC({error: 'Unknown error: change task status failed!'}))
         } finally {
@@ -151,34 +157,38 @@ export function* updateTaskStatusSaga(action: ReturnType<typeof updateTaskStatus
     }
 }
 
-export const changeTaskTitleTC = createAsyncThunk(
-    'tasks/changeTaskTitle',
-    async (payload: { todolistId: string, taskId: string, newTitle: string }, {dispatch, getState}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        const allTasksFromState = getState() as AppRootStateType;
-        const tasksForCurrentTodolist = allTasksFromState.tasks[payload.todolistId]
-        const task = tasksForCurrentTodolist.find(t => {
-            return t.id === payload.taskId
-        })
-        if (task) {
-            try {
-                await todolistsAPI.updateTask(payload.todolistId, payload.taskId, {
-                    title: payload.newTitle,
-                    startDate: task.startDate,
-                    priority: task.priority,
-                    description: task.description,
-                    deadline: task.deadline,
-                    status: task.status
-                })
-                dispatch(EditTaskTitleAC({todolistId: payload.todolistId, id: payload.taskId, title: payload.newTitle, status: 0}))
-                dispatch(setNotificationAppAC({notification: 'Task title updated!'}))
-            } catch (e) {
-                dispatch(setErrorAppAC({error: 'Unknown error!'}))
-            } finally {
-                dispatch(setStatusAppAC({status: 'idle'}))
-            }
-        }
+export function* changeTaskTitleSaga(action: ReturnType<typeof changeTaskTitle>) {
+    yield put(setStatusAppAC({status: 'loading'}))
+    const allTasksFromState: AppRootStateType = yield select();
+    const tasksForCurrentTodolist = allTasksFromState.tasks[action.payload.todolistId]
+    const task = tasksForCurrentTodolist.find(t => {
+        return t.id === action.payload.taskId
     })
+    if (task) {
+        try {
+            yield call(todolistsAPI.updateTask, action.payload.todolistId, action.payload.taskId, {
+                title: action.payload.newTitle,
+                startDate: task.startDate,
+                priority: task.priority,
+                description: task.description,
+                deadline: task.deadline,
+                status: task.status
+            })
+            yield put(EditTaskTitleAC(
+                {
+                    todolistId: action.payload.todolistId,
+                    id: action.payload.taskId,
+                    title: action.payload.newTitle,
+                    status: 0
+                }))
+            yield put(setNotificationAppAC({notification: 'Task title updated!'}))
+        } catch (e) {
+            yield put(setErrorAppAC({error: 'Unknown error: change task title failed!'}))
+        } finally {
+            yield put(setStatusAppAC({status: 'idle'}))
+        }
+    }
+}
 
 
 const slice = createSlice({
@@ -272,6 +282,16 @@ export const updateTaskStatus = (payload: { taskId: string, todolistId: string, 
             taskId: payload.taskId,
             todolistId: payload.todolistId,
             status: payload.status
+        }
+    }
+}
+export const changeTaskTitle = (payload: { todolistId: string, taskId: string, newTitle: string }) => {
+    return {
+        type: 'TASKS/CHANGE_TASK_TITLE',
+        payload: {
+            todolistId: payload.todolistId,
+            taskId: payload.taskId,
+            newTitle: payload.newTitle
         }
     }
 }

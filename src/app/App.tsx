@@ -19,9 +19,6 @@ export const App = () => {
     const isInitialized = useSelector(selectIsInitialized)
     const dispatch = useDispatch()
 
-    console.log(`Notification: ${notification}`)
-    console.log(`Error: ${error}`)
-
     useEffect(() => {
         dispatch(initializedAppTC())
     }, [dispatch])

@@ -1,6 +1,6 @@
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {authAPI, LoginDataType, ResponseType} from "../api/todolist-api";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {call, put} from "redux-saga/effects";
 
 type InitStateType = {
@@ -48,23 +48,22 @@ export function* logoutSaga() {
     }
 }
 
-export const me = createAsyncThunk(
-    'auth/me',
-    async (payload: {}, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await authAPI.logout()
-            if (resp.resultCode === 0) {
-                dispatch(setNotificationAppAC({notification: 'You auth!'}))
-            } else {
-                dispatch(setErrorAppAC({error: 'Unknown error!'}))
-            }
-        } catch (e) {
-            dispatch(setErrorAppAC({error: 'Unknown error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
+export function* meSaga() {
+    yield put(setStatusAppAC({status: 'loading'}))
+    try {
+        const resp: ResponseType = yield call(authAPI.logout)
+        if (resp.resultCode === 0) {
+            yield put(setNotificationAppAC({notification: 'You auth!'}))
+        } else {
+            yield put(setErrorAppAC({error: 'Unknown error! (me reducer)'}))
         }
-    })
+    } catch (e) {
+        yield put(setErrorAppAC({error: 'Unknown error! (me reducer)'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
+    }
+}
+
 
 const slice = createSlice({
     name: 'auth',
@@ -88,3 +87,4 @@ export const login = (payload: { data: LoginDataType }) => {
     }
 }
 export const logout = () => ({type: 'AUTH/LOGOUT'})
+export const me = () => ({type: 'AUTH/ME'})

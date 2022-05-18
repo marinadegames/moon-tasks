@@ -55,7 +55,8 @@
 
 ***   
 
-⚛️`v 1.0.0` - 🪄 release 🪄: `add selectors, refactoring`
+⚛️`v 1.0.0` - 🪄 release 🪄: `add selectors, refactoring`  
+🔍`v 1.0.1` - add `redux-saga`
 
 
 

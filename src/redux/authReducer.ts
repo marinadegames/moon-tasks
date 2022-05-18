@@ -1,6 +1,7 @@
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
-import {authAPI, LoginDataType} from "../api/todolist-api";
+import {authAPI, LoginDataType, ResponseType} from "../api/todolist-api";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {call, put} from "redux-saga/effects";
 
 type InitStateType = {
     isLoggedIn: boolean
@@ -10,27 +11,24 @@ const initState: InitStateType = {
     isLoggedIn: false
 }
 
-export const loginTC = createAsyncThunk(
-    'auth/login',
-    async (payload: { data: LoginDataType }, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await authAPI.login(payload.data)
-            if (resp.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC({value: true}))
-                dispatch(setStatusAppAC({status: 'succeeded'}))
-                dispatch(setNotificationAppAC({notification: 'Login successful!'}))
-            } else {
-                dispatch(setErrorAppAC({error: 'Error login!'}))
-                dispatch(setIsLoggedInAC({value: false}))
-            }
-        } catch (e) {
-            console.error(e)
-            dispatch(setErrorAppAC({error: 'Unknown error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
+export function* loginSaga(action: ReturnType<typeof login>) {
+    yield put(setStatusAppAC({status: 'loading'}))
+    try {
+        const resp: ResponseType = yield call(authAPI.login, action.payload.data)
+        if (resp.resultCode === 0) {
+            yield put(setIsLoggedInAC({value: true}))
+            yield put(setStatusAppAC({status: 'succeeded'}))
+            yield put(setNotificationAppAC({notification: 'Login successful!'}))
+        } else {
+            yield put(setErrorAppAC({error: 'Login failed!'}))
+            yield put(setIsLoggedInAC({value: false}))
         }
-    })
+    } catch (e) {
+        yield put(setErrorAppAC({error: 'Unknown error: login failed!'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
+    }
+}
 
 export const logoutTC = createAsyncThunk(
     'auth/logout',
@@ -83,3 +81,11 @@ const slice = createSlice({
 export const authReducer = slice.reducer;
 export const {setIsLoggedInAC} = slice.actions
 
+export const login = (payload: { data: LoginDataType }) => {
+    return {
+        type: 'AUTH/LOGIN',
+        payload: {
+            data: payload.data
+        }
+    }
+}

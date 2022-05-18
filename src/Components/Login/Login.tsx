@@ -1,11 +1,11 @@
 import s from './Login.module.css'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {loginTC} from "../../redux/authReducer";
 import {Navigate} from "react-router-dom";
 import React, {memo} from "react";
 import {selectIsLoggedIn} from "./selectors";
 import {regex} from "../../helpers/helpers";
+import {login} from "../../redux/authReducer";
 
 type FormikErrorType = {
     email?: string
@@ -37,7 +37,7 @@ export const Login = memo(() => {
             return errors;
         },
         onSubmit: values => {
-            dispatch(loginTC({data: values}))
+            dispatch(login({data: values}))
             formik.resetForm()
         },
     })

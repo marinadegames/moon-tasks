@@ -29,7 +29,6 @@ export function* fetchTodolistsSaga() {
         yield put(setStatusAppAC({status: 'idle'}))
     }
 }
-
 export function* addTodolistSaga(action: ReturnType<typeof addTodolist>) {
     yield put(setStatusAppAC({status: 'loading'}))
     try {
@@ -50,7 +49,6 @@ export function* addTodolistSaga(action: ReturnType<typeof addTodolist>) {
         yield put(setStatusAppAC({status: 'idle'}))
     }
 }
-
 export function* removeTodolistSaga(action: ReturnType<typeof removeTodolist>) {
     yield put(setStatusAppAC({status: 'loading'}))
     try {
@@ -72,7 +70,6 @@ export function* removeTodolistSaga(action: ReturnType<typeof removeTodolist>) {
     }
 
 }
-
 export function* changeTodolistTitleSaga(action: ReturnType<typeof changeTodolistTitle>) {
     yield put(setStatusAppAC({status: 'loading'}))
     try {
@@ -93,7 +90,6 @@ export function* changeTodolistTitleSaga(action: ReturnType<typeof changeTodolis
         yield put(setStatusAppAC({status: 'idle'}))
     }
 }
-
 
 const slice = createSlice({
     name: 'todolists',

@@ -1,12 +1,11 @@
-// imports
 import {v1} from "uuid";
 import {AddToDoListAC, AddToDOListAT, RemoveToDoListAC, SetTodolistsAC, SetTodolistsAT} from "./toDoListsReducer";
-import {TaskPriorities, TaskStatuses, todolistsAPI} from "../api/todolist-api";
+import {GetTasksResponseType, ResponseType, TaskPriorities, TaskStatuses, todolistsAPI} from "../api/todolist-api";
 import {AppRootStateType} from "./store";
 import {setErrorAppAC, setNotificationAppAC, setStatusAppAC} from "./appReducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {call, put} from "redux-saga/effects";
 
-// types
 export type TaskType = {
     description: string
     title: string
@@ -60,51 +59,60 @@ export type SetTasksActionType = {
     todolistId: string
 }
 
-// Initial State
 const initialStateTasks: TaskStateType = {}
 
-// thunks
-export const fetchTasksTC = createAsyncThunk(
-    'tasks/fetchTasks',
-    async (todolistId: string, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await todolistsAPI.getTasks(todolistId)
-            if (resp.data.items.length !== 0) {
-                const tasks = resp.data.items
-                dispatch(SetTasksAC({todolistId: todolistId, tasks}))
-                dispatch(setNotificationAppAC({notification: 'Download successful'}))
-            }
-        } catch (e) {
-            dispatch(setErrorAppAC({error: 'Unknown error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
-        }
-    })
+// sagas
+export function* fetchTasksWorkerSaga(action: { type: 'TASKS/FETCH-TASKS', todolistId: string }) {
+    yield put(setStatusAppAC({status: 'loading'}))
 
-export const addTasksTC = createAsyncThunk(
-    'tasks/addTasks',
-    async (payload: { todolistId: string, newTitle: string }, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await todolistsAPI.createTask(payload.todolistId, payload.newTitle)
-            if (resp.data.resultCode === 0) {
-                dispatch(AddTaskAC({title: payload.newTitle, todolistId: payload.todolistId}))
-                dispatch(setNotificationAppAC({notification: 'Add new task successful!'}))
+    try {
+        const resp: GetTasksResponseType = yield call(todolistsAPI.getTasks, action.todolistId)
+
+        const tasks = resp.items
+        if (resp.items.length !== 0) {
+            yield put(SetTasksAC({todolistId: action.todolistId, tasks}))
+            yield put(setNotificationAppAC({notification: 'Download successful'}))
+        }
+    } catch (e) {
+        yield put(setErrorAppAC({error: 'Unknown error: fail for fetch tasks!'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
+    }
+}
+
+export const fetchTasks = (todolistId: string) => ({type: 'TASKS/FETCH-TASKS', todolistId})
+
+
+export function* addTasksSaga(action: { type: 'TASKS/ADD_TASKS', payload: { todolistId: string, newTitle: string } }) {
+    yield put(setStatusAppAC({status: 'loading'}))
+    try {
+        const resp: ResponseType = yield call(todolistsAPI.createTask, action.payload.todolistId, action.payload.newTitle)
+        if (resp.resultCode === 0) {
+            yield put(AddTaskAC({title: action.payload.newTitle, todolistId: action.payload.todolistId}))
+            yield put(setNotificationAppAC({notification: 'Add new task successful!'}))
+        } else {
+            if (resp.messages.length) {
+                yield put(setErrorAppAC({error: resp.messages[0]}))
             } else {
-                if (resp.data.messages.length) {
-                    dispatch(setErrorAppAC({error: resp.data.messages[0]}))
-                } else {
-                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
-                }
+                yield put(setErrorAppAC({error: 'Unknown error: fail add task!'}))
             }
-        } catch (e) {
-            dispatch(setErrorAppAC({error: 'Unknown error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
         }
-    })
+    } catch (e) {
+        yield put(setErrorAppAC({error: 'Unknown error: fail add task!'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
+    }
+}
 
+export const addTasks = (payload: { todolistId: string, newTitle: string }) => {
+    return {
+        type: 'TASKS/ADD_TASKS',
+        payload: {
+            todolistId: payload.todolistId,
+            newTitle: payload.newTitle
+        }
+    }
+}
 export const deleteTaskTC = createAsyncThunk(
     'tasks/deleteTask',
     async (payload: { todolistId: string, taskId: string }, {dispatch}) => {
@@ -186,7 +194,6 @@ export const changeTaskTitleTC = createAsyncThunk(
         }
     })
 
-// slice
 const slice = createSlice({
     name: 'tasks',
     initialState: initialStateTasks,

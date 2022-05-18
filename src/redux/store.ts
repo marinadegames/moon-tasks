@@ -4,7 +4,7 @@ import {appReducer, initializeAppWorkerSaga} from "./appReducer";
 import {authReducer} from "./authReducer";
 import {configureStore} from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import {tasksReducer} from "./tasksReducer";
+import {addTasksSaga, fetchTasksWorkerSaga, tasksReducer} from "./tasksReducer";
 import createSagaMiddleware from 'redux-saga'
 import {takeEvery} from 'redux-saga/effects'
 
@@ -27,11 +27,10 @@ sagaMiddleware.run(rootWatcher)
 
 function* rootWatcher() {
     yield takeEvery('APP/INITIALIZE-APP', initializeAppWorkerSaga)
+    yield takeEvery('TASKS/FETCH-TASKS', fetchTasksWorkerSaga)
+    yield takeEvery('TASKS/ADD_TASKS', addTasksSaga)
 }
 
-setTimeout(() => {
-    store.dispatch({type: 'ACTIVATOR-ACTION-TYPE'})
-}, 3000)
 
 // @ts-ignore
 window.store = store

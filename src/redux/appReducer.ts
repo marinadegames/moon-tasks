@@ -18,6 +18,7 @@ const initialState: InitialStateType = {
     initialized: false,
 }
 
+// use with saga (test)
 export function* initializeAppWorkerSaga() {
     yield put(setStatusAppAC({status: 'loading'}))
     const resp: MeResponseType = yield call(authAPI.me)
@@ -35,25 +36,6 @@ export function* initializeAppWorkerSaga() {
 }
 
 export const initializedApp = () => ({type: 'APP/INITIALIZE-APP'})
-
-// export const initializeAppTC = createAsyncThunk(
-//     'app/initializedApp',
-//     async (payload, {dispatch}) => {
-//         dispatch(setStatusAppAC({status: 'loading'}))
-//         try {
-//             const resp = await authAPI.me()
-//             if (resp.data.resultCode === 0) {
-//                 dispatch(setAppInitializedAC({value: true}))
-//                 dispatch(setIsLoggedInAC({value: true}))
-//                 dispatch(setStatusAppAC({status: 'idle'}))
-//             }
-//         } catch (e) {
-//             console.error(e)
-//         } finally {
-//             dispatch(setAppInitializedAC({value: true}))
-//             dispatch(setStatusAppAC({status: 'idle'}))
-//         }
-//     })
 
 const slice = createSlice({
     name: 'app',

@@ -3,7 +3,7 @@ import s from './ToDoList.module.css'
 import {EditableLabel} from "../EditableLabel/EditableLabel";
 import {TaskType} from "../../api/todolist-api";
 import {useDispatch} from "react-redux";
-import {fetchTasksTC} from "../../redux/tasksReducer";
+import {fetchTasks} from "../../redux/tasksReducer";
 import {UniversalAddForm} from "../UniversalAddForm/UniversalAddForm";
 import {FilterValuesType} from "../../helpers/helpers";
 import {TodolistTitleIconList} from "./todolistTitleIconList";
@@ -28,7 +28,8 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
 
         const dispatch = useDispatch()
         useEffect(() => {
-            dispatch(fetchTasksTC(props.toDoListId))
+            dispatch(fetchTasks(props.toDoListId))
+            // dispatch(fetchTasksTC(props.toDoListId))
         }, [dispatch, props.toDoListId])
 
         const onClickSetAllFilter = () => props.changeToDoListFilter(props.toDoListId, 'ALL')
@@ -65,7 +66,7 @@ export const ToDoList = memo((props: ToDoListsPropsType) => {
                     </div>
                     <div className={s.tasks}>
                         {props.tasks.length === 0
-                            ? <CircularLoadingSmall />
+                            ? <CircularLoadingSmall/>
                             : props.tasks.map(t => {
                                 return (
                                     <Task id={t.id}

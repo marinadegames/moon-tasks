@@ -19,7 +19,6 @@ export const App = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        // dispatch(initializeAppTC())
         dispatch(initializedApp())
     }, [dispatch])
 

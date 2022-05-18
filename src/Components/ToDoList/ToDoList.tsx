@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect, useState} from "react";
+import React, {memo, useCallback, useEffect} from "react";
 import s from './ToDoList.module.css'
 import {EditableLabel} from "../EditableLabel/EditableLabel";
 import {TaskType} from "../../api/todolist-api";
@@ -9,7 +9,7 @@ import {FilterValuesType} from "../../helpers/helpers";
 import {TodolistTitleIconList} from "./todolistTitleIconList";
 import {Task} from "../Task/Task";
 import {CircularLoadingSmall} from "../CircularLoading/CircularLoadingSmall";
-import {selectIsAppInitialized, selectTasksDownloadInitialized} from "./selectors";
+import {selectTasksDownloadInitialized} from "./selectors";
 
 type ToDoListsPropsType = {
     toDoListId: string

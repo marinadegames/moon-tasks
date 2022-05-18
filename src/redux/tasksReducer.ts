@@ -62,7 +62,7 @@ export type SetTasksActionType = {
 const initialStateTasks: TaskStateType = {}
 
 // sagas
-export function* fetchTasksWorkerSaga(action: { type: 'TASKS/FETCH-TASKS', todolistId: string }) {
+export function* fetchTasksWorkerSaga(action: ReturnType<typeof fetchTasks>) {
     yield put(setStatusAppAC({status: 'loading'}))
 
     try {
@@ -80,10 +80,7 @@ export function* fetchTasksWorkerSaga(action: { type: 'TASKS/FETCH-TASKS', todol
     }
 }
 
-export const fetchTasks = (todolistId: string) => ({type: 'TASKS/FETCH-TASKS', todolistId})
-
-
-export function* addTasksSaga(action: { type: 'TASKS/ADD_TASKS', payload: { todolistId: string, newTitle: string } }) {
+export function* addTasksSaga(action: ReturnType<typeof addTask>) {
     yield put(setStatusAppAC({status: 'loading'}))
     try {
         const resp: ResponseType = yield call(todolistsAPI.createTask, action.payload.todolistId, action.payload.newTitle)
@@ -104,37 +101,27 @@ export function* addTasksSaga(action: { type: 'TASKS/ADD_TASKS', payload: { todo
     }
 }
 
-export const addTasks = (payload: { todolistId: string, newTitle: string }) => {
-    return {
-        type: 'TASKS/ADD_TASKS',
-        payload: {
-            todolistId: payload.todolistId,
-            newTitle: payload.newTitle
+export function* deleteTaskSaga(action: ReturnType<typeof deleteTask>) {
+    yield put(setStatusAppAC({status: 'loading'}))
+    try {
+        const resp: ResponseType = yield call(todolistsAPI.deleteTask, action.payload.todolistId, action.payload.taskId)
+        if (resp.resultCode === 0) {
+            yield put(RemoveTaskAC({id: action.payload.taskId, todolistId: action.payload.todolistId}))
+            yield put(setNotificationAppAC({notification: 'Delete task successful!'}))
+        } else {
+            if (resp.messages.length) {
+                yield put(setErrorAppAC({error: resp.messages[0]}))
+            } else {
+                yield put(setErrorAppAC({error: 'Unknown error: delete task fail!'}))
+            }
         }
+    } catch (e) {
+        yield put(setErrorAppAC({error: 'Unknown error: delete task fail!'}))
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
     }
 }
-export const deleteTaskTC = createAsyncThunk(
-    'tasks/deleteTask',
-    async (payload: { todolistId: string, taskId: string }, {dispatch}) => {
-        try {
-            dispatch(setStatusAppAC({status: 'loading'}))
-            const resp = await todolistsAPI.deleteTask(payload.todolistId, payload.taskId)
-            if (resp.data.resultCode === 0) {
-                dispatch(RemoveTaskAC({id: payload.taskId, todolistId: payload.todolistId}))
-                dispatch(setNotificationAppAC({notification: 'Delete task successful!'}))
-            } else {
-                if (resp.data.messages.length) {
-                    dispatch(setErrorAppAC({error: resp.data.messages[0]}))
-                } else {
-                    dispatch(setErrorAppAC({error: 'Unknown error!'}))
-                }
-            }
-        } catch (e) {
-            dispatch(setErrorAppAC({error: 'Unknown error!'}))
-        } finally {
-            dispatch(setStatusAppAC({status: 'idle'}))
-        }
-    })
+
 
 export const updateTaskStatusTC = createAsyncThunk(
     'tasks/updateTaskStatus',
@@ -193,6 +180,7 @@ export const changeTaskTitleTC = createAsyncThunk(
             }
         }
     })
+
 
 const slice = createSlice({
     name: 'tasks',
@@ -259,4 +247,23 @@ const slice = createSlice({
 export const tasksReducer = slice.reducer
 export const {RemoveTaskAC, AddTaskAC, EditTaskTitleAC, ChangeTaskStatusAC, SetTasksAC} = slice.actions
 
+export const fetchTasks = (todolistId: string) => ({type: 'TASKS/FETCH_TASKS', todolistId})
+export const addTask = (payload: { todolistId: string, newTitle: string }) => {
+    return {
+        type: 'TASKS/ADD_TASK',
+        payload: {
+            todolistId: payload.todolistId,
+            newTitle: payload.newTitle
+        }
+    }
+}
+export const deleteTask = (payload: { todolistId: string, taskId: string }) => {
+    return {
+        type: 'TASKS/DELETE_TASK',
+        payload: {
+            todolistId: payload.todolistId,
+            taskId: payload.taskId
+        }
+    }
+}
 

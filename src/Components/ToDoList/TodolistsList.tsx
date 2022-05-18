@@ -3,7 +3,7 @@ import {ToDoList} from "./ToDoList";
 import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {changeTodolistTitleTC, EditToDoListFilterAC, fetchTodolistsTC, removeTodolistTC} from "../../redux/toDoListsReducer";
-import {addTasks, changeTaskTitleTC, deleteTaskTC, TaskType, updateTaskStatusTC} from "../../redux/tasksReducer";
+import {addTask, changeTaskTitleTC, deleteTask, TaskType, updateTaskStatusTC} from "../../redux/tasksReducer";
 import {TaskStatuses} from "../../api/todolist-api";
 import {Navigate} from 'react-router-dom';
 import {selectIsLoggedIn, selectTasks, selectTodolists} from "./selectors";
@@ -21,12 +21,11 @@ export const TodolistsList = () => {
     }, [dispatch])
 
     const removeTask = useCallback((id: string, toDoListId: string) => {
-        dispatch(deleteTaskTC({todolistId: toDoListId, taskId: id}))
+        dispatch(deleteTask({todolistId: toDoListId, taskId: id}))
     }, [dispatch])
 
-    const addTask = useCallback((newTitle: string, toDoListId: string) => {
-        const payload = {todolistId: toDoListId, newTitle: newTitle}
-        dispatch(addTasks(payload))
+    const addTaskFoo = useCallback((newTitle: string, toDoListId: string) => {
+        dispatch(addTask({todolistId: toDoListId, newTitle: newTitle}))
     }, [dispatch])
 
     const changeTaskStatus = useCallback((taskId: string, toDoListID: string, status: number) => {
@@ -71,7 +70,7 @@ export const TodolistsList = () => {
                               title={tl.title}
                               filter={tl.filter}
                               tasks={getTasksForRender(tl.filter, tasks[tl.id])}
-                              addTask={addTask}
+                              addTask={addTaskFoo}
                               removeTask={removeTask}
                               changeTaskStatus={changeTaskStatus}
                               changeToDoListFilter={changeToDoListFilter}

@@ -1,4 +1,3 @@
-//imports
 import React, {useCallback, useEffect} from 'react';
 import './App.module.css';
 import {Header} from "../Components/Header/Header";
@@ -9,8 +8,8 @@ import {TodolistsList} from "../Components/ToDoList/TodolistsList";
 import {Route, Routes} from 'react-router-dom';
 import {Login} from "../Components/Login/Login";
 import {CircularLoading} from "../Components/CircularLoading/CircularLoading";
-import {initializedAppTC} from "../redux/appReducer";
 import {selectIsInitialized, selectNotification, selectStatus} from './selectors';
+import {initializedApp} from "../redux/appReducer";
 
 export const App = () => {
 
@@ -20,7 +19,8 @@ export const App = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(initializedAppTC())
+        // dispatch(initializeAppTC())
+        dispatch(initializedApp())
     }, [dispatch])
 
     const addToDoList = useCallback((title: string) => {

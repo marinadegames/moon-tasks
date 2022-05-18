@@ -1,9 +1,8 @@
-// imports
-import {authAPI} from "../api/todolist-api";
+import {authAPI, MeResponseType} from "../api/todolist-api";
 import {setIsLoggedInAC} from "./authReducer";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {call, put} from "redux-saga/effects";
 
-// types
 export type InitialStateType = {
     status: StatusesType
     error: string | null
@@ -12,7 +11,6 @@ export type InitialStateType = {
 }
 export type StatusesType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
-// init
 const initialState: InitialStateType = {
     status: 'loading',
     error: null,
@@ -20,25 +18,42 @@ const initialState: InitialStateType = {
     initialized: false,
 }
 
-// tc
-export const initializedAppTC = createAsyncThunk(
-    'app/initializedApp',
-    async (payload, {dispatch}) => {
-        dispatch(setStatusAppAC({status: 'loading'}))
-        try {
-            const resp = await authAPI.me()
-            if (resp.data.resultCode === 0) {
-                dispatch(setAppInitializedAC({value: true}))
-                dispatch(setIsLoggedInAC({value: true}))
-                dispatch(setStatusAppAC({status: 'idle'}))
-            }
-        } catch (e) {
-            console.error(e)
-        } finally {
-            dispatch(setAppInitializedAC({value: true}))
-            dispatch(setStatusAppAC({status: 'idle'}))
+export function* initializeAppWorkerSaga() {
+    yield put(setStatusAppAC({status: 'loading'}))
+    const resp: MeResponseType = yield call(authAPI.me)
+    try {
+        if (resp.resultCode === 0) {
+            yield put(setAppInitializedAC({value: true}))
+            yield put(setIsLoggedInAC({value: true}))
+            yield put(setStatusAppAC({status: 'idle'}))
         }
-    })
+    } catch (e) {
+        console.error(e)
+    } finally {
+        yield put(setStatusAppAC({status: 'idle'}))
+    }
+}
+
+export const initializedApp = () => ({type: 'APP/INITIALIZE-APP'})
+
+// export const initializeAppTC = createAsyncThunk(
+//     'app/initializedApp',
+//     async (payload, {dispatch}) => {
+//         dispatch(setStatusAppAC({status: 'loading'}))
+//         try {
+//             const resp = await authAPI.me()
+//             if (resp.data.resultCode === 0) {
+//                 dispatch(setAppInitializedAC({value: true}))
+//                 dispatch(setIsLoggedInAC({value: true}))
+//                 dispatch(setStatusAppAC({status: 'idle'}))
+//             }
+//         } catch (e) {
+//             console.error(e)
+//         } finally {
+//             dispatch(setAppInitializedAC({value: true}))
+//             dispatch(setStatusAppAC({status: 'idle'}))
+//         }
+//     })
 
 const slice = createSlice({
     name: 'app',

@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
 import {toDoListsReducer} from "./toDoListsReducer";
-import {appReducer} from "./appReducer";
+import {appReducer, initializeAppWorkerSaga} from "./appReducer";
 import {authReducer} from "./authReducer";
 import {configureStore} from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
@@ -26,11 +26,7 @@ export const store = configureStore({
 sagaMiddleware.run(rootWatcher)
 
 function* rootWatcher() {
-    yield takeEvery('ACTIVATOR-ACTION-TYPE', rootWorker)
-}
-
-function* rootWorker() {
-    console.log('root Watcher!!!')
+    yield takeEvery('APP/INITIALIZE-APP', initializeAppWorkerSaga)
 }
 
 setTimeout(() => {

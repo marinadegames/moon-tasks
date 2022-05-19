@@ -1,7 +1,8 @@
-# 📝 ToDoList project  🌑 **Moon tasks**  
-## 📓 New layout `v1.0`!
+# 🌑 **Moon tasks** 📝 Todolist project
+## 🔥 Release `v1.0.0`!
 ### ❓ What's this project?
-#### ☑️This repository for my `ToDoList` project! ####
+#### ☑️This is my todo-application ####  
+#### ✅️ React, Redux< JS\TS ####
 
 ## `Updates:` ##
 🎉 `1`. create `new project!`  

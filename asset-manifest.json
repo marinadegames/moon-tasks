@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/moon-tasks/static/css/main.98345029.chunk.css",
+    "main.js": "/moon-tasks/static/js/main.75f74c81.chunk.js",
+    "main.js.map": "/moon-tasks/static/js/main.75f74c81.chunk.js.map",
+    "runtime-main.js": "/moon-tasks/static/js/runtime-main.7fe0e910.js",
+    "runtime-main.js.map": "/moon-tasks/static/js/runtime-main.7fe0e910.js.map",
+    "static/js/2.644a460c.chunk.js": "/moon-tasks/static/js/2.644a460c.chunk.js",
+    "static/js/2.644a460c.chunk.js.map": "/moon-tasks/static/js/2.644a460c.chunk.js.map",
+    "index.html": "/moon-tasks/index.html",
+    "static/css/main.98345029.chunk.css.map": "/moon-tasks/static/css/main.98345029.chunk.css.map",
+    "static/js/2.644a460c.chunk.js.LICENSE.txt": "/moon-tasks/static/js/2.644a460c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7fe0e910.js",
+    "static/js/2.644a460c.chunk.js",
+    "static/css/main.98345029.chunk.css",
+    "static/js/main.75f74c81.chunk.js"
+  ]
+}

@@ -11,7 +11,6 @@ export type InitialStateType = {
     tasksDownloadInitialized: boolean
 }
 export type StatusesType = 'idle' | 'loading' | 'succeeded' | 'failed'
-
 const initialState: InitialStateType = {
     status: 'loading',
     error: null,
@@ -20,18 +19,24 @@ const initialState: InitialStateType = {
     tasksDownloadInitialized: false
 }
 
-// use with saga (test)
 export function* initializeAppWorkerSaga() {
     yield put(setStatusAppAC({status: 'loading'}))
     const resp: MeResponseType = yield call(authAPI.me)
     try {
         if (resp.resultCode === 0) {
+            console.log('0',resp)
             yield put(setAppInitializedAC({value: true}))
             yield put(setIsLoggedInAC({value: true}))
             yield put(setStatusAppAC({status: 'idle'}))
         }
+        if (resp.resultCode !== 0) {
+            console.log('1',resp)
+            yield put(setAppInitializedAC({value: true}))
+            yield put(setStatusAppAC({status: 'succeeded'}))
+            yield put(setErrorAppAC({error: resp.messages[0]}))
+        }
     } catch (e) {
-        console.error(e)
+        yield put(setErrorAppAC({error: ' ⚠️ Initialized app failed!'}))
     } finally {
         yield put(setStatusAppAC({status: 'idle'}))
     }
@@ -58,7 +63,12 @@ const slice = createSlice({
         },
     }
 })
+
 export const appReducer = slice.reducer
 export const {setStatusAppAC, setNotificationAppAC, setErrorAppAC, setAppInitializedAC, setTasksDownloadInitialized} = slice.actions
 
-export const initializedApp = () => ({type: 'APP/INITIALIZE-APP'})
+export const initializedApp = () => {
+    return {
+        type: 'APP/INITIALIZE_APP'
+    }
+}

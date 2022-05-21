@@ -6,10 +6,10 @@ import {Notification} from "../Components/Notification/Notification";
 import {TodolistsList} from "../Components/ToDoList/TodolistsList";
 import {Route, Routes} from 'react-router-dom';
 import {Login} from "../Components/Login/Login";
-import {CircularLoading} from "../Components/CircularLoading/CircularLoading";
 import {selectIsInitialized, selectNotification, selectStatus} from './selectors';
-import {initializedApp} from "../redux/appReducer";
 import {addTodolist} from "../redux/toDoListsReducer";
+import {initializedApp} from "../redux/appReducer";
+import {CircularLoading} from "../Components/CircularLoading/CircularLoading";
 
 export const App = () => {
 
@@ -17,6 +17,8 @@ export const App = () => {
     const notification = useSelector(selectNotification)
     const isInitialized = useSelector(selectIsInitialized)
     const dispatch = useDispatch()
+    console.log(isInitialized)
+
     useEffect(() => {
         dispatch(initializedApp())
     }, [dispatch])
@@ -24,6 +26,7 @@ export const App = () => {
     const addToDoList = useCallback((title: string) => {
         dispatch(addTodolist(title))
     }, [dispatch])
+
 
     if (!isInitialized) return <CircularLoading/>
 

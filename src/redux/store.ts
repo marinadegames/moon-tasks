@@ -30,7 +30,8 @@ function* rootWatcher() {
     yield takeEvery('AUTH/LOGOUT', logoutSaga)
     yield takeEvery('AUTH/ME', meSaga)
 
-    yield takeEvery('APP/INITIALIZE-APP', initializeAppWorkerSaga)
+    yield takeEvery('APP/INITIALIZE_APP', initializeAppWorkerSaga)
+
     yield takeEvery('TASKS/FETCH_TASKS', fetchTasksWorkerSaga)
     yield takeEvery('TASKS/ADD_TASK', addTasksSaga)
     yield takeEvery('TASKS/DELETE_TASK', deleteTaskSaga)

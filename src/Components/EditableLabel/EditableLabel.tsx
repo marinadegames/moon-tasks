@@ -34,7 +34,7 @@ export const EditableLabel = memo(({titleProps, editTaskHandlerForEditableLabel,
                 </div>
 
                 : <label htmlFor="happy"
-                         onDoubleClick={editOn}
+                         onClick={editOn}
                          className={className}>{titleProps}</label>
         )
     }

@@ -24,13 +24,11 @@ export function* initializeAppWorkerSaga() {
     const resp: MeResponseType = yield call(authAPI.me)
     try {
         if (resp.resultCode === 0) {
-            console.log('0',resp)
             yield put(setAppInitializedAC({value: true}))
             yield put(setIsLoggedInAC({value: true}))
             yield put(setStatusAppAC({status: 'idle'}))
         }
         if (resp.resultCode !== 0) {
-            console.log('1',resp)
             yield put(setAppInitializedAC({value: true}))
             yield put(setStatusAppAC({status: 'succeeded'}))
             yield put(setErrorAppAC({error: resp.messages[0]}))

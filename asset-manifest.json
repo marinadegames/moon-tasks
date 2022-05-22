@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/moon-tasks/static/css/main.98345029.chunk.css",
-    "main.js": "/moon-tasks/static/js/main.75f74c81.chunk.js",
-    "main.js.map": "/moon-tasks/static/js/main.75f74c81.chunk.js.map",
+    "main.js": "/moon-tasks/static/js/main.86d7732c.chunk.js",
+    "main.js.map": "/moon-tasks/static/js/main.86d7732c.chunk.js.map",
     "runtime-main.js": "/moon-tasks/static/js/runtime-main.7fe0e910.js",
     "runtime-main.js.map": "/moon-tasks/static/js/runtime-main.7fe0e910.js.map",
     "static/js/2.644a460c.chunk.js": "/moon-tasks/static/js/2.644a460c.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.7fe0e910.js",
     "static/js/2.644a460c.chunk.js",
     "static/css/main.98345029.chunk.css",
-    "static/js/main.75f74c81.chunk.js"
+    "static/js/main.86d7732c.chunk.js"
   ]
 }
